@@ -1,0 +1,363 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- ========== Meta Tags ========== -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Equinox">
+    <meta name="description"
+        content="Invest Smarter, Not Harder!
+              Our trading platform helps you access real-time data, expert insights, and advanced tools to make informed decisions and maximize profits. If you heard about our traders making the market bullish, that's factually right !">
+    <!-- ======== Page title ============ -->
+    <title>Equinox Web</title>
+    <!-- ========== Favicon Icon ========== -->
+    <link rel="shortcut icon" href="{% static 'assets/img/favicon.png' %}">
+
+    <!-- ===========  All Stylesheet ================= -->
+    <!--  Icon css plugins -->
+    <link rel="stylesheet" href="{% static 'assets/css/icons.css' %}">
+    <!--  animate css plugins -->
+    <link rel="stylesheet" href="{% static 'assets/css/animate.css' %}">
+    <!--  slick css plugins -->
+    <link rel="stylesheet" href="{% static 'assets/css/swiper-bundle.min.css' %}">
+    <!--  magnific-popup css plugins -->
+    <link rel="stylesheet" href="{% static 'assets/css/magnific-popup.css' %}">
+    <!-- metis menu css file -->
+    <link rel="stylesheet" href="{% static 'assets/css/metismenu.css' %}">
+    <!--  Bootstrap css plugins -->
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+    <!--  main style css file -->
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+
+    <script>
+        function validateForm() {
+            var name = document.getElementById("name").value;
+            var email = document.getElementById("email").value;
+            var subject = document.getElementById("subject").value;
+            var message = document.getElementById("message").value;
+
+            if (name === "" || email === "" || subject === "" || message === "") {
+                alert("Please fill out all fields.");
+                return false;
+            }
+            return true;
+        }
+    </script>
+
+</head>
+
+<body class="body-wrapper">
+    <!-- preloader start here -->
+    <div class="preloader">
+        <div class="spinner"></div>
+    </div>
+    <!-- preloader ending here -->
+
+    <!-- header section start hare -->
+    <header class="header-1">
+        <div class="container">
+            <div class="row align-items-center justify-content-between">
+                <div class="col-lg-2 col-sm-5 col-md-4 col-6">
+                    <div class="logo">
+                        <a href="{% url 'web' %}">
+                            <img src="{%  static 'assets/img/logo/logo.png'  %}" alt="TradePro Logo">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-10 text-end p-lg-0 d-none d-lg-flex justify-content-between align-items-center">
+                    <div class="menu-wrap">
+                        <div class="main-menu">
+                            <ul>
+                                <li class=""><a href="{% url 'web' %}">Home</a>
+                                </li>
+                                <li><a href="{% url 'about' %}">About</a> </li>
+                                <li class=""><a href="{% url 'services' %}">Services</a>
+    
+                                </li>
+                                <li class="menu-item-has-children"><a href="javascript:void(0);">Company</a>
+                                    <ul class="sub-menu">
+                                        <li><a href="{% url 'faqs' %}">faq</a></li>
+                                        <li><a href="{% url 'team' %}">team</a></li>
+                                        <li><a href="{% url 'pricing' %}">Trading Plans</a></li>
+                                        <li><a target="_blank" href="{% url 'landing' %}">GET THE APP</a></li>
+                                    </ul>
+                                </li>
+                                <!-- <li class="menu-item-has-children"><a href="javascript:void(0);">Blogs</a>
+                      <ul class="sub-menu">
+                        <li><a href="news.html">Blog 1</a></li>
+                        <li><a href="news-2.html">Blog 2</a></li>
+                        <li><a href="news-details.html">Blog Details</a></li>
+                      </ul>
+                    </li> -->
+                                <li><a href="{% url 'contact' %}">Contact</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="header-right-element text-white">
+                        <a target="_blank" href="{% url 'landing' %}" class="custom-btn custom-btn--style-2">Get Started</a>
+                    </div>
+                </div>
+                <div class="d-block d-lg-none col-sm-1 col-md-8 col-6">
+                    <div class="mobile-nav-wrap">
+                        <div id="hamburger"><i class="fal fa-bars"></i></div>
+                        <!-- mobile menu - responsive menu  -->
+                        <div class="mobile-nav">
+                            <button type="button" class="close-nav">
+                                <i class="fal fa-times-circle"></i>
+                            </button>
+                            <nav class="sidebar-nav">
+                                <ul class="metismenu" id="mobile-menu">
+                                    <li><a class="has-arrow" href="{% url 'web' %}">Home</a>
+                                    </li>
+                                    <li><a href="{% url 'about' %}">about</a></li>
+                                    <li><a class="has-arrow" href="{% url 'services' %}">services</a>
+                                    </li>
+                                    <li>
+                                        <a class="has-arrow" href="javascript:void(0);">Company</a>
+                                        <ul class="sub-menu">
+                                            <li><a href="{% url 'faqs' %}">faq</a></li>
+                                            <li><a href="{% url 'team' %}">team</a></li>
+                                            <li><a href="{% url 'pricing' %}">pricing</a></li>
+                                            <li><a href="{% url 'pricing' %}">Trading Plans</a></li>
+                                            <li><a href="{% url 'landing' %}">GET THE APP</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="{% url 'contact' %}">Contact</a></li>
+                                </ul>
+                                <a href="{% url 'landing' %}" class="custom-btn">Get Started</a>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="overlay"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- header section end hare -->
+
+
+    <!-- banner section start hare -->
+
+    <div class="page-banner-wrap bg-cover text-capitalize">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-6 offset-lg-3 text-center text-white">
+                    <div class="page-heading">
+                        <h1>Our Team</h1>
+                    </div>
+                    <nav aria-label="breadcrumb">
+                        <ul class="breadcrumb justify-content-center">
+                            <li class="breadcrumb-item"><a href="{% url 'web' %}">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Our Team</li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- banner section end hare -->
+
+
+
+    <!-- team section start hare -->
+    
+    <section class="team-section section-padding">
+        <div class="container">
+            <div class="nice-arrow-icon d-none d-lg-block wow fadeInDown" data-wow-duration="1.2s">
+                <img src="{% static 'assets/img/shape/5.svg' %}" alt="3d bg shape">
+            </div>
+            <div class="col-lg-8 col-xl-6 offset-xl-3 col-12 offset-lg-2 text-center">
+                <div class="block-contents">
+                    <div class="section-title wow fadeInDown" data-wow-duration="1.2s">
+                        <h2>Our Trading Team</h2>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="team-slider swiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="client-info">
+                            <div class="team-img">
+                                <img src="{% static 'assets/img/team/1.png' %}" alt="">
+                            </div>
+                            <div class="client-name my-3">
+                                <h4>Samuel Davis</h4>
+                                <span>Account executive</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="client-info">
+                            <div class="team-img">
+                                <img src="{% static 'assets/img/team/3.png' %}" alt="">
+                            </div>
+                            <div class="client-name my-3">
+                                <h4>Harper Wilson</h4>
+                                <span>Investment Analyst</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="client-info">
+                            <div class="team-img">
+                                <img src="{% static 'assets/img/team/4.png' %}" alt="">
+                            </div>
+                            <div class="client-name my-3">
+                                <h4>Noah Turner </h4>
+                                <span>Research Analyst</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="client-info">
+                            <div class="team-img">
+                                <img src="{% static 'assets/img/team/5.png' %}" alt="">
+                            </div>
+                            <div class="client-name my-3">
+                                <h4>Olivia Johnson</h4>
+                                <span>Risk Analyst</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="client-info">
+                            <div class="team-img">
+                                <img src="{% static 'assets/img/team/6.png' %}" alt="">
+                            </div>
+                            <div class="client-name my-3">
+                                <h4>Benjamin Mitchell</h4>
+                                <span>Financial analyst</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="team__pagination text-center mt-4"></div>
+        </div>
+    </section>
+    
+    <!-- team section end hare -->
+
+
+
+    <section class="cta-banner-wrapper section-padding">
+        <div class="container">
+            <div class="cta-banner newsletter-box text-white">
+                <div class="row">
+                    <div class="col-lg-10 offset-lg-1 text-center col-xl-8 offset-xl-2">
+                        <div class="cta-contents">
+                            <h2 class="wow fadeInUp">Are you interested in investing with us? Subscribe to our Newsletter</h2>
+                            <div class="newsletter-form wow fadeInUp">
+                                <form action="#">
+                                    <input type="email" placeholder="Enter your email">
+                                    <button type="submit" class="submit-btn">Subscribe </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- footer section start hare -->
+    
+    <footer class="footer-wrapper footer-1">
+        <div class="footer-widgets-wrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                        <div class="single-footer-widget wow fadeInLeft">
+                            <div class="about-us-widget">
+                                <a href="{% url 'home' %}" class="footer-logo d-block">
+                                    <img src="{% static 'assets/img/logo/logo.png' %}" alt="TradePro">
+                                </a>
+                                <p>We offer the best, most reliable investment plans and trading services around. Open your
+                                    equinox trading account and start
+                                    finding great deals</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-2 col-lg-3 offset-xl-1 col-sm-6 col-12">
+                        <div class="single-footer-widget wow fadeInLeft" data-wow-delay=".2s">
+                            <div class="widget-title">
+                                <h5>Company</h5>
+                            </div>
+                            <ul>
+                                <li><a href="{% url 'about' %}">About Equinox</a></li>
+                                <li><a href="{% url 'contact' %}">Contact & support</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xl-2 col-lg-3 offset-xl-1 col-sm-6 col-12">
+                        <div class="single-footer-widget wow fadeInLeft" data-wow-delay=".4s">
+                            <div class="widget-title">
+                                <h5>Services</h5>
+                            </div>
+                            <ul>
+                                <li><a href="{% url 'services' %}">Forex & Crypto Trades</a></li>
+                                <li><a href="{% url 'services' %}">Secure managed IT</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xl-2 col-lg-3 offset-xl-1 col-sm-6 col-12">
+                        <div class="single-footer-widget wow fadeInLeft" data-wow-delay=".6s">
+                            <div class="widget-title">
+                                <h5>Resources</h5>
+                            </div>
+                            <ul>
+                                <li><a href="{% url 'pricing' %}">Investment plans</a></li>
+                                <li><a href="{% url 'faqs' %}">Frequently Asked Queestions</a></li>
+                                <li><a href="{% url 'contact' %}">Premium support</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom-wrapper">
+            <div class="container">
+                <div class="footer-bottom-content d-md-flex justify-content-between">
+                    <div class="site-copyright wow fadeInUp" data-wow-delay=".2" data-wow-duration="1s">
+                        <p>&copy; 2024 <a href="#">Equinox Traders</a> All Rights
+                            Reserved.</p>
+                    </div>
+                    <div class="social-links mt-4 mt-md-0 wow fadeInUp" data-wow-delay=".3" data-wow-duration="1s">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- footer section end hare -->
+    
+    <!--  ALl JS Plugins
+        ====================================== -->
+    <script src="{% static 'assets/js/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/js/script.js' %}"></script>
+    
+    <script src="{% static 'assets/js/modernizr.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.easing.js' %}"></script>
+    <script src="{% static 'assets/js/popper.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets/js/isotope.pkgd.min.js' %}"></script>
+    <script src="{% static 'assets/js/imageload.min.js' %}"></script>
+    <script src="{% static 'assets/js/scrollUp.min.js' %}"></script>
+    <script src="{% static 'assets/js/swiper-bundle.min.js' %}"></script>
+    <script src="{% static 'assets/js/magnific-popup.min.js' %}"></script>
+    <script src="{% static 'assets/js/wow.min.js' %}"></script>
+    <script src="{% static 'assets/js/metismenu.js' %}"></script>
+    <script src="{% static 'assets/js/active.js' %}"></script>
+</body>
+
+</html>

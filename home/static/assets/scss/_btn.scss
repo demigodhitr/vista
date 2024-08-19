@@ -1,0 +1,79 @@
+/* ------------------------------------------------------------------
+    Template Default Button, Input Styles - Value Change with Your's Need
+ -------------------------------------------------------------------- */
+
+
+
+.custom-btn {
+    // width: 130px;
+    // height: 40px;
+    color: $section-bg;
+    border-radius: .5rem;
+    padding: 10px 25px;
+    font-weight: 700;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+    box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, .5),
+        7px 7px 20px 0px rgba(0, 0, 0, .1),
+        4px 4px 5px 0px rgba(0, 0, 0, .1);
+    outline: none;
+    background: linear-gradient(0deg, rgb(255, 173, 40) 0%, rgb(255, 213, 55) 100%);
+    border: none;
+
+    &:before {
+        height: 0%;
+        width: 2px;
+    }
+
+    @media screen and (min-width:992px) {
+        padding: 1rem 2rem;
+    }
+
+
+    &:hover {
+        transform: translatey(-2px);
+        color: $section-bg;
+    }
+
+    &--style-2 {
+        background: linear-gradient(0deg, rgb(119, 123, 218) 0%, rgb(118, 120, 217) 100%);
+        margin-left: 10px;
+        box-shadow: inset 2px 2px 2px 0px rgba(127, 157, 241, 0.541),
+            7px 7px 20px 0px rgba(100, 141, 253, 0.1),
+            4px 4px 5px 0px rgba(0, 0, 0, .1);
+
+        &:hover {
+            transform: none;
+        }
+    }
+
+    &--small {
+        padding: .75rem 1.25rem;
+    }
+
+    &--price {
+        background: none;
+        box-shadow: none;
+        border: 2px solid $primary;
+        border-radius: .5rem;
+        color: $primary;
+        transition: all 0.4s linear;
+        padding: 10px 20px;
+
+        &:hover,
+        &--active {
+            border-color: $primary;
+            background-color: $primary;
+            color: $body-bg-color;
+            transform: none;
+            border: 2px solid $primary;
+        }
+
+    }
+
+
+
+}

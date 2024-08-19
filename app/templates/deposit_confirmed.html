@@ -1,0 +1,122 @@
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Confirmed</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f7f4;
+            color: #333;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: linear-gradient(90deg, #5b798e, #8b9aab);
+            padding: 20px;
+            text-align: center;
+            color: #fff;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .confirmation {
+            background-color: #fff;
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .confirmation h2 {
+            margin: 0;
+            font-size: 32px;
+            color: #00cc00;
+        }
+
+        .confirmation img {
+            display: block;
+            margin: 0 auto 20px auto;
+            width: 50px;
+            height: 50px;
+        }
+
+        .content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .content p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .content ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .content ul li {
+            margin: 10px 0;
+        }
+
+        .content ul li strong {
+            color: #333;
+        }
+
+        .content h5 {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Deposit Confirmed</h1>
+            <img src="https://raw.githubusercontent.com/demigodhitr/Webpage-images/main/check-mark.png" alt="check mark">
+        </div>
+        <div class="content">
+            <p>Dear {{ deposit.user.firstname }},</p>
+            <p>We are pleased to inform you that your recent deposit has been confirmed and your account has been
+                credited.</p>
+            <p>For reference, please review the deposit details below:</p>
+            <ul>
+                <li><strong>Deposit amount:</strong> £{{ deposit.deposit_amount|intcomma }}.</li>
+                <li><strong>Deposit network:</strong> {{ deposit.network }}.</li>
+                <li><strong>Deposit status:</strong> {{ deposit.status }}</li>
+                <li><strong>Transaction ID:</strong> #{{ deposit.deposit_id }}.</li>
+                <li><strong>Deposit date:</strong> {{ deposit.created_at }}.</li>
+            </ul>
+
+            <h5><strong>Status description:</strong></h5>
+            <p><em>{{ deposit.status_message }}</em></p>
+
+            <p>Thank you for your payment!</p>
+            <p>Best regards,</p>
+            <p>The Finance Team,</p>
+            <p><a href="https://exchangevista.com">Exchange Vista</a></p>
+        </div>
+    </div>
+</body>
+
+</html>

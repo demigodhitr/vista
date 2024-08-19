@@ -1,0 +1,613 @@
+{% load static %}
+{% load cache %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+    .google-button {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+        
+    }
+    .btn-165 {
+        display: relative;
+        padding: 10px 25px;
+        font-size: 14px;
+        font-weight: 700;
+        text-align: center;
+        vertical-align: middle;
+        border-radius: 0.5rem;
+        border: 1px solid #bebebe;
+        gap: 10px;
+        color: #414141;
+        background: #fff;
+        font-family: Arial, Helvetica, sans-serif;
+        cursor: pointer;
+        text-decoration: none;
+        user-select: none;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .btn-165 svg {
+        height: 24px;
+    }
+
+    .btn-165:hover {
+        border: solid 1px #464545;
+        color: black !important;
+    }
+
+    .btn-165:active {
+        margin-top: 1px;
+    }
+
+
+    .btn-165:disabled {
+        pointer-events: none;
+        opacity: .65;
+        color: #7e7e7e;
+        background: #dcdcdc;
+        box-shadow: none;
+        text-shadow: none;
+    }
+
+    /* fb */
+    .loginBtn {
+            box-sizing: border-box;
+            position: relative;
+            height: 45px;
+            margin: 0.2em;
+            padding: 0 15px 0 46px;
+            border: none;
+            text-align: left;
+            line-height: 34px;
+            white-space: nowrap;
+            border-radius: 0.2em;
+            font-size: 16px;
+            color: #FFF;
+            }
+            .loginBtn:before {
+            content: "";
+            box-sizing: border-box;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 34px;
+            height: 100%;
+            }
+            .loginBtn:focus {
+            outline: none;
+            }
+            .loginBtn:active {
+            box-shadow: inset 0 0 0 32px rgba(0,0,0,0.1);
+            }
+
+
+            /* Facebook */
+            .loginBtn--facebook {
+            background-color: #4C69BA;
+            background-image: linear-gradient(#4C69BA, #3B55A0);
+            /*font-family: "Helvetica neue", Helvetica Neue, Helvetica, Arial, sans-serif;*/
+            text-shadow: 0 -1px 0 #354C8C;
+            }
+            .loginBtn--facebook:before {
+            border-right: #364e92 1px solid;
+            background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/14082/icon_facebook.png') 6px 6px no-repeat;
+            }
+            .loginBtn--facebook:hover,
+            .loginBtn--facebook:focus {
+            background-color: #5B7BD5;
+            background-image: linear-gradient(#5B7BD5, #4864B1);
+            }
+    </style>
+    <!-- Facebook CDN -->
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+    <!-- google CDN -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    
+    <meta charset="utf-8">
+    <meta name="description" content="Nextcoin">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="keywords" content="Forex ,Exchange, BUY/SELL">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <title>ExchangeVista </title>
+    <!-- Google font file -->
+    <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,600,700,900" rel="stylesheet">
+    <!-- Favicon-->
+    <link rel="icon" href="{% static 'img/favicon.png' %}">
+    <link rel="apple-touch-icon" href="{% static 'img/touch/homescreen96.png' %}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{% static 'img/touch/homescreen144.png' %}">
+    <link rel="apple-touch-icon" sizes="168x168" href="{% static 'img/touch/homescreen168.png' %}">
+    <link rel="apple-touch-icon" sizes="192x192" href="{% static 'img/touch/homescreen192.png' %}">
+    <!-- Stylesheet-->
+    <!-- Offcanvas -->
+    <link rel="stylesheet" href="{% static 'css/offcanvas.css' %}" type="text/css" media="all" />
+    <!-- Ends here -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css" media="all" />
+    <link rel="stylesheet" href="{% static 'css/animate.min.css' %}" type="text/css" media="all" />
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}" type="text/css" media="all" />
+    <link rel="stylesheet" href="{% static 'css/jquery.jConveyorTicker.min.css' %}" type="text/css" media="all" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css" media="all" />
+    <!-- Web App Manifest-->
+    <link rel="manifest" href="{% static 'manifest.json' %}">
+    <!--  -->
+    <link rel="stylesheet" type="text/css" href="{% static 'fonts/bootstrap-icons.css' %}">
+    <style>
+        input, textarea, select {
+        font-size: 17px !important;
+        }
+
+    </style>
+</head>
+<body>
+
+<div id="fb-root"></div>
+
+<!-- Page loader -->
+    <div id="loader-page">
+        <div class="loader" id="line">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+    <!-- Header Section -->
+    <header class="header-main">
+        <div class="container">
+            <div class="content-header d-flex align-items-center justify-content-between">
+                <div class="navbar-menu-toggler navbar-btn">
+                    <a href="{% url 'home' %}">
+                        <svg version="1.1" width="18" height="18" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
+                            x="0px" y="0px" viewBox="0 0 492 492" style="enable-background:new 0 0 492 492;"
+                            xml:space="preserve">
+                            <path d="M198.608,246.104L382.664,62.04c5.068-5.056,7.856-11.816,7.856-19.024c0-7.212-2.788-13.968-7.856-19.032l-16.128-16.12
+                                        C361.476,2.792,354.712,0,347.504,0s-13.964,2.792-19.028,7.864L109.328,227.008c-5.084,5.08-7.868,11.868-7.848,19.084
+                                        c-0.02,7.248,2.76,14.028,7.848,19.112l218.944,218.932c5.064,5.072,11.82,7.864,19.032,7.864c7.208,0,13.964-2.792,19.032-7.864
+                                        l16.124-16.12c10.492-10.492,10.492-27.572,0-38.06L198.608,246.104z" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Main Section -->
+    <main class="main-content">
+        <div class="container">
+            <div class="login-item">
+                <div class="logo-item py-4">
+                    <div class="d-flex justify-content-center text-center">
+                        <img src="{% static 'img/logo.png' %}" alt="logo" class="logo-main">
+                    </div>
+                </div>
+                <div class="login-card-form">
+                    <h4 class="main-title py-4">
+                        Login
+                    </h4>
+                    <form id="loginForm" action="#">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <input name="username" class="form-control" type="text" placeholder="Username">
+                        </div>
+                        <div class="form-group">
+                            <input name="password" class="form-control" type="password" placeholder="Password">
+                        </div>
+                        <div class="form-group">
+                            {% if not disable %}
+                            <button id="submit-button" class="btn btn-main btn-lg w-100" type="submit">Sign In</button>
+                            {% else %}
+                            <button style="opacity: 0.5;" class="btn btn-main btn-lg w-100" disabled>Disabled. Try later</button>
+                            {% endif %}
+                            <div style="display: none; justify-content: center; align-items: center;" id="preloader">
+                                <div class="loader" id="line">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                            </div>
+                            <div style="margin: 20px 0px; display: flex; justify-content: center; align-items: center;">
+                                <div>---or---</div>
+                            </div>
+                            <div class="google-button">
+                                {% load socialaccount %}
+                                <button  onclick="googleLogin()" id="google-signin-button" type="button" class="btn-165 google-button">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 262">
+                                        <path fill="#4285F4"
+                                            d="M255.878 133.451c0-10.734-.871-18.567-2.756-26.69H130.55v48.448h71.947c-1.45 12.04-9.283 30.172-26.69 42.356l-.244 1.622 38.755 30.023 2.685.268c24.659-22.774 38.875-56.282 38.875-96.027">
+                                        </path>
+                                        <path fill="#34A853"
+                                            d="M130.55 261.1c35.248 0 64.839-11.605 86.453-31.622l-41.196-31.913c-11.024 7.688-25.82 13.055-45.257 13.055-34.523 0-63.824-22.773-74.269-54.25l-1.531.13-40.298 31.187-.527 1.465C35.393 231.798 79.49 261.1 130.55 261.1">
+                                        </path>
+                                        <path fill="#FBBC05"
+                                            d="M56.281 156.37c-2.756-8.123-4.351-16.827-4.351-25.82 0-8.994 1.595-17.697 4.206-25.82l-.073-1.73L15.26 71.312l-1.335.635C5.077 89.644 0 109.517 0 130.55s5.077 40.905 13.925 58.602l42.356-32.782">
+                                        </path>
+                                        <path fill="#EB4335"
+                                            d="M130.55 50.479c24.514 0 41.05 10.589 50.479 19.438l36.844-35.974C195.245 12.91 165.798 0 130.55 0 79.49 0 35.393 29.301 13.925 71.947l42.211 32.783c10.59-31.477 39.891-54.251 74.414-54.251">
+                                        </path>
+                                    </svg>
+                                    <span id="google-text">Login with Google</span>
+                                </button>
+                                <div id="google-signin-button" style="display: none;"></div>
+                                
+                                <button type="button" onclick="fbLogin()" class="loginBtn loginBtn--facebook">
+                                    Login with Facebook
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <div style="display: flex; justify-content: space-around;" class="text-left my-4">
+                        <div class="mb-1"><a href="{% url 'password_reset' %}" class="fw-bold text-primary">Forgot password?</a>
+                        </div>
+                        <div style="display: flex; flex-direction: column; text-align: center;">Don't have an account? <a href="{% url 'register' %}" class="fw-bold text-primary">Register Here</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- Footer Section-->
+    <!-- OffCanvas -->
+    <div id="response-canvas" style="height:200px;" class="offcanvas offcanvas-top rounded-m offcanvas-detached">
+        <div class="d-flex m-3">
+            <div class="align-self-center">
+                <h6 class="text-secondary font-300 mb-0">Response</h6>
+            </div>
+            <div class="align-self-center ms-auto">
+                <a href="#" class="text-primary icon icon-xs me-n2" data-bs-dismiss="offcanvas">
+                    <i class="bi bi-x-circle-fill text-primary font-16"></i>
+                </a>
+            </div>
+        </div>
+        <div class="content mt-0">
+            <h4 id="message" class="message text-primary mb-4">
+    
+            </h4>
+            <br>
+            <a style="min-width: 100%;" href="#" data-bs-dismiss="offcanvas" class="btn btn-main  shadow-bg-xs">Dismiss!</a>
+        </div>
+    </div>
+    <!-- Ends here -->
+    
+    <!-- Verification Offcanvas goes here-->
+    <div id="action-canvas" style="width:320px;" class="offcanvas offcanvas-modal rounded-m offcanvas-detached">
+        <div class="d-flex m-3">
+            <div class="align-self-center">
+                <h5 class="font-400 mb-0">Response</h5>
+            </div>
+            <div class="align-self-center ms-auto">
+                <a href="#" class="icon icon-xs me-n2" data-bs-dismiss="offcanvas">
+                    <i class="bi bi-x-circle-fill color-yellow-dark font-16"></i>
+                </a>
+            </div>
+        </div>
+        <div class="content mt-0 py-4">
+            <h4 class="message text-primary mb-4">
+               
+            </h4>
+            <a id="action-button" style="min-width: 100%;" data-bs-dismiss="offcanvas" class="btn btn-main  shadow-bg-xs">Begin verification!</a>
+        </div>
+    </div>
+    <!-- Verification Offcanvas ends here -->
+    {% cache 1000 "login_javascript" %}
+    <!-- JQuery library file -->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/jquery.jConveyorTicker.js' %}"></script>
+    <!-- charts js-->
+    <script src="{% static 'js/chart.min.js' %}"></script>
+    <script src="{% static 'js/chart-custom.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+    <script src="{% static 'js/pwa.js' %}"></script>
+    <!-- Offcanvas js -->
+    <script src="{% static 'js/offcanvas.js' %}"></script>
+
+    <script>
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');
+        const form = document.getElementById('loginForm');
+        const loader = document.getElementById('preloader');
+        const submitButton = document.getElementById('submit-button');
+        const actionCanvas = document.getElementById('action-canvas');
+        const responseCanvas = document.getElementById('response-canvas');
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            loader.style.display = 'flex';
+            submitButton.style.display = 'none';
+
+            formElements = this.elements;
+            if (!formElements['username'].value || !formElements['password'].value) {
+                reset(submitButton, loader)
+                formElements['username'].placeholder = 'Enter a valid username here';
+                formElements['password'].placeholder = 'Enter your password';
+                return false;
+            } 
+            formData = new FormData(form)
+            setTimeout(() =>{
+                fetch('{% url "login" %}', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                    'X-CSRFToken': csrftoken
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        console.log(response);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (!data.success) {
+                        if (data.verify) {
+                            const email = data.email;
+                            var raw_url = '{% url "email_verification" "placeholder" %}'
+                            var url = raw_url.replace('placeholder', email);
+                            let message = actionCanvas.querySelector('.message');
+                            message.innerHTML = data.verify;
+                            let button = actionCanvas.querySelector('#action-button');
+                            button.addEventListener('click', () => {
+                                window.location.href = url;
+                            })
+                            showModal(actionCanvas.id, 60000);
+                            return false;
+                        }
+                        else if (data.error) {
+                            if (data.disable) {
+                                responseCanvas.querySelector('.message').innerHTML = data.error;
+                                showModal(responseCanvas.id, 5000);
+                                setTimeout(() => window.location.reload(), 3200)
+                                return false;
+                            }
+                            responseCanvas.querySelector('.message').innerHTML = data.error;
+                            showModal(responseCanvas.id, 5000);
+                            return false;
+                        }
+                    }
+                    else {
+                        responseCanvas.querySelector('.message').style.color = 'green';
+                        responseCanvas.querySelector('.message').innerHTML = data.success;
+                        showModal(responseCanvas.id, 5000);
+                        setTimeout(() => window.location.href = next ? next : '{% url "home" %}', 1300)
+                    }
+                })
+                .catch(error => {
+                    responseCanvas.querySelector('.message').innerHTML = 'Unable to connect';
+                    showModal(responseCanvas.id, 5000);
+                    console.log(error)})
+                .finally(() => {
+                    setTimeout(() => reset(submitButton, loader), 1200);
+                    formElements['password'].value = '';
+                });
+            }, 1200)
+        });
+
+
+
+        function showModal(modalID, timeout) {
+            const el = document.getElementById(modalID);
+            const modal = new bootstrap.Offcanvas(el);
+            modal.show();
+            setTimeout(() => modal.hide(), timeout);
+        }
+
+        function reset(button, preloader) {
+            button.style.display = 'block';
+            preloader.style.display = 'none';
+        }
+    </script>
+    <!-- facebook signin -->
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const next = urlParams.get('next');
+
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '490627753425286',
+                cookie: true,
+                xfbml: true,
+                version: 'v10.0'
+            });
+            FB.AppEvents.logPageView();
+        };
+
+        function checkLoginState() {
+            FB.getLoginStatus(function (response) {
+                statusChangeCallback(response);
+            });
+        }
+        function statusChangeCallback(response) {
+            if (response.status === 'connected') {
+
+                var accessToken = response.authResponse.accessToken;
+                console.log(accessToken);
+                const nationality = sessionStorage.getItem('nationality');
+                console.log(nationality);
+                fetch('{% url "fb_third_party" %}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify({ 
+                        'token': accessToken,
+                        'nationality': nationality ? nationality : 'Not set',
+                     })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.href = next ? next : '{% url "home" %}';
+                    } else if (data.disabled) {
+                        let modal = new bootstrap.Offcanvas(document.getElementById('action-canvas'))
+                        let text = modal.querySelector('.message')
+                        text.innerHTML = data.disabled
+                        document.getElementById('action-button').innerHTML = 'Okay!'
+                        modal.show()
+                    }else{
+                        console.log(data.error)
+                    }
+                })
+                .catch(error => console.log(error));
+            } else {
+                // User is not logged into Facebook or not authorized.
+            }
+        }
+
+        function fbLogin() {
+            FB.login(function (response) {
+                if (response.authResponse) {
+                    checkLoginState();
+                } else {
+                    console.log('User cancelled login or did not fully authorize.');
+                }
+            }, { scope: 'public_profile,email' });
+        }
+        
+        // document.addEventListener('DOMContentLoaded', function(){
+        //     setTimeout(() => {
+        //         FB.login(function (response) {
+        //             if (response.authResponse) {
+        //                 checkLoginState();
+        //             } else {
+        //                 console.log('User cancelled login or did not fully authorize.');
+        //             }
+        //         }, { scope: 'public_profile,email' });
+        //     }, 4000)
+        // });
+    </script>
+
+    <!-- google signin -->
+    <script>
+        window.onload = function () {
+            // Initialize the Google client with your client ID
+            google.accounts.id.initialize({
+                client_id: '644563502959-iqv5j9ie2rjdpqd2t62dq8eh2gmb6097.apps.googleusercontent.com',
+                callback: handleCredentialResponse
+            });
+            setTimeout(() =>  google.accounts.id.prompt(), 1000);
+
+        };
+
+        function googleLogin() {
+            google.accounts.id.prompt();
+        }
+
+        function handleCredentialResponse(response) {
+            const nationality = sessionStorage.getItem('nationality');
+            document.getElementById('google-text').innerHTML = 'Signing you in...'
+            const data = JSON.parse(atob(response.credential.split('.')[1]));
+            const userDetails = JSON.stringify({
+                'email': data.email,
+                'firstname': data.given_name,
+                'lastname': data.family_name,
+                'picture': data.picture ? data.picture : '',
+                'sub': data.sub,
+                'nationality': nationality ? nationality : 'Not set',
+
+            })
+            fetch('{% url "g_third_party" %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: userDetails
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                console.log(JSON.stringify(response));
+            })
+            .then(data => {
+                if (data.success) {
+                    window.location.href = next ? next : '{% url "home" %}';
+                } else if (data.disabled) {
+                    let modal = new bootstrap.Offcanvas(document.getElementById('action-canvas'))
+                    let text = modal.querySelector('.message')
+                    text.innerHTML = data.disabled
+                    document.getElementById('action-button').innerHTML = 'Okay!'
+                    modal.show()
+                }    
+                else {
+                    console.log(data.error);
+                }
+            })
+            .catch(error => console.log(error));
+        }  
+        
+
+    </script>
+
+    <!-- Request location Permission -->
+    <script>
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+        } else {
+            console.log("Geolocation is not supported by this browser.");
+        }
+        function successCallback(position) {
+            const button = document.getElementById('submit-button');
+            button.style.opacity = '1';
+            button.innerHTML = 'Sign in';
+            button.disabled = false;
+            document.querySelector('.google-button').style.display = 'flex';
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`)
+                .then(response => response.json())
+                .then(data => {
+                    const nationality = data.countryName;
+                    document.querySelector('.main-title').innerHTML = "Login from " + nationality
+                    console.log('User\'s nationality:', nationality);
+                    sessionStorage.setItem('nationality', nationality);
+                })
+                .catch(error => {
+                    console.log('Error fetching location data:', error);
+                });
+        }
+
+        function errorCallback(error) {
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    console.log("User denied the request for Geolocation.");
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    console.log("Location information is unavailable.");
+                    break;
+                case error.TIMEOUT:
+                    console.log("The request to get user location timed out.");
+                    break;
+                case error.UNKNOWN_ERROR:
+                    console.log("An unknown error occurred.");
+                    break;
+            }
+            console.log('Error getting location:', error);
+        }
+    </script>
+    {% endcache %}
+</body>
+</html>

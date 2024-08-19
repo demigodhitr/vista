@@ -1,0 +1,736 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <script>
+    function expiredCallback() {
+      alert('Captcha response expired. please try again!');
+    }
+  </script>
+  <!-- ========== Meta Tags ========== -->
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Equinox">
+  <meta name="description"
+    content="Invest Smarter, Not Harder!
+              Our trading platform helps you access real-time data, expert insights, and advanced tools to make informed decisions and maximize profits. If you heard about our traders making the market bullish, that's factually right !">
+  <!-- ======== Page title ============ -->
+  <title>ExchangeVista</title>
+  <!-- ========== Favicon Icon ========== -->
+  <link rel="shortcut icon" href="{% static 'assets/img/favicon.png' %}">
+
+  <!-- ===========  All Stylesheet ================= -->
+  <!--  Icon css plugins -->
+  <link rel="stylesheet" href="{% static 'assets/css/icons.css' %}">
+  <!--  animate css plugins -->
+  <link rel="stylesheet" href="{% static 'assets/css/animate.css' %}">
+  <!--  slick css plugins -->
+  <link rel="stylesheet" href="{% static 'assets/css/swiper-bundle.min.css' %}">
+  <!--  magnific-popup css plugins -->
+  <link rel="stylesheet" href="{% static 'assets/css/magnific-popup.css' %}">
+  <!-- metis menu css file -->
+  <link rel="stylesheet" href="{% static 'assets/css/metismenu.css' %}">
+  <!--  Bootstrap css plugins -->
+  <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+  <!--  main style css file -->
+  <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+  <!-- Web App Manifest-->
+  <link rel="manifest" href="{% static 'manifest.json' %}">
+
+  <script>
+    function validateForm() {
+      var name = document.getElementById("name").value;
+      var email = document.getElementById("email").value;
+      var subject = document.getElementById("subject").value;
+      var message = document.getElementById("message").value;
+
+      if (name === "" || email === "" || subject === "" || message === "") {
+        alert("Please fill out all fields.");
+        return false;
+      }
+      return true;
+    }
+  </script>
+
+</head>
+
+<body class="body-wrapper">
+  <!-- preloader start here -->
+  <div class="preloader">
+    <div class="spinner"></div>
+  </div>
+  <!-- preloader ending here -->
+
+
+  <!-- header section start hare -->
+  <header class="header-1">
+    <div class="container">
+      <div class="row align-items-center justify-content-between">
+        <div class="col-lg-2 col-sm-5 col-md-4 col-6">
+          <div class="logo">
+            <a href="{% url 'web' %}">
+              <img src="{%  static 'assets/img/logo/logo.png'  %}" alt="TradePro Logo">
+            </a>
+          </div>
+        </div>
+        <div class="col-lg-10 text-end p-lg-0 d-none d-lg-flex justify-content-between align-items-center">
+          <div class="menu-wrap">
+            <div class="main-menu">
+              <ul>
+                <li class=""><a href="{% url 'web' %}">Home</a>
+                </li>
+                <li><a href="{% url 'about' %}">About</a> </li>
+                <li class=""><a href="{% url 'services' %}">Services</a>
+  
+                </li>
+                <li class="menu-item-has-children"><a href="javascript:void(0);">Company</a>
+                  <ul class="sub-menu">
+                    <li><a href="{% url 'faqs' %}">faq</a></li>
+                    <li><a href="{% url 'team' %}">team</a></li>
+                    <li><a href="{% url 'pricing' %}">Trading Plans</a></li>
+                    <li><a target="_blank" href="{% url 'landing' %}">GET THE APP</a></li>
+                  </ul>
+                </li>
+                <li><a href="{% url 'contact' %}">Contact</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="header-right-element text-white">
+            <a target="_blank" href="{% url 'landing' %}" class="custom-btn custom-btn--style-2">Get Started</a>
+          </div>
+        </div>
+        <div class="d-block d-lg-none col-sm-1 col-md-8 col-6">
+          <div class="mobile-nav-wrap">
+            <div id="hamburger"><i class="fal fa-bars"></i></div>
+            <!-- mobile menu - responsive menu  -->
+            <div class="mobile-nav">
+              <button type="button" class="close-nav">
+                <i class="fal fa-times-circle"></i>
+              </button>
+              <nav class="sidebar-nav">
+                <ul class="metismenu" id="mobile-menu">
+                  <li><a class="has-arrow" href="{% url 'web' %}">Home</a>
+                  </li>
+                  <li><a href="{% url 'about' %}">about</a></li>
+                  <li><a class="has-arrow" href="{% url 'services' %}">services</a>
+                  </li>
+                  <li>
+                    <a class="has-arrow" href="javascript:void(0);">Company</a>
+                    <ul class="sub-menu">
+                      <li><a href="{% url 'faqs' %}">faq</a></li>
+                      <li><a href="{% url 'team' %}">team</a></li>
+                      <li><a href="{% url 'pricing' %}">pricing</a></li>
+                      <li><a href="{% url 'pricing' %}">Trading Plans</a></li>
+                      <li><a href="{% url 'landing' %}">GET THE APP</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="{% url 'contact' %}">Contact</a></li>
+                </ul>
+                <a href="{% url 'landing' %}" class="custom-btn">Get Started</a>
+              </nav>
+            </div>
+          </div>
+          <div class="overlay"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- header section end hare -->
+
+
+  <!-- banner section start hare -->
+
+  <div class="page-banner-wrap bg-cover text-capitalize">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 col-lg-6 offset-lg-3 text-center text-white">
+          <div class="page-heading">
+            <h1>Our Pricing</h1>
+          </div>
+          <nav aria-label="breadcrumb">
+            <ul class="breadcrumb justify-content-center">
+              <li class="breadcrumb-item"><a href="{% url 'web' %}">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Investment Plans</li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- banner section end hare -->
+
+
+
+  <!-- price section start hare -->
+  
+  <section class="package-pricing-wrapper fix section-bg-dark section-padding">
+    <div class="container">
+      <div class="col-lg-8 ps-xl-5 pe-xl-5 col-12 offset-lg-2 text-center">
+        <div class="block-contents">
+          <div class="section-title">
+            <h2 class="wow fadeInUp">Tailored Plans to Fit Your Trading Needs</h2>
+            <p class="wow fadeInUp pt-4" data-wow-delay=".3s">We offer the best pricings around - from micro to Platinum plans, we have carefully tailored our plans to meet
+              everyone's financial capability without necessarily breaking the banks!
+            </p>
+          </div>
+        </div>
+      </div>
+  
+      <div class="row align-items-center">
+        <div class="col-lg-6 col-xl-3 col-12">
+          <div class="single-pricing-package wow fadeInUp" data-wow-duration="1.1s">
+            <div class="pricing-head">
+              <div class="pricing-name">
+                <h4>Micro Plan</h4>
+              </div>
+              <div class="pricing-vale d-flex">
+                <h3>£<span>500</span></h3><br>
+                <p>ROI > 5 Days</p>
+              </div>
+            </div>
+            <div class="features-list">
+              <ul>
+                <li><img src="{% static 'assets/img/price/icon/1.png' %}" alt="right-arrow">Insured Investment.</li>
+                <li><img src="{% static 'assets/img/price/icon/1.png' %}" alt="right-arrow">Transparent Proxy Trading</li>
+                <li><img src="{% static 'assets/img/price/icon/1.png' %}" alt="right-arrow">Guranteed ROI</li>
+              </ul>
+            </div>
+            <div class="buy-package-btn mt-4">
+              <a target="_blank" href="{% url 'tradingview' 'tether' %}" class="custom-btn custom-btn--price">Choose
+                Plan</a>
+            </div>
+          </div>
+        </div>
+  
+        <div class="col-lg-6 col-xl-3 col-12">
+          <div class="single-pricing-package wow fadeInUp" data-wow-duration="1.1s">
+            <div class="pricing-head">
+              <div class="pricing-name">
+                <h4>Standard Plan</h4>
+              </div>
+              <div class="pricing-vale d-flex">
+                <h3>£<span>1,000 </span></h3><br>
+                <p> ROI > 5 days or as specified</p>
+              </div>
+            </div>
+            <div class="features-list">
+              <ul>
+                <li><img src="{% static 'assets/img/price/icon/1.png' %}" alt="right-arrow">Insured Investment.</li>
+                <li><img src="{% static 'assets/img/price/icon/1.png' %}" alt="right-arrow">Transparent Proxy Trading</li>
+                <li><img src="{% static 'assets/img/price/icon/1.png' %}" alt="right-arrow">Guranteed ROI</li>
+              </ul>
+            </div>
+            <div class="buy-package-btn mt-4">
+              <a target="_blank" href="{% url 'tradingview' 'tether' %}" class="custom-btn custom-btn--price">Choose
+                Plan</a>
+            </div>
+          </div>
+        </div>
+  
+        <div class="col-lg-6 col-xl-3 col-12">
+          <div class="single-pricing-package single-pricing-package--active  wow fadeInUp" data-wow-duration="1.1s">
+            <span class="active-bage">Few slots</span>
+            <div class="pricing-head">
+              <div class="pricing-name">
+                <h4>Premium Plan</h4>
+              </div>
+              <div class="pricing-vale d-flex">
+                <h3>£<span>5,000</span></h3>
+                <p>ROI > 5 days or as specified</p>
+              </div>
+            </div>
+            <div class="features-list">
+              <ul>
+                <li><img src="{% static 'assets/img/price/icon/1.png' %}" alt="right-arrow">Insured Investment.</li>
+                <li><img src="{% static 'assets/img/price/icon/1.png' %}" alt="right-arrow">Transparent Proxy Trading</li>
+                <li><img src="{% static 'assets/img/price/icon/1.png' %}" alt="right-arrow">Guranteed ROI</li>
+              </ul>
+            </div>
+            <div class="buy-package-btn mt-4">
+              <a target="_blank" href="{% url 'tradingview' 'tether' %}" class="custom-btn custom-btn--price">Choose
+                Plan</a>
+            </div>
+          </div>
+        </div>
+  
+        <div class="col-lg-6 col-xl-3 col-12">
+          <div class="single-pricing-package wow fadeInUp" data-wow-duration="1.1s">
+            <div class="pricing-head">
+              <div class="pricing-name">
+                <h4>Premium Plan</h4>
+              </div>
+              <div class="pricing-vale d-flex">
+                <h3>£<span>10,000+</span></h3>
+                <p>ROI > 10 days or as specified</p>
+              </div>
+            </div>
+            <div class="features-list">
+              <ul>
+                <li><img src="{% static 'assets/img/price/icon/1.png' %}" alt="right-arrow">Insured Investment.</li>
+                <li><img src="{% static 'assets/img/price/icon/1.png' %}" alt="right-arrow">Transparent Proxy Trading</li>
+                <li><img src="{% static 'assets/img/price/icon/1.png' %}" alt="right-arrow">Guranteed ROI</li>
+              </ul>
+            </div>
+            <div class="buy-package-btn mt-4">
+              <a target="_blank" href="{% url 'tradingview' 'tether' %}" class="custom-btn custom-btn--price">Choose
+                Plan</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- price section end hare -->
+
+
+  <!-- faq section start hare -->
+  
+    <section class="faq-video-block section-padding section-bg overflow-hidden">
+      <div class="container">
+        <div class="nice-arrow-icon d-none d-lg-block wow fadeInDown" data-wow-duration="1.2s">
+          <img src="{% static 'assets/img/shape/4.svg' %}" alt="3d bg shape">
+        </div>
+        <div class="col-lg-6 col-xl-6 offset-xl-3 col-12 offset-lg-2 text-center">
+          <div class="block-contents">
+            <div class="section-title wow fadeInDown" data-wow-duration="1.2s">
+              <h2>Common Investment questions, Answered Here</h2>
+            </div>
+          </div>
+        </div>
+        <div class="row g-5">
+    
+          <div class="col-lg-7 ps-xl-5 col-12 mt-xl-0 mt-5">
+            <div class="faq-accordion  ms-xl-4 me-xl-4">
+              <div class="accordion" id="mainaccordion">
+    
+                <div class="accordion-item wow fadeInUp" data-wow-duration="1s" data-wow-delay=".3s">
+                  <h4 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#faqask1" aria-expanded="false" aria-controls="faqask1">
+                      Is the Platform Safe and Reliable?
+                    </button>
+                  </h4>
+                  <div id="faqask1" class="accordion-collapse collapse show" data-bs-parent="#mainaccordion">
+                    <div class="accordion-body">
+                      Yes! Equinox is a registered business entity. well regulated by the FCA with ongoing
+                      application at the company house.
+                    </div>
+                  </div>
+                </div>
+    
+                <div class="accordion-item wow fadeInUp" data-wow-duration="1.1s" data-wow-delay=".6s">
+                  <h4 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqask2"
+                      aria-expanded="true" aria-controls="faqask2">
+                      Trading Fees and Commissions: How Much?
+                    </button>
+                  </h4>
+                  <div id="faqask2" class="accordion-collapse collapse" data-bs-parent="#mainaccordion">
+                    <div class="accordion-body">
+                      <strong>Our fee structure is transparent.</strong> You may encounter spreads and
+                      commissions for some our services. Check with your account manager for
+                      detailed information on costs associated with investing and mutual understanding
+                      between you and the comapany..!
+                    </div>
+                  </div>
+                </div>
+    
+                <div class="accordion-item wow fadeInUp" data-wow-duration="1.1s" data-wow-delay=".9s">
+                  <h4 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqask3"
+                      aria-expanded="false" aria-controls="faqask3">
+                      Key factors for choosing Equinox?
+                    </button>
+                  </h4>
+                  <div id="faqask3" class="accordion-collapse collapse" data-bs-parent="#mainaccordion">
+                    <div class="accordion-body">
+                      <strong>Our investment broker specializes in forex trading.</strong>
+                      With our scheme, Our Interested clients can seamlessly invest in the global currency
+                      market seamlessly while leaving the
+                      trading aspect of it plus all the volatility risks involved to be managed
+                      exceptionally by our in-House traders. This
+                      implies that whether you have fore-knowledge about trading or not, you can reliably
+                      buy a plan with us for awesome and
+                      guaranteed ROI. we offer suitable plans you can find nowhere else.
+                    </div>
+                  </div>
+                </div>
+    
+                <div class="accordion-item wow fadeInUp" data-wow-duration="1.1s" data-wow-delay=".6s">
+                  <h4 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqask4"
+                      aria-expanded="true" aria-controls="faqask4">
+                      What is the minimum investment required?
+                    </button>
+                  </h4>
+                  <div id="faqask4" class="accordion-collapse collapse" data-bs-parent="#mainaccordion">
+                    <div class="accordion-body">
+                      The minimum investment varies depending on the type of account you choose! For regular accounts, See
+                      our investment
+                      plans for specific details on minimum investment requirements.
+                    </div>
+                  </div>
+                </div>
+    
+                <div class="accordion-item wow fadeInUp" data-wow-duration="1.1s" data-wow-delay=".6s">
+                  <h4 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqask5"
+                      aria-expanded="true" aria-controls="faqask5">
+                      How can I open an investment account with your broker?
+                    </button>
+                  </h4>
+                  <div id="faqask5" class="accordion-collapse collapse" data-bs-parent="#mainaccordion">
+                    <div class="accordion-body">
+                      <strong>Getting started is easy!</strong>
+                      Simply navigate to Registration fill in the required information, and follow the steps to open your
+                      investment account.
+                    </div>
+                  </div>
+                </div>
+    
+                <div class="accordion-item wow fadeInUp" data-wow-duration="1.1s" data-wow-delay=".6s">
+                  <h4 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqask6"
+                      aria-expanded="true" aria-controls="faqask6">
+                      What types of investment accounts are available?
+                    </button>
+                  </h4>
+                  <div id="faqask6" class="accordion-collapse collapse" data-bs-parent="#mainaccordion">
+                    <div class="accordion-body">
+                      <strong>We offer various investment accounts!</strong> Such as individual accounts, joint accounts,
+                      and corporate accounts. Choose the
+                      one that suits your investment goals.
+                    </div>
+                  </div>
+                </div>
+    
+              </div>
+            </div>
+            <div class="faq-bottom ms-xl-4 mt-4 wow fadeInUp" data-wow-duration="1s" data-wow-delay=".9s">
+              <span>Still have questions?</span><a href="mailto:support@exchangevista.com">Get in touch</a>
+            </div>
+          </div>
+    
+          <div class="col-lg-5 pe-xl-5 col-12">
+            <div class="question__form-wrapper" data-aos-duration="1000" data-aos="fade-up">
+              <h3>Seeking Information?</h3>
+              <form id="contactForm" action="#" class="question__form">{% csrf_token %}
+                <div class="row g-4">
+                  <div class="col-12">
+                    <input type="text" class="form-control" placeholder="Your name" id="name" name="name" aria-label="Name">
+                  </div>
+                  <div class="col-12">
+                    <input type="email" class="form-control" placeholder="Your email" id="email" name="email"
+                      aria-label="Email">
+                  </div>
+                  <div class="col-12">
+                    <input type="text" class="form-control" placeholder="Subject" id="subject" name="subject"
+                      aria-label="Subject">
+                  </div>
+                  <div class="col-12">
+                    <textarea class="form-control form-control--message" placeholder="Describe your message" id="message"
+                      name="message"></textarea>
+                  </div>
+                  <div class="col-12">
+                    <div data-expired-callback="expiredCallback" class="g-recaptcha" data-type="checkbox"
+                      data-sitekey="6LcX3xEqAAAAAHG68iGgj2jLl6rhoX0VlzQXoD7l"></div>
+                  </div>
+                </div>
+                <audio id="successSound">
+                  <source src="{% static 'sounds/success.mp3' %}" type="audio/mpeg">
+                  Not supported by your browser.
+                </audio>
+    
+                <div style="position: relative;">
+                  <button id="submitButton" class="form-control custom-btn text-center mt-4 text-dark"
+                    type="submit">Submit</button>
+                  <img id="loader" style="display: none; position: absolute; top: 40%; left: 48%;" height="40px"
+                    width="40px" src="{% static 'assets/preloader/preloader.gif' %}" alt="preloader">
+                </div>
+              </form>
+              <p id="response" class="form-message mt-4"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  
+  
+  <!-- faq section end hare -->
+
+  <script>
+    const contactForm = document.getElementById('contactForm');
+    const button = document.getElementById('submitButton');
+    const response = document.getElementById('response');
+    const sound = document.getElementById('successSound');
+    const preloader = document.getElementById('loader');
+
+    function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+    const csrftoken = getCookie('csrftoken');
+
+    contactForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      response.style.transition = '2s ease-in-out';
+      response.style.display = 'none';
+      const formElements = this.elements;
+      if (formElements['firstname'].value !== ''){
+        document.body.remove();
+        window.location.href = 'www.google.com'
+      } 
+      for (let i = 0; i < formElements.length; i++) {
+        if (formElements[i].type !== 'submit' && formElements[i].value === '') {
+          if (formElements[i].name === 'email') {
+            response.innerHTML = '<strong style="color: red;"> Please enter your email address </strong>';
+          }
+          else if (formElements[i].name === 'name') {
+            response.innerHTML = '<strong style="color: red;"> Please enter your name </strong>';
+          }
+          else if (formElements[i].name === 'subject') {
+            response.innerHTML = '<strong style="color: red;"> Please enter your message subject to submit this form </strong>';
+          }
+          else if (formElements[i].name === 'message') {
+            response.innerHTML = '<strong style="color: red;"> You cannot submit our contact form without a message. Please write to us briefly, how we can help. a minimum of 60 characters is required. spamming this contact form will automatically ban you from accessing this web app resources </strong>';
+          }
+          else if (formElements[i].name === 'g-recaptcha-response') {
+            response.innerHTML = '<strong style="color: red;"> Please solve the captcha challenge </strong>';
+          }
+          response.style.display = 'block'
+          return false;
+        }
+
+      }
+      if (formElements['name'].value.length < 5) {
+        response.innerHTML = '<strong style="color: red;"> Please enter your full name. </strong>';
+        response.style.display = 'block'
+        return false;
+      }
+      if (formElements['message'].value.length < 60) {
+        response.innerHTML = '<strong style="color: red;"> Your message must contain at least 60 characters. </strong>';
+        response.style.display = 'block'
+        return false;
+      }
+      button.style.opacity = 0.3;
+      preloader.style.display = 'block'
+
+      const formData = new FormData(this);
+      fetch('{% url "contact" %}', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'X-CSRFToken': csrftoken
+        }
+      })
+        .then(response => {
+          if (!response.ok) {
+            console.response
+          }
+          return response.json();
+        })
+        .then(data => {
+          if (data.success) {
+            button.style.opacity = 1;
+            response.innerHTML = `<strong style="color: greenyellow;">${data.success}</strong>`;
+            response.style.display = 'block';
+            contactForm.reset();
+            sound.play();
+          }
+          else if (data.request_error) {
+            response.innerHTML = `<strong style="color:red;">${data.request_error}</strong>`;
+            response.style.display = 'block'
+            contactForm.reset();
+          }
+          else {
+            response.innerHTML = `<strong style="color:red;">${data.error}</strong>`;
+            response.style.display = 'block';
+          }
+
+        })
+        .catch(error => console.log(error))
+        .finally(() => {
+          button.style.opacity = 1;
+          preloader.style.display = 'none';
+        })
+
+    })
+  </script>
+
+  <!-- footer section start hare -->
+  
+  <footer class="footer-wrapper footer-1">
+    <div class="footer-widgets-wrapper">
+      <div class="container">
+        <div class="row">
+          <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+            <div class="single-footer-widget wow fadeInLeft">
+              <div class="about-us-widget">
+                <a href="{% url 'web' %}" class="footer-logo d-block">
+                  <img src="{% static 'assets/img/logo/logo.png' %}" alt="TradePro">
+                </a>
+                <p>We offer the best, most reliable investment plans and trading services around. Open your
+                  equinox trading account and start
+                  finding great deals</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-2 col-lg-3 offset-xl-1 col-sm-6 col-12">
+            <div class="single-footer-widget wow fadeInLeft" data-wow-delay=".2s">
+              <div class="widget-title">
+                <h5>Company</h5>
+              </div>
+              <ul>
+                <li><a href="{% url 'about' %}">About ExchangeVista</a></li>
+                <li><a href="{% url 'contact' %}">Contact & support</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-xl-2 col-lg-3 offset-xl-1 col-sm-6 col-12">
+            <div class="single-footer-widget wow fadeInLeft" data-wow-delay=".4s">
+              <div class="widget-title">
+                <h5>Services</h5>
+              </div>
+              <ul>
+                <li><a href="{% url 'services' %}">Forex & Crypto Trades</a></li>
+                <li><a href="{% url 'services' %}">Secure managed IT</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-xl-2 col-lg-3 offset-xl-1 col-sm-6 col-12">
+            <div class="single-footer-widget wow fadeInLeft" data-wow-delay=".6s">
+              <div class="widget-title">
+                <h5>Resources</h5>
+              </div>
+              <ul>
+                <li><a href="{% url 'pricing' %}">Investment plans</a></li>
+                <li><a href="{% url 'faqs' %}">Frequently Asked Queestions</a></li>
+                <li><a href="{% url 'contact' %}">Premium support</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom-wrapper">
+      <div class="container">
+        <div class="footer-bottom-content d-md-flex justify-content-between">
+          <div class="site-copyright wow fadeInUp" data-wow-delay=".2" data-wow-duration="1s">
+            <p>&copy; 2024 <a href="#">ExchangeVista</a> All Rights
+              Reserved.</p>
+          </div>
+          <div class="social-links mt-4 mt-md-0 wow fadeInUp" data-wow-delay=".3" data-wow-duration="1s">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer><footer class="footer-wrapper footer-1">
+    <div class="footer-widgets-wrapper">
+      <div class="container">
+        <div class="row">
+          <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+            <div class="single-footer-widget wow fadeInLeft">
+              <div class="about-us-widget">
+                <a href="{% url 'home' %}" class="footer-logo d-block">
+                  <img src="{% static 'assets/img/logo/logo.png' %}" alt="TradePro">
+                </a>
+                <p>We offer the best, most reliable investment plans and trading services around. Open your
+                  equinox trading account and start
+                  finding great deals</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-2 col-lg-3 offset-xl-1 col-sm-6 col-12">
+            <div class="single-footer-widget wow fadeInLeft" data-wow-delay=".2s">
+              <div class="widget-title">
+                <h5>Company</h5>
+              </div>
+              <ul>
+                <li><a href="{% url 'about' %}">About Equinox</a></li>
+                <li><a href="{% url 'contact' %}">Contact & support</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-xl-2 col-lg-3 offset-xl-1 col-sm-6 col-12">
+            <div class="single-footer-widget wow fadeInLeft" data-wow-delay=".4s">
+              <div class="widget-title">
+                <h5>Services</h5>
+              </div>
+              <ul>
+                <li><a href="{% url 'services' %}">Forex & Crypto Trades</a></li>
+                <li><a href="{% url 'services' %}">Secure managed IT</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-xl-2 col-lg-3 offset-xl-1 col-sm-6 col-12">
+            <div class="single-footer-widget wow fadeInLeft" data-wow-delay=".6s">
+              <div class="widget-title">
+                <h5>Resources</h5>
+              </div>
+              <ul>
+                <li><a href="{% url 'pricing' %}">Investment plans</a></li>
+                <li><a href="{% url 'faqs' %}">Frequently Asked Queestions</a></li>
+                <li><a href="{% url 'contact' %}">Premium support</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom-wrapper">
+      <div class="container">
+        <div class="footer-bottom-content d-md-flex justify-content-between">
+          <div class="site-copyright wow fadeInUp" data-wow-delay=".2" data-wow-duration="1s">
+            <p>&copy; 2024 <a href="#">Equinox Traders</a> All Rights
+              Reserved.</p>
+          </div>
+          <div class="social-links mt-4 mt-md-0 wow fadeInUp" data-wow-delay=".3" data-wow-duration="1s">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  
+  <!-- footer section end hare -->
+  
+  <!--  ALl JS Plugins
+      ====================================== -->
+  <script src="{% static 'assets/js/jquery.min.js' %}"></script>
+  <script src="{% static 'assets/js/script.js' %}"></script>
+  
+  <script src="{% static 'assets/js/modernizr.min.js' %}"></script>
+  <script src="{% static 'assets/js/jquery.easing.js' %}"></script>
+  <script src="{% static 'assets/js/popper.min.js' %}"></script>
+  <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'assets/js/isotope.pkgd.min.js' %}"></script>
+  <script src="{% static 'assets/js/imageload.min.js' %}"></script>
+  <script src="{% static 'assets/js/scrollUp.min.js' %}"></script>
+  <script src="{% static 'assets/js/swiper-bundle.min.js' %}"></script>
+  <script src="{% static 'assets/js/magnific-popup.min.js' %}"></script>
+  <script src="{% static 'assets/js/wow.min.js' %}"></script>
+  <script src="{% static 'assets/js/metismenu.js' %}"></script>
+  <script src="{% static 'assets/js/active.js' %}"></script>
+</body>
+
+</html>

@@ -1,0 +1,143 @@
+.preloader {
+    background-color: $body-bg-color;
+    align-items: center;
+    cursor: default;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    z-index: 9999999;
+
+
+}
+
+.spinner {
+    --size: 30px;
+    width: 100px;
+    height: 100px;
+    position: relative;
+
+}
+
+.spinner::after,
+.spinner::before {
+    box-sizing: border-box;
+    border-radius: .125rem;
+    position: absolute;
+    content: "";
+    width: var(--size);
+    height: var(--size);
+    top: 50%;
+    animation: up 2.4s cubic-bezier(0, 0, 0.24, 1.21) infinite;
+    left: 50%;
+    background: $theme-color;
+}
+
+.spinner::after {
+    background: $primary;
+    top: calc(50% - var(--size));
+    left: calc(50% - var(--size));
+    animation: down 2.4s cubic-bezier(0, 0, 0.24, 1.21) infinite;
+}
+
+@keyframes down {
+
+    0%,
+    100% {
+        transform: none;
+    }
+
+    25% {
+        transform: translateX(100%);
+    }
+
+    50% {
+        transform: translateX(100%) translateY(100%);
+    }
+
+    75% {
+        transform: translateY(100%);
+    }
+}
+
+@keyframes up {
+
+    0%,
+    100% {
+        transform: none;
+    }
+
+    25% {
+        transform: translateX(-100%);
+    }
+
+    50% {
+        transform: translateX(-100%) translateY(-100%);
+    }
+
+    75% {
+        transform: translateY(-100%);
+    }
+}
+
+#loader-page {
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: var(--color1);
+  z-index: 9999;
+}
+
+#line {
+  top: 40px;
+  left: -2.5px;
+}
+
+#line span {
+  display: inline-block;
+  width: 5px;
+  height: 20px;
+  background-color: var(--color2);
+}
+
+#line span:nth-child(1) {
+  animation: grow 1s ease-in-out infinite;
+}
+
+#line span:nth-child(2) {
+  animation: grow 1s ease-in-out 0.15s infinite;
+}
+
+#line span:nth-child(3) {
+  animation: grow 1s ease-in-out 0.30s infinite;
+}
+
+#line span:nth-child(4) {
+  animation: grow 1s ease-in-out 0.45s infinite;
+}
+
+@keyframes grow {
+
+  0%,
+  100% {
+    -webkit-transform: scaleY(1);
+    -ms-transform: scaleY(1);
+    -o-transform: scaleY(1);
+    transform: scaleY(1);
+  }
+
+  50% {
+    -webkit-transform: scaleY(1.8);
+    -ms-transform: scaleY(1.8);
+    -o-transform: scaleY(1.8);
+    transform: scaleY(1.8);
+  }
+}

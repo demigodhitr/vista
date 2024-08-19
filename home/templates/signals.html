@@ -1,0 +1,330 @@
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script>
+        function expiredCallback() {
+            alert('Captcha response expired. please try again!');
+        }
+    </script>
+    <!-- ========== Meta Tags ========== -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Equinox">
+    <meta name="description"
+        content="Invest Smarter, Not Harder!
+              Our trading platform helps you access real-time data, expert insights, and advanced tools to make informed decisions and maximize profits. If you heard about our traders making the market bullish, that's factually right !">
+    <!-- ======== Page title ============ -->
+    <title>Equinox Web</title>
+    <!-- ========== Favicon Icon ========== -->
+    <link rel="shortcut icon" href="{% static 'assets/img/favicon.png' %}">
+
+    <!-- ===========  All Stylesheet ================= -->
+    <!--  Icon css plugins -->
+    <link rel="stylesheet" href="{% static 'assets/css/icons.css' %}">
+    <!--  animate css plugins -->
+    <link rel="stylesheet" href="{% static 'assets/css/animate.css' %}">
+    <!--  slick css plugins -->
+    <link rel="stylesheet" href="{% static 'assets/css/swiper-bundle.min.css' %}">
+    <!--  magnific-popup css plugins -->
+    <link rel="stylesheet" href="{% static 'assets/css/magnific-popup.css' %}">
+    <!-- metis menu css file -->
+    <link rel="stylesheet" href="{% static 'assets/css/metismenu.css' %}">
+    <!--  Bootstrap css plugins -->
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+    <!--  main style css file -->
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+</head>
+
+<body class="body-wrapper">
+
+
+    <!-- preloader start here -->
+    <div class="preloader">
+        <div class="spinner"></div>
+    </div>
+    <!-- preloader ending here -->
+
+    <!-- header section start hare -->
+    <header class="header-1">
+        <div class="container">
+            <div class="row align-items-center justify-content-between">
+                <div class="col-lg-2 col-sm-5 col-md-4 col-6">
+                    <div class="logo">
+                        <a href="{% url 'web' %}">
+                            <img src="{%  static 'assets/img/logo/logo.png'  %}" alt="TradePro Logo">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-10 text-end p-lg-0 d-none d-lg-flex justify-content-between align-items-center">
+                    <div class="menu-wrap">
+                        <div class="main-menu">
+                            <ul>
+                                <li class=""><a href="{% url 'web' %}">Home</a>
+                                </li>
+                                <li><a href="{% url 'about' %}">About</a> </li>
+                                <li class=""><a href="{% url 'services' %}">Services</a>
+    
+                                </li>
+                                <li class="menu-item-has-children"><a href="javascript:void(0);">Company</a>
+                                    <ul class="sub-menu">
+                                        <li><a href="{% url 'faqs' %}">faq</a></li>
+                                        <li><a href="{% url 'team' %}">team</a></li>
+                                        <li><a href="{% url 'pricing' %}">Trading Plans</a></li>
+                                        <li><a target="_blank" href="{% url 'landing' %}">GET THE APP</a></li>
+                                    </ul>
+                                </li>
+                                <!-- <li class="menu-item-has-children"><a href="javascript:void(0);">Blogs</a>
+                      <ul class="sub-menu">
+                        <li><a href="news.html">Blog 1</a></li>
+                        <li><a href="news-2.html">Blog 2</a></li>
+                        <li><a href="news-details.html">Blog Details</a></li>
+                      </ul>
+                    </li> -->
+                                <li><a href="{% url 'contact' %}">Contact</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="header-right-element text-white">
+                        <a target="_blank" href="{% url 'landing' %}" class="custom-btn custom-btn--style-2">Get Started</a>
+                    </div>
+                </div>
+                <div class="d-block d-lg-none col-sm-1 col-md-8 col-6">
+                    <div class="mobile-nav-wrap">
+                        <div id="hamburger"><i class="fal fa-bars"></i></div>
+                        <!-- mobile menu - responsive menu  -->
+                        <div class="mobile-nav">
+                            <button type="button" class="close-nav">
+                                <i class="fal fa-times-circle"></i>
+                            </button>
+                            <nav class="sidebar-nav">
+                                <ul class="metismenu" id="mobile-menu">
+                                    <li><a class="has-arrow" href="{% url 'web' %}">Home</a>
+                                    </li>
+                                    <li><a href="{% url 'about' %}">about</a></li>
+                                    <li><a class="has-arrow" href="{% url 'services' %}">services</a>
+                                    </li>
+                                    <li>
+                                        <a class="has-arrow" href="javascript:void(0);">Company</a>
+                                        <ul class="sub-menu">
+                                            <li><a href="{% url 'faqs' %}">faq</a></li>
+                                            <li><a href="{% url 'team' %}">team</a></li>
+                                            <li><a href="{% url 'pricing' %}">pricing</a></li>
+                                            <li><a href="{% url 'pricing' %}">Trading Plans</a></li>
+                                            <li><a href="{% url 'landing' %}">GET THE APP</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="{% url 'contact' %}">Contact</a></li>
+                                </ul>
+                                <a href="{% url 'landing' %}" class="custom-btn">Get Started</a>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="overlay"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- header section end hare -->
+
+
+
+    <!-- banner section start hare -->
+
+    <div class="page-banner-wrap  text-capitalize">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-xl-6 ps-xl-0 pe-xl-0 offset-xl-3 col-lg-8 offset-lg-2 text-center text-white">
+                    <div class="page-heading">
+                        <h1>Our Signals and Journals</h1>
+                    </div>
+                    <nav aria-label="breadcrumb">
+                        <ul class="breadcrumb justify-content-center">
+                            <li class="breadcrumb-item"><a href="{% url 'web' %}">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Signals</li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- banner section end hare -->
+
+
+    <!-- blog section start hare -->
+    <div class="blog-grid-wrapper section-padding mtm-30">
+        <div class="container">
+            <div class="nice-arrow-icon d-none d-lg-block wow fadeInDown" data-wow-duration="1.2s">
+                <img src="{% static 'assets/img/shape/2.svg' %}" alt="3d bg shape">
+            </div>
+            <div class="col-lg-8 col-xl-6 offset-xl-3 col-12 offset-lg-2 text-center">
+                <div class="block-contents">
+                    <div class="section-title wow fadeInUp" data-wow-duration="1.2s">
+                        <h2>Follow our lead, win with us </h2>
+                        <p>Purchase our Trade journals and signals, curated for optimum success in forex trading. Whether or not you're a trader, our journals are aimed at guiding you throughout your open trade. Various trading instance and conditions have been covered extensively. Learn how to trade from complete scratch to a professional level </p>
+                    </div>
+                </div>
+            </div>
+            {% if journals %}
+                <div class="row">
+                    {% for journal in journals %}
+                        <div class="col-md-6 col-xl-4 col-12">
+                            <div class="single-news-card wow fadeInUp">
+                                <div class="news-thumb">
+                                    <img src="{{ journal.display_picture.url }}" alt="blog-img">
+                                </div>
+                                <div class="contents">
+                                    <div class="post-meta d-flex">
+                                        <div class="post-cat">
+                                            <a href="{% url 'purchase' journal.pk %}">{% if journal.available %} Available for purchase {% else %} Currently not available for purchase. {% endif %}</a>
+                                            <p class="text-primary">£ {{journal.price|intcomma}} 
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <h3 class="text-primary"><a href="{% url 'purchase' journal.pk %}">{{ journal.title }}</a></h3>
+                                    <h5><a href="{% url 'purchase' journal.pk %}">{{ journal.description|truncatechars:70 }}</a></h5>
+                                    {% if journal.available %}
+                                        <a href="{% url 'purchase' journal.pk %}" class="btn btn-primary">Download<i class="icon-arrow-right"></i></a>
+                                     {% else %}
+                                        <div class="text-muted">This journal is currently not available for purchase.</div>
+                                     {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="wow fadeInLeft" style=" padding: 30px 5px 5px 5px; margin: 20px 0px; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 1.5px solid gray; border-radius: 20px; text-align: center;">
+                    <i style="margin-bottom: 15px;" class="fa-solid text-warning fa-circle-exclamation fa-2xl fa-beat-fade"></i>
+                    <h2 class="text-warning">All our signal journals have been redacted and are being reviewed and updated to reflect the current market conditions. Please check back later. Sincere apologies for the incoveniences.</h2>
+                </div>
+                <!-- News Widget BEGIN -->
+                <div class="tradingview-widget-container">
+                    <div class="tradingview-widget-container__widget"></div>
+                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-timeline.js" async>
+                        {
+                            "feedMode": "all_symbols",
+                            "isTransparent": false,
+                            "displayMode": "adaptive",
+                            "width": "100%",
+                            "height": 700,
+                            "colorTheme": "dark",
+                            "locale": "en"
+                        }
+                    </script>
+                </div>
+                <!-- News Widget END -->
+            {% endif %}
+            
+
+        </div>
+    </div>
+    <!-- blog section end hare -->
+
+
+    <!-- footer section start hare -->
+    
+    <footer class="footer-wrapper footer-1">
+        <div class="footer-widgets-wrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                        <div class="single-footer-widget wow fadeInLeft">
+                            <div class="about-us-widget">
+                                <a href="{% url 'web' %}" class="footer-logo d-block">
+                                    <img src="{% static 'assets/img/logo/logo.png' %}" alt="TradePro">
+                                </a>
+                                <p>We offer the best, most reliable investment plans and trading services around. Open your
+                                    equinox trading account and start
+                                    finding great deals</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-2 col-lg-3 offset-xl-1 col-sm-6 col-12">
+                        <div class="single-footer-widget wow fadeInLeft" data-wow-delay=".2s">
+                            <div class="widget-title">
+                                <h5>Company</h5>
+                            </div>
+                            <ul>
+                                <li><a href="{% url 'about' %}">About ExchangeVista</a></li>
+                                <li><a href="{% url 'contact' %}">Contact & support</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xl-2 col-lg-3 offset-xl-1 col-sm-6 col-12">
+                        <div class="single-footer-widget wow fadeInLeft" data-wow-delay=".4s">
+                            <div class="widget-title">
+                                <h5>Services</h5>
+                            </div>
+                            <ul>
+                                <li><a href="{% url 'services' %}">Forex & Crypto Trades</a></li>
+                                <li><a href="{% url 'services' %}">Secure managed IT</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xl-2 col-lg-3 offset-xl-1 col-sm-6 col-12">
+                        <div class="single-footer-widget wow fadeInLeft" data-wow-delay=".6s">
+                            <div class="widget-title">
+                                <h5>Resources</h5>
+                            </div>
+                            <ul>
+                                <li><a href="{% url 'pricing' %}">Investment plans</a></li>
+                                <li><a href="{% url 'faqs' %}">Frequently Asked Queestions</a></li>
+                                <li><a href="{% url 'contact' %}">Premium support</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom-wrapper">
+            <div class="container">
+                <div class="footer-bottom-content d-md-flex justify-content-between">
+                    <div class="site-copyright wow fadeInUp" data-wow-delay=".2" data-wow-duration="1s">
+                        <p>&copy; 2024 <a href="#">ExchangeVista</a> All Rights
+                            Reserved.</p>
+                    </div>
+                    <div class="social-links mt-4 mt-md-0 wow fadeInUp" data-wow-delay=".3" data-wow-duration="1s">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- footer section end hare -->
+
+    <!--  ALl JS Plugins
+    ====================================== -->
+    <script src="{% static 'assets/js/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/js/script.js' %}"></script>
+    
+    <script src="{% static 'assets/js/modernizr.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.easing.js' %}"></script>
+    <script src="{% static 'assets/js/popper.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets/js/isotope.pkgd.min.js' %}"></script>
+    <script src="{% static 'assets/js/imageload.min.js' %}"></script>
+    <script src="{% static 'assets/js/scrollUp.min.js' %}"></script>
+    <script src="{% static 'assets/js/swiper-bundle.min.js' %}"></script>
+    <script src="{% static 'assets/js/magnific-popup.min.js' %}"></script>
+    <script src="{% static 'assets/js/wow.min.js' %}"></script>
+    <script src="{% static 'assets/js/metismenu.js' %}"></script>
+    <script src="{% static 'assets/js/active.js' %}"></script>
+</body>
+
+</html>

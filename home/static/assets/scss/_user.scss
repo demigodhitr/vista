@@ -1,0 +1,23 @@
+// user section all scss
+
+
+.single-user-ditails-card {
+  background-color: $body-bg-color;
+  border-radius: 1rem;
+  border: 2px solid transparent;
+  text-align: center;
+  padding: 40px;
+  transition: all .3s ease-in-out;
+
+  h4 {
+    margin-block: 15px;
+  }
+
+  p {
+    color: $info;
+  }
+
+  &:hover {
+    border-color: $theme-color;
+  }
+}

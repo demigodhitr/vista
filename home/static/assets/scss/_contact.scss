@@ -1,0 +1,38 @@
+.single-contact-box {
+    border-radius: .5rem;
+    border: 2px solid transparent;
+    background-color: $section-bg;
+    padding: 40px;
+    margin-top: 70px;
+    transition: all .3s ease-in-out;
+
+    img {
+        margin-bottom: 10px;
+    }
+
+    .contact-info {
+
+        span {
+            color: #617686;
+            display: block;
+            margin-top: 10px;
+            font-weight: 500;
+            font-size: 20px;
+            line-height: 1;
+        }
+
+        &:hover {
+            color: $white;
+        }
+
+    }
+
+    &:hover {
+        border-color: $theme-color;
+        color: $white;
+    }
+
+
+
+
+}

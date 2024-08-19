@@ -1,0 +1,487 @@
+{% load static %}
+{% load custom_filters %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Nextcoin">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="keywords" content="HTML,CSS,JavaScript">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <title>ExchangeVista </title>
+    <!-- Google font file -->
+    <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,600,700,900" rel="stylesheet">
+    <!-- Favicon-->
+    <link rel="icon" href="{% static 'img/favicon.png' %}">
+    <link rel="apple-touch-icon" href="{% static 'img/touch/homescreen96.png' %}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{% static 'img/touch/homescreen144.png' %}">
+    <link rel="apple-touch-icon" sizes="168x168" href="{% static 'img/touch/homescreen168.png' %}">
+    <link rel="apple-touch-icon" sizes="192x192" href="{% static 'img/touch/homescreen192.png' %}">
+    <!-- Stylesheet-->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css" media="all" />
+    <link rel="stylesheet" href="{% static 'css/animate.min.css' %}" type="text/css" media="all" />
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}" type="text/css" media="all" />
+    <link rel="stylesheet" href="{% static 'css/jquery.jConveyorTicker.min.css' %}" type="text/css" media="all" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css" media="all" />
+    <!-- Offcanvas -->
+    <link rel="stylesheet" href="{% static 'css/offcanvas.css' %}" type="text/css" media="all" />
+<!-- Web App Manifest-->
+    <link rel="manifest" href="{% static 'manifest.json' %}">
+    <style>
+        input, textarea, select {
+        font-size: 17px !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Page loader -->
+    <div id="loader-page">
+        <div class="loader" id="line">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+    <!-- Header Section -->
+    <header class="header-main">
+        <div class="container">
+            <div class="content-header d-flex align-items-center justify-content-between">
+                <div class="navbar-menu-toggler navbar-btn">
+                    <a href="javascript:history.back()">
+                        <svg version="1.1" width="18" height="18" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
+                            x="0px" y="0px" viewBox="0 0 492 492" style="enable-background:new 0 0 492 492;"
+                            xml:space="preserve">
+                            <path
+                                d="M198.608,246.104L382.664,62.04c5.068-5.056,7.856-11.816,7.856-19.024c0-7.212-2.788-13.968-7.856-19.032l-16.128-16.12
+                                                        C361.476,2.792,354.712,0,347.504,0s-13.964,2.792-19.028,7.864L109.328,227.008c-5.084,5.08-7.868,11.868-7.848,19.084
+                                                        c-0.02,7.248,2.76,14.028,7.848,19.112l218.944,218.932c5.064,5.072,11.82,7.864,19.032,7.864c7.208,0,13.964-2.792,19.032-7.864
+                                                        l16.124-16.12c10.492-10.492,10.492-27.572,0-38.06L198.608,246.104z" />
+                        </svg>
+                    </a>
+                </div>
+                <div class="item-options">
+                    <div class="item-notification icon-effect me-3">
+                        <a href="{% url 'notifications' %}">
+                            <svg enable-background="new 0 0 512 512" fill="currentColor" viewBox="0 0 512 512" width="20"
+                                height="20" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="m411 262.862v-47.862c0-69.822-46.411-129.001-110-148.33v-21.67c0-24.813-20.187-45-45-45s-45 20.187-45 45v21.67c-63.59 19.329-110 78.507-110 148.33v47.862c0 61.332-23.378 119.488-65.827 163.756-4.16 4.338-5.329 10.739-2.971 16.267s7.788 9.115 13.798 9.115h136.509c6.968 34.192 37.272 60 73.491 60 36.22 0 66.522-25.808 73.491-60h136.509c6.01 0 11.439-3.587 13.797-9.115s1.189-11.929-2.97-16.267c-42.449-44.268-65.827-102.425-65.827-163.756zm-170-217.862c0-8.271 6.729-15 15-15s15 6.729 15 15v15.728c-4.937-.476-9.94-.728-15-.728s-10.063.252-15 .728zm15 437c-19.555 0-36.228-12.541-42.42-30h84.84c-6.192 17.459-22.865 30-42.42 30zm-177.67-60c34.161-45.792 52.67-101.208 52.67-159.138v-47.862c0-68.925 56.075-125 125-125s125 56.075 125 125v47.862c0 57.93 18.509 113.346 52.671 159.138z" />
+                                <path
+                                    d="m451 215c0 8.284 6.716 15 15 15s15-6.716 15-15c0-60.1-23.404-116.603-65.901-159.1-5.857-5.857-15.355-5.858-21.213 0s-5.858 15.355 0 21.213c36.831 36.831 57.114 85.8 57.114 137.887z" />
+                                <path
+                                    d="m46 230c8.284 0 15-6.716 15-15 0-52.086 20.284-101.055 57.114-137.886 5.858-5.858 5.858-15.355 0-21.213-5.857-5.858-15.355-5.858-21.213 0-42.497 42.497-65.901 98.999-65.901 159.099 0 8.284 6.716 15 15 15z" />
+                            </svg>
+                            <span class="count-notif"></span>
+                        </a>
+                    </div>
+                    <div class="avatar-item">
+                        <a href="{% url 'profile' %}"><img src="{{ dp }}"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Main Section -->
+    <form id="withdrawalForm">
+        <main class="main-content">
+            <div class="container">
+                <div class="market-item">
+                    <h4 class="main-title py-4">Withdraw</h4>
+                    <div class="market-card">
+                        <div class="form-group">
+                            <input name="address" type="text" class="form-control" placeholder="Address">
+                        </div>
+                        <div class="form-group">
+                            <select name="network" class="form-select" aria-label="Default select example">
+                                <option value="" disabled selected>Network</option>
+                                <option value="bitcoin">Bitcoin</option>
+                                <option value="ethereum">Ethereum</option>
+                                <option value="tether-USDT">USDT trc20</option>
+                                <option value="ethereum-USDT">USDT erc20</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select id="source" name="source" class="form-select" aria-label="Default select example">
+                                <option value="" disabled selected>Withdraw from</option>
+                                <option value="deposit">Deposit account</option>
+                                <option value="profit">Profits account</option>
+                                <option value="bonus">Bonus account</option>
+                                <option value="everything">Withdraw all</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select name="card" class="form-select" aria-label="Default select example">
+                                <option value="" disabled selected>Process with</option>
+                                {% if cards %}
+                                {% for card in cards %}
+                                <option value="card1">{{card.card_number|new_formatter}} | {{card.expiry_date|date:"m/Y"}}
+                                </option>
+                                {% endfor %}
+                                {% else %}
+                                <option disabled selected value="">Activate a card to continue</option>
+                                {% endif %}
+                            </select>
+                        </div>
+                        <div class="input-group mb-3">
+                            <input id="amount" name="amount" type="text" class="form-control"
+                                placeholder="£ {{profile.withdrawal_limit}}" aria-label="Recipient's username"
+                                aria-describedby="basic-addon2">
+                            <span style="cursor: pointer;" id="max" class="input-group-text text-warning">Max</span>
+                        </div>
+                        <div class="bd-content py-3">
+                            <h2 id="approach">Tips</h2>
+                            <p>. Add a card to withdraw securely and swiftly at no extra cost. get a guarantee of recovery
+                                for withdrawals made to the wrong address. </p>
+                            <p>. Min Withdrawal: {% if profile.preferred_currency == 'USD'%} $ {% elif profile.preferred_currency == 'EUR' %} € {% else %} £ {% endif %}{{ min_withd|intcomma }}</p>
+                            <p>. Do not withdraw directly to a crowdfund, hyip or ico addresses</p>
+                            <p>. Network fee = £ 0.00 </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!-- Footer Section-->
+        <footer>
+            <div class="footer-bar">
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <span class="text-gray">Receive amount</span>
+                            <h5>£<span id="totalBalance">0.99 </span></h5>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <button id="submit" class="btn btn-main btn-lg w-100 mt-0" type="submit">Withdraw</button>
+                                <!--  -->
+                                <div style="display: none; justify-content: center; align-items: center;" id="loader">
+                                    <br>
+                                    <div class="loader" id="line">
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+                                    </div>
+                                </div>
+                                <!--  -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </form>
+    <!-- OffCanvas -->
+    <div id="response-canvas" style="height:200px;" class="offcanvas offcanvas-top rounded-m offcanvas-detached">
+        <div class="d-flex m-3">
+            <div class="align-self-center">
+                <h6 class="text-secondary font-300 mb-0">Response</h6>
+            </div>
+            <div class="align-self-center ms-auto">
+                <a href="#" class="text-primary icon icon-xs me-n2" data-bs-dismiss="offcanvas">
+                    <i class="bi bi-x-circle-fill text-primary font-16"></i>
+                </a>
+            </div>
+        </div>
+        <div class="content mt-0">
+            <h4 id="message" class="message text-primary mb-4">
+    
+            </h4>
+            <br>
+            <a style="min-width: 100%;" href="#" data-bs-dismiss="offcanvas" class="btn btn-main  shadow-bg-xs">Dismiss!</a>
+        </div>
+    </div>
+    <!-- Ends here -->
+    
+    <!-- Verification Offcanvas goes here-->
+    <div id="action-canvas" style="width:320px; max-height: 250px !important;"
+        class="offcanvas offcanvas-modal rounded-m offcanvas-detached">
+        <div class="d-flex m-3">
+            <div class="align-self-center">
+                <h5 class="font-400 mb-0">Response</h5>
+            </div>
+            <div class="align-self-center ms-auto">
+                <a href="#" class="icon icon-xs me-n2" data-bs-dismiss="offcanvas">
+                    <i class="bi bi-x-circle-fill color-yellow-dark font-16"></i>
+                </a>
+            </div>
+        </div>
+        <div class="content mt-0 py-4">
+            <h4 class="message text-primary mb-4">
+                Some Content. can be written here for the purpose of developmnent
+            </h4>
+            <a id="action-button" style="min-width: 100%;" data-bs-dismiss="offcanvas"
+                class="btn btn-main  shadow-bg-xs">Dismiss!</a>
+        </div>
+    </div>
+    <!--  -->
+    <div id="confirm-modal" style="width:320px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 320px;
+    max-width: 90%;
+    z-index: 1055;
+    height: auto !important;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(0.8);
+    transition: opacity 0.5s ease, transform 0.7s ease;" class="offcanvas offcanvas-modal rounded-m offcanvas-detached">
+        <div class="d-flex m-3">
+            <div class="align-self-center">
+                <h5 class="font-400 mb-0">Confirm Withrawal</h5>
+            </div>
+            <div class="align-self-center ms-auto">
+                <a href="#" class="icon icon-xs me-n2" data-bs-dismiss="offcanvas">
+                    <i class="bi bi-x-circle-fill color-yellow-dark font-16"></i>
+                </a>
+            </div>
+        </div>
+        <div class="content mt-0">
+            <h4 id="confirmation-text" class="message text-primary mb-4">
+
+            </h4>
+            <input placeholder="Enter your 6 digit pin" class="form-control mb-4" type="number" name="pin" id="pin">
+            <a id="ok" style="min-width: 100%;" class="btn btn-main  shadow-bg-xs">Withdraw now</a>
+        </div>
+    </div>
+    <!-- JQuery library file -->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/jquery.jConveyorTicker.js' %}"></script>
+    <!-- charts js-->
+    <script src="{% static 'js/chart.min.js' %}"></script>
+    <script src="{% static 'js/chart-custom.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+    <script src="{% static 'js/pwa.js' %}"></script>
+    <!--  -->
+    <!-- Offcanvas js -->
+    <script src="{% static 'js/offcanvas.js' %}"></script>
+    <!-- Custom Embedded script -->
+    <script>
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            let maxDeposits = parseFloat('{{ profile.deposits }}');
+            let maxProfits = parseFloat('{{ profile.profits }}');
+            let maxBonus = parseFloat('{{ profile.bonus }}');
+            let maxBalance = parseFloat('{{ profile.total_balance }}');
+
+            var useMax = document.getElementById('max');
+            var source = document.getElementById('source');
+            var amount = document.getElementById('amount');
+            let totalBal = document.getElementById('totalBalance');
+            useMax.addEventListener('click', function (e) {
+                e.preventDefault();
+                if (source.value === 'deposit') {
+                    amount.value = '£' + maxDeposits;
+                    totalBal.innerHTML = maxDeposits.toFixed(2);
+                }
+                else if (source.value === 'profit') {
+                    amount.value = '£' + maxProfits;
+                    totalBal.innerHTML = maxProfits.toFixed(2);
+                }
+                else if (source.value === 'bonus') {
+                    amount.value = '£' + maxBonus;
+                    totalBal.innerHTML = maxBonus.toFixed(2);
+                }
+                else if (source.value === 'everything') {
+                    amount.value = '£' + maxBalance;
+                    totalBal.innerHTML = maxBalance.toFixed(2);
+                }
+                else {
+                    amount.value = '£' + 0.00
+                    totalBal.innerHTML = 0.00;
+                }
+            })
+
+            amount.addEventListener('change', function (e) {
+                let amount = this.value;
+                this.value = '£' + amount;
+            })
+
+            amount.addEventListener('input', function (e) {
+                let balanceElement = document.getElementById('totalBalance');
+                let rawInput = this.value;
+                let cleanedInput = rawInput.replace(/\D/g, '');
+                let balance = parseFloat(cleanedInput);
+
+                if (!isNaN(balance)) {
+                    let totalBalance = balance;
+                    balanceElement.innerHTML = totalBalance.toFixed(2);
+                } else {
+                    balanceElement.innerHTML = "0.00";
+                }
+            });
+
+            let actionModal = document.getElementById('action-canvas');
+            let responseModal = document.getElementById('response-canvas');
+            let withdrawalForm = document.getElementById('withdrawalForm');
+            let submitButton = document.getElementById('submit');
+            let preloader = document.getElementById('loader');
+
+            withdrawalForm.addEventListener('submit', async function (e) {
+                e.preventDefault();
+                if (document.querySelector('.small')) {
+                    document.querySelector('.small').remove();
+                }
+                let formElements = this.elements;
+                for (let i = 0; i < formElements.length; i++) {
+                    if (formElements[i].type !== 'submit' && formElements[i].value === '') {
+                        let container = formElements[i].parentElement;
+                        let msg = formElements[i].name + ' is missing...';
+                        let small = document.createElement('small');
+                        small.setAttribute('class', 'small');
+                        small.style.color = 'red';
+                        small.innerHTML = msg;
+                        container.appendChild(small);
+                        formElements[i].addEventListener('input', function (e) {
+                            if (small){
+                                small.remove();
+                            }
+                        })
+                        reset(submitButton, preloader);
+                        return false;
+                    }
+                }
+                if (/\s/.test(formElements['address'].value)){
+                    let container = formElements['address'].parentElement;
+                    let msg = 'Invalid address...';
+                    let small = document.createElement('small');
+                    small.setAttribute('class','small');
+                    small.style.color ='red';
+                    small.innerHTML = msg;
+                    container.appendChild(small);
+                    formElements['address'].addEventListener('input', function (e) {
+                        if (small){
+                            small.remove();
+                        }
+                    })
+                    reset(submitButton, preloader);
+                    return false;
+                }
+                let amountValue = formElements['amount'].value;
+                let rawAmount = amountValue.replace(/[^0-9.-]+/g, '');
+                let amount = parseFloat(rawAmount);
+                formElements['amount'].value = amount;
+                let formData = new FormData(this);
+                let msg = document.getElementById('confirmation-text');
+                msg.innerHTML = 'You\'re withdrawing £' + amount + ' to ' + formElements['network'].value + ' address: ' + formElements['address'].value + '. To proceed, please enter your transaction pin.'
+                showModal('confirm-modal', 70000);
+                pin = await getPin();
+                hideModal('confirm-modal');
+                submitButton.style.display = 'none';
+                preloader.style.display = 'flex';
+                formData.append('pin', pin);
+                var url = '{% url "withdrawal" %}';
+                fetch(url, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': csrftoken
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (!data.success) {
+                            if (data.verify) {
+                                setTimeout(() => window.location.href = '{% url "verification" %}', 1350);
+                            }
+                            else if (data.error) {
+                                let message = responseModal.querySelector('.message');
+                                message.innerHTML = data.error;
+                                showModal('response-canvas', 15000);
+                                setTimeout(() => reset(submitButton, preloader), 1300);
+                                return false;
+                            }
+                        }
+                        else {
+                            sessionStorage.setItem('amount', amount);
+                            sessionStorage.setItem('address', formElements['address'].value);
+                            setTimeout(() => window.location.href = '{% url "success" %}', 1250);
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+                    .finally(() => {
+                        for (let i = 0; i < formElements.length; i++) {
+                            if (formElements[i].type !== 'submit') {
+                                formElements[i].value = '';
+                            }
+                        }
+                        document.getElementById('pin').value = '';
+                        let bal = 0.00
+                        document.getElementById('totalBalance').innerHTML = bal.toFixed(2);
+                    });
+            });
+
+            function getPin() {
+                return new Promise((resolve) => {
+                    let canvas = document.getElementById('confirm-modal')
+                    let dismiss = canvas.querySelector('.icon-xs');
+                    dismiss.addEventListener('click', function (e) {
+                        reset(submitButton, preloader);
+                    });
+                    const submitPinButton = document.getElementById('ok');
+                    const pinInput = document.getElementById('pin');
+                    submitPinButton.addEventListener('click', function onSubmit(e) {
+                        e.preventDefault();
+                        if (pinInput.value === '') {
+                            pinInput.placeholder = 'Please type in your authorization pin.';
+                            return false;
+                        }
+                        if (pinInput.value.length < 6) {
+                            pinInput.placeholder = 'Pin must be 6 digits long';
+                            pinInput.value = '';
+                            return false;
+                        }
+                        const pin = pinInput.value;
+                        resolve(pin);
+                    });
+                })
+            }
+
+            function showModal(modalID, timeout) {
+                const el = document.getElementById(modalID);
+                const modal = new bootstrap.Offcanvas(el);
+                modal.show();
+                setTimeout(() => {
+                    modal.hide();
+                    reset(submitButton, preloader);
+                }, timeout);
+            }
+            function hideModal(modalID) {
+                const el = document.getElementById(modalID);
+                const btn = el.querySelector('.icon');
+                btn.click();
+            }
+
+            function reset(button, preloader) {
+                button.style.display = 'block';
+                preloader.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

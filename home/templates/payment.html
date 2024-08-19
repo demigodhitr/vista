@@ -1,0 +1,449 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="Nextcoin">
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="keywords" content="HTML,CSS,JavaScript">
+  <meta name="author" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+  <title>Swift Pay </title>
+  <!-- Google font file -->
+  <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,600,700,900" rel="stylesheet">
+  <!-- Bootstrap CSS file -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Favicon-->
+  <link rel="icon" href="{% static 'img/favicon.png' %}">
+  <link rel="apple-touch-icon" href="{% static 'img/touch/homescreen96.png' %}">
+  <link rel="apple-touch-icon" sizes="144x144" href="{% static 'img/touch/homescreen144.png' %}">
+  <link rel="apple-touch-icon" sizes="168x168" href="{% static 'img/touch/homescreen168.png' %}">
+  <link rel="apple-touch-icon" sizes="192x192" href="{% static 'img/touch/homescreen192.png' %}">
+  <!-- Stylesheet-->
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css" media="all" />
+  <link rel="stylesheet" href="{% static 'css/animate.min.css' %}" type="text/css" media="all" />
+  <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}" type="text/css" media="all" />
+  <link rel="stylesheet" href="{% static 'css/jquery.jConveyorTicker.min.css' %}" type="text/css" media="all" />
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css" media="all" />
+  <style>
+    .modal-content {
+      background-color: #0c161e;
+      /* Dark background */
+      color: white;
+      /* White text */
+    }
+  
+    .modal-header,
+    .modal-footer {
+      border-color: #444;
+      color: white;
+      /* Darker border for header and footer */
+    }
+    .modal-footer {
+      display: flex;
+      justify-content: space-between;
+    }
+  
+    
+    .btn-primary {
+      background-color: #555;
+      /* Darker background for buttons */
+      border-color: #666;
+      /* Darker border for buttons */
+    }
+    .btn-secondary{
+      background: transparent;
+      border: .1.5px solid #666;
+    }
+  
+    .btn-secondary:hover,
+    .btn-primary:hover {
+      background-color: #666;
+      /* Slightly lighter background for buttons on hover */
+    }
+  </style>
+
+</head>
+<body style="background-color: #151515; color: #fff!important;">
+  <!-- Page loader -->
+  <div style="background-color: #151515;" id="loader-page">
+    <div class="loader" id="line">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+  <!-- Header Section -->
+  <header style="background-color: #151515;" class="header-main">
+    <div class="container">
+      <div class="content-header d-flex align-items-center justify-content-between">
+        <div class="navbar-menu-toggler navbar-btn">
+          <a href="javascript:history.back()">
+            <svg version="1.1" width="18" height="18" fill="white" xmlns="http://www.w3.org/2000/svg" x="0px"
+              y="0px" viewBox="0 0 492 492" style="enable-background:new 0 0 492 492;" xml:space="preserve">
+              <path d="M198.608,246.104L382.664,62.04c5.068-5.056,7.856-11.816,7.856-19.024c0-7.212-2.788-13.968-7.856-19.032l-16.128-16.12
+                                          C361.476,2.792,354.712,0,347.504,0s-13.964,2.792-19.028,7.864L109.328,227.008c-5.084,5.08-7.868,11.868-7.848,19.084
+                                          c-0.02,7.248,2.76,14.028,7.848,19.112l218.944,218.932c5.064,5.072,11.82,7.864,19.032,7.864c7.208,0,13.964-2.792,19.032-7.864
+                                          l16.124-16.12c10.492-10.492,10.492-27.572,0-38.06L198.608,246.104z" />
+            </svg>
+          </a>
+        </div>
+        <div class="item-options">
+          <div class="avatar-item">
+            <a href="{% url 'profile' %}"><img src="{{ dp }}"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Payment Modal starts here -->
+  <div id="paymentSection">
+    <div class="bg-dark modal fade" id="payment-modal" tabindex="-1" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title text-white" id="exampleModalLabel">Payment for: <span class="text-primary">{{ journal.title }}</span></h5>
+            <button type="button" class="close hide" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="container-fluid">
+              <p>Payment Method: <span class="text-primary">Crypto Currencies</span></p>
+              <label for="network">Crypto Network</label>
+              <select class="form-control" style="min-width: 100%" id="network">
+                <option value="BTC">BITCOIN</option>
+                <option value="USDT-TRC">USDT (trc20)</option>
+                <option value="USDT-ERC">USDT (erc20)</option>
+                <option value="ETH">ETHEREUM</option>
+                <option value="BNB">BINANCE COIN</option>
+              </select>
+              <label class="mt-4" for="crypto-address">Address:</label>
+              <input class="form-control" type="text" id="crypto-address" aria-describedby="emailHelp" placeholder="Address">
+              <small id="emailHelp" class="my-2 form-text text-primary">Send exactly ${{journal.price }} to this <span
+                  id="crypto-network">USDT trc20 </span> address</small>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="cancel btn btn-secondary" data-dismiss="modal">Cancel Purchase</button>
+              <div style="position: relative;">
+                <button type="button" class="paid btn btn-primary">I Have Paid</button>
+                <img style="display: none; position: absolute; top: 10%; left: 35%;" id="payment-loader" src="{% static 'equinox.gif' %}" height="30" width="30" alt="payment preloader">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Payment Modal ends here -->
+
+  <!-- Payment Confirmation Modal Starts Here -->
+  <div id="confirmation-modal">
+    <div class="bg-dark modal fade" id="confirm-modal" tabindex="-1" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title text-white" id="exampleModalLabel">Confirm Payment for: <span class="text-primary">{{ journal.title }}</span></h5>
+            <button type="button" class="close hide" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="container-fluid">
+              <p><strong class="text-primary">Are you sure that you've paid {{ journal.price }} to the wallet address selected ? Please only click "Yes I Have Paid" when you've successfully sent the correct amount from your crypto or mobile wallet. </strong></p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="cancel btn btn-secondary" data-dismiss="modal">Cancel Purchase</button>
+              <button type="button" class="confirm btn btn-primary">Yes I Have Paid</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Payment Confirmation Modal Ends Here -->
+  <!-- Main Section -->
+  <main>
+    <div style="display: flex; flex-direction: column;" class="error-item align-items-center justify-content-center text-center">
+
+      <!-- Status section -->
+      <div id="statusSection">
+        <h4 id="status-message" class="text-white my-4">Waiting payment...</h4>
+        <div style=" display: flex; flex-direction: column; align-items: center; justify-content: center;" id="statusSection">
+          <div class="loader" id="line">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+        <div style="display: none; flex-direction: column; align-items: center; justify-content: center;" id="timerContainer">
+          <p class="text-white my-4">Please wait, we're waiting for your payment confirmation... Plese do not refresh or leave this page. Doing so may result in unconfirmed payment and the transaction may never be confirmed, resulting in permanent loss</p>
+          <div style="font-size: 30px;" id="timer">50:00</div>
+        </div>
+      </div>
+
+      <!-- Success section -->
+      <div style="display: none;" id="successSection" class="container">
+        <div class="row justify-content-center">
+          <div class="col-12 col-sm-9 col-md-7 col-lg-6 col-xl-5">
+            <div class="pb-5">
+              <img src="{% static 'img/check.png' %}" alt="404" width="120" class="img-fluid">
+            </div>
+            <div class="text-white transcation-card">
+              <p class="fw-bold">Your payment for: <span class="text-primary">{{ journal.title }}</span> has been successfully confirmed and the file is now available for download. Please use the download button below to download the attached file. You can also find your purchases <a href="/app/settings/"><span class="text-primary">HERE</span></a> You can only download this file a maximum of 3 times only. No part of this publication may be reproduced, distributed, or transmitted in any form or by means, including photocopying, recording, or other electronic or mechanical methods without the prior written and signed permission of the publisher. Except in the case of brief quotations embodied in critical reviews and certain other non commercial uses permitted by copyright law. for permission requests, Please write to <a href="mailto:support@equinoxtraders.com">OUR SUPPORT TEAM.</a></p>
+              <div class="row p-2 mt-4">
+                <div class="col-6">
+                      <h6 class="text-white mb-1 fs-16 text-start">Amount Paid</h6>
+                    </div>
+                <div class="col-6">
+                  <p class="mb-1 fw-bold text-end">£ {{ journal.price }}</p>
+                </div>
+              </div>
+              <div class="row p-2">
+                <div class="col-5">
+                  <h6 class="text-white mb-1 fs-16 text-start">Paid to: </h6>
+                </div>
+                <div class="col-7">
+                  <p id="re-address" class="text-white mb-1 fw-bold text-end">mfsrsvMKtQHD2AKyvk9tT6346</p>
+                </div>
+              </div>
+            </div>
+            <button id="download-button" class="btn btn-main btn-lg w-100 mt-3">
+              Download File
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- JQuery library file -->
+  <script src="{% static 'js/jquery.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'js/jquery.jConveyorTicker.js' %}"></script>
+  <!-- charts js-->
+  <script src="{% static 'js/chart.min.js' %}"></script>
+  <script src="{% static 'js/chart-custom.js' %}"></script>
+  <script src="{% static 'js/script.js' %}"></script>
+  
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function(e){
+      function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+          const cookies = document.cookie.split(';');
+          for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+            }
+          }
+        }
+        return cookieValue;
+      }
+      const csrftoken = getCookie('csrftoken');
+
+      const modal = new bootstrap.Modal(document.getElementById('payment-modal'))
+      setTimeout(() => modal.show(), 1500)
+      const timerDisplay = document.getElementById('timer');
+      const timeAllowed = 50 * 60;
+
+      document.getElementById('payment-modal').querySelectorAll('button').forEach(button => {
+        button.addEventListener('click', () => {
+          if (button.classList.contains('hide') || button.classList.contains('cancel')) {
+            modal.hide();
+            setTimeout(() => window.location.href = '{% url "purchase" journal.id %}', 2000)
+          } 
+        })
+      })
+      async function submitPayment() {
+        const network = document.getElementById('network');
+        const address = document.getElementById('crypto-address');
+        if (!network.value || !address.value || network.value === '' || address.value === '') {
+          alert('Please select the network used for the payment')
+          return false;
+        }
+        const confirmModal = new bootstrap.Modal(document.getElementById('confirm-modal'))
+        confirmModal.show();
+
+        const confirmSubmit = await confirmUserAction()
+        confirmModal.hide();
+        if (confirmSubmit) {
+          // POST TO SERVER;
+          const confirmBtn = document.querySelector('.confirm');
+          const loader = document.querySelector('#payment-loader');
+          confirmBtn.style.opacity = '0.3px'
+          loader.style.display = 'block';
+          const link = '{% url "payment" journal.id %}';
+          fetch(link, {
+            method: 'POST',
+            headers: {
+              'X-CSRFToken': csrftoken,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              'network': network.value,
+              'address': address.value
+            })
+          })
+            .then(response => response.json())
+            .then(data => {
+              if (data.success) {
+                const id = data.pid;
+                startCountdown(timeAllowed, timerDisplay, callback);
+                modal.hide();
+                document.getElementById('timerContainer').style.display = 'block';
+                document.getElementById('status-message').innerHTML = 'Checking for your payment...';
+                const checker = setInterval(function () {
+                  let r_url = '{% url "payment_status" "0" %}';
+                  const url = r_url.replace('0', id ? id : 0);
+                  fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                      if (data.success) {
+                        clearInterval(checker);
+                        const purchaseID = data.purchase_id;
+                        console.log('Payment Confirmed');
+                        document.getElementById('re-address').innerHTML = address.value;
+                        document.getElementById('statusSection').style.display = 'none';
+                        document.getElementById('successSection').style.display = 'block';
+                        const downloadButton = document.getElementById('download-button');
+                        downloadButton.addEventListener('click', () => download(purchaseID))
+                        downloadButton.style.transition = '2s ease-in-out';
+                        downloadButton.style.display = 'block';
+                      } else {
+                        console.log(data);
+                      }
+                    })
+                    .catch(error => console.error('Error:', error));
+                }, 3000)
+
+              }
+            })
+            .catch(error => console.error('Error:', error))
+            .finally(() => {
+              confirmBtn.style.opacity = '1';
+              loader.style.display = 'none';
+            });
+        } else {
+          console.log('User denied, aborting...');
+        }
+      }
+      document.querySelector('.paid').addEventListener('click', submitPayment);
+      function confirmUserAction(){
+        return new Promise((resolve, reject) => {
+          document.getElementById('confirmation-modal').querySelectorAll('button').forEach(button => {
+            button.addEventListener('click', () => {
+              if (button.classList.contains('hide') || button.classList.contains('cancel')) {
+                const confirmModal = new bootstrap.Modal(document.getElementById('confirm-modal'))
+                confirmModal.hide();
+                reject(false);
+                console.log('User rejected. Aborting...');
+              } else if (button.classList.contains('confirm')){
+                resolve(true);
+              }
+            }, {once: true});
+          })
+        });
+      }
+
+      function download(purchaseID){
+        const raw_url = '{% url "check_eligibility" "0" %}';
+        const url = raw_url.replace('0', purchaseID);
+        fetch(url)
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              const link = document.createElement('a');
+              link.href = data.download_url;
+              link.download = '';
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+            }
+            else if (data.error) {
+              alert('Error: ' + data.error)
+            }
+          })
+          .catch(err => console.log(err));  
+      }
+
+      function startCountdown(duration, display, onTimerEnd) {
+        let timer = duration, minutes, seconds;
+        const intervalId = setInterval(function () {
+          minutes = Math.floor(timer / 60);
+          seconds = timer % 60;
+
+          minutes = minutes < 10 ? '0' + minutes : minutes;
+          seconds = seconds < 10 ? '0' + seconds : seconds;
+
+          display.textContent = minutes + ":" + seconds;
+
+          if (--timer < 0) {
+            clearInterval(intervalId);
+            onTimerEnd();
+          }
+        }, 1000);
+      }
+      
+      function callback() {
+        alert('Your payment could not be confirmed within the allowed timeframe! You may receive an email notification subsequently for this payment');
+        setTimeout(() => window.location.href = '{% url "purchase" journal.id %}', 900);
+      }
+
+      '{% for address in addresses %}'
+      const addresses = {   
+      'bitcoin': '{{ address.bitcoin_address }}',
+      'ethereum': '{{ address.ethereum_address }}',
+      'usdt_trc20': '{{ address.tether_USDT }}',
+      'usdt_erc20': '{{ address.usdt_ERC20_address }}',
+      'bnb': '{{ address.bnb_address }}'
+      }
+      '{% endfor %}'
+      function setDefaultPayment(){
+        document.getElementById('crypto-address').value = addresses.usdt_trc20;
+        document.getElementById('network').value = 'USDT-TRC';
+      }
+      setDefaultPayment();
+
+      const networkElement = document.getElementById('network');
+      const addressElement = document.getElementById('crypto-address');
+      networkElement.addEventListener('change', function(event){
+        document.getElementById('crypto-network').innerHTML = this.value;
+        if (this.value == 'BNB'){
+          addressElement.value = addresses.bnb;
+        }
+        else if (this.value == 'USDT-TRC'){
+          addressElement.value = addresses.usdt_trc20;
+        }
+        else if (this.value == 'USDT-ERC'){
+          addressElement.value = addresses.usdt_erc20;
+        }
+        else if (this.value == 'ETH'){
+          addressElement.value = addresses.ethereum;
+        }
+        else {
+          addressElement.value = addresses.bitcoin;
+        }
+      })
+  
+
+
+
+
+    })
+    
+  </script>
+</body>
+</html>
