@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'home',
     
     'django.contrib.humanize',
-    'django.contrib.sites',
+    # 'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',

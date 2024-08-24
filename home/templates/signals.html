@@ -14,12 +14,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="Equinox">
-    <meta name="description"
-        content="Invest Smarter, Not Harder!
-              Our trading platform helps you access real-time data, expert insights, and advanced tools to make informed decisions and maximize profits. If you heard about our traders making the market bullish, that's factually right !">
+    <meta name="author" content="ExchangeVista">
+    <meta name="description" content="Invest Smarter, Not Harder! Our trading platform helps you access real-time data, expert insights, and advanced tools to make informed decisions and maximize profits. If you heard about our traders making the market bullish, that's factually right !">
     <!-- ======== Page title ============ -->
-    <title>Equinox Web</title>
+    <title>ExchangeVista</title>
     <!-- ========== Favicon Icon ========== -->
     <link rel="shortcut icon" href="{% static 'assets/img/favicon.png' %}">
 
@@ -187,16 +185,16 @@
                                         <div class="post-cat">
                                             <a href="{% url 'purchase' journal.pk %}">{% if journal.available %} Available for purchase {% else %} Currently not available for purchase. {% endif %}</a>
                                             <p class="text-primary">£ {{journal.price|intcomma}} 
-                                                <i class="icon-star"></i>
-                                                <i class="icon-star"></i>
-                                                <i class="icon-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
                                             </p>
                                         </div>
                                     </div>
                                     <h3 class="text-primary"><a href="{% url 'purchase' journal.pk %}">{{ journal.title }}</a></h3>
                                     <h5><a href="{% url 'purchase' journal.pk %}">{{ journal.description|truncatechars:70 }}</a></h5>
                                     {% if journal.available %}
-                                        <a href="{% url 'purchase' journal.pk %}" class="btn btn-primary">Download<i class="icon-arrow-right"></i></a>
+                                        <a href="{% url 'purchase' journal.pk %}" class="btn btn-primary">Download<i class="fas fa-arrow-right"></i></a>
                                      {% else %}
                                         <div class="text-muted">This journal is currently not available for purchase.</div>
                                      {% endif %}

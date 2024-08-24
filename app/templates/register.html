@@ -1,4 +1,5 @@
 {% load static %}
+{% load cache %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -499,7 +500,7 @@
                             {% if ref %}
                             <input name="referral" value="{{ ref }}" class="form-control" type="text" placeholder="referral code (Optional)">
                             {% else %}
-                            <input name="referral" class="form-control" type="text" placeholder="referral code">
+                            <input name="referral" class="form-control" type="text" placeholder="referral code (Optional)">
                             {% endif %}
                         </div>
                         <div class="mb-5 form-group">
@@ -627,6 +628,9 @@
 
         document.getElementById('registrationForm').addEventListener('submit', function (e) {
             e.preventDefault();
+            this.querySelectorAll('small').forEach(s => {
+                s.style.display = 'none';
+            });
             blinker.style.display = 'none';
             preloader.style.display = 'flex';
             submitButton.style.display = 'none';
@@ -640,7 +644,6 @@
                 if (formFields[i].type !== 'submit' && formFields[i].name !== 'referral' && formFields[i].value === '') {
                     formFields[i].style.border = '2px solid red';
                     formFields[i].style.boxShadow = '1px 2px 20px 1px red';
-                    submitButton.style.border = 'none';
                     blinker.style.display = 'block';
                     formFields[i].addEventListener('input', function (e) {
                         this.style.border = 'none';
@@ -653,6 +656,77 @@
                     formFields[i].style.border = 'none';
                     formFields[i].style.boxShadow = 'none';
                 }
+            }
+            if (/\s/.test(formFields['username'].value)){
+                formFields['username'].style.border = '1px solid yellow';
+                formFields['username'].style.boxShadow = '1px 2px 30px 1px yellow';
+                blinker.style.display = 'block';
+                formFields['username'].addEventListener('input', function (e) {
+                    this.style.border = 'none';
+                    this.style.boxShadow = 'none';
+                    blinker.style.display = 'none';
+                })
+                let s = document.createElement('small');
+                s.innerHTML = 'Please remove the space(s) in your username'
+                formFields['username'].parentElement.appendChild(s);
+                blinker.style.display = 'block';
+                reset(submitButton, preloader);
+                return false;
+            }
+            if (formFields['password1'].value.length < 6){
+                let s = document.createElement('small');
+                s.innerHTML = 'Password should be at least 6 characters long';
+                s.style.color = 'red';
+                formFields['password1'].parentElement.appendChild(s);
+                formFields['password1'].addEventListener('input', function(e){
+                    this.parentElement.querySelector('small').remove();
+                    blinker.style.display = 'none';
+                }, once=true)
+                blinker.style.display = 'block';
+                reset(submitButton, preloader);
+                return false;
+            }
+            const invalidPasswords = [
+                '123456', '000000', '654321', '111111', '121212', '999999',
+                'password', '123123', 'qwerty', 'abc123', 'letmein', 'welcome',
+                'iloveyou', 'admin', '1234', 'monkey', 'dragon', 'sunshine',
+                '12345', '12345678', 'football', 'princess', 'superman',
+                '1q2w3e4r', 'passw0rd', 'qwertyuiop', 'baseball', 'password1',
+                '1234567', '123456789', '696969', 'batman', 'trustno1', 'michael',
+                'shadow', 'buster', 'soccer', 'harley', 'ginger', 'tigger', 'cookie',
+                'maggie', 'jordan', 'charlie', 'andrew', 'jessica', 'pepper', 'cheese',
+                'hunter', 'secret', 'killer', 'sparky', 'summer', 'winter', 'fallout',
+                'spring', 'p@ssw0rd', 'ninja', 'test', 'hello', 'welcome1', 'qazwsx',
+                'zaq1zaq1', 'loveme', 'lovely', 'freedom', 'whatever', 'blabla', '1qaz2wsx',
+                'mustang', 'ranger', 'starwars', 'qwerty123', 'qwerty1', 'azerty',
+                'abcd1234', '1q2w3e', 'admin123', 'trustme', 'admin1', 'pa$$w0rd'
+            ];
+            const password = formFields['password1'].value;
+            if (invalidPasswords.includes(password)){
+                let s =  document.createElement('small');
+                s.textContent = 'Password is too weak or too common'
+                s.style.color = 'red';
+                formFields['password1'].parentElement.appendChild(s);
+                formFields['password1'].addEventListener('input', function (e) {
+                    this.parentElement.querySelector('small').remove();
+                    blinker.style.display = 'none';
+                })
+                blinker.style.display = 'block';
+                reset(submitButton, preloader);
+                return false;
+            }
+            if (formFields['password1'].value !== formFields['password2'].value){
+                let s =  document.createElement('small');
+                s.textContent = 'Passwords do not match'
+                s.style.color ='red';
+                formFields['password2'].parentElement.appendChild(s);
+                formFields['password2'].addEventListener('input', function (e) {
+                    this.parentElement.querySelector('small').remove();
+                    blinker.style.display = 'none';
+                })
+                reset(submitButton, preloader);
+                blinker.style.display = 'block';
+                return false;
             }
             let formData = new FormData(this);
             let url = '{% url "register" %}';
