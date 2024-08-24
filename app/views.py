@@ -661,8 +661,14 @@ def markets(request):
             "holotoken", "ontology", "singularitynet", "stormx", "injective-protocol",
             "band-protocol", "bancor", "civic", "funfair", "dent"
         ]
+        if profile.preferred_currency == "USD":
+            currency = 'USD'
+        elif profile.preferred_currency == "EUR":
+            currency = 'EUR'
+        else:
+            currency = 'GBP'   
         coins_param = {
-            'vs_currency': 'GBP',
+            'vs_currency': currency,
             'ids': ','.join(crypto_ids),
             'order': 'market_cap_desc',
             'sparkline': 'true',

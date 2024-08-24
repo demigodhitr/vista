@@ -241,7 +241,7 @@
                                 </div>
                                 <div>
                                     <span class="text-success fw-bold">{{ coin.price_change_percentage_24h }}%</span>
-                                    <p class="mb-0">£{{ coin.current_price|intcomma }}</p>
+                                    <p class="mb-0">{% if profile.preferred_currency == 'USD' %} $  {% elif profile.preferred_currency == 'EUR' %} € {% else %} £    {% endif %} {{ coin.current_price|intcomma }}</p>
                                 </div>
                                 <div>
                                     <a data-coin-id="{{ coin.id }}" href="#" class="trade btn btn-success btn-sm">Trade</a>
