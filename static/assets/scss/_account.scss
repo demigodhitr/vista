@@ -1,0 +1,119 @@
+.account {
+  overflow: hidden;
+  background: $section-bg;
+
+  &__wrapper {
+    text-align: center;
+    // box-shadow: $shadow-sm;
+    border-radius: .75rem;
+    padding: 50px 40px;
+    margin: 0 auto;
+    background-color: $body-bg-color;
+
+    .title {
+      text-transform: capitalize;
+      margin-bottom: 30px;
+    }
+
+    .cate {
+      font-style: normal;
+
+      a {
+        font-weight: 600;
+
+        &:hover {
+          color: $theme-color;
+        }
+      }
+    }
+  }
+
+  &__form {
+    .form-group {
+      margin-bottom: 25px;
+
+      input {
+        width: 100px;
+        border: 1px solid rgba($color: $theme-color, $alpha: .3);
+        outline: none;
+        color: $heading-color;
+        background: $body-bg-color;
+        box-shadow: 0px 2px 2px 0px rgba($theme-color, $alpha: .10);
+        padding: .6rem 1rem;
+      }
+
+      .checkgroup {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        flex-wrap: nowrap;
+
+        input {
+          &[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 15px;
+
+            @media screen and (max-width:576px) {
+              width: 14px;
+              height: 14px;
+              margin-right: 8px;
+            }
+
+
+          }
+        }
+
+        label {
+          margin: 0;
+          color: $heading-color;
+          cursor: pointer;
+
+          @media screen and (max-width:576px) {
+            font-size: 14px;
+          }
+
+        }
+      }
+
+      a {
+        color: $heading-color;
+        text-decoration: underline;
+
+        @media screen and (max-width:576px) {
+          font-size: 14px;
+        }
+
+        &:hover {
+          color: $theme-color
+        }
+      }
+
+      button {
+        width: 100%;
+        box-shadow: none;
+        border: none;
+        background-color: $theme-color;
+
+        @media screen and (max-width:576px) {
+          margin-top: 24px;
+        }
+      }
+    }
+
+    .form-floating {
+      input {
+        background: $section-bg;
+        border: 1px solid rgba($theme-color, $alpha: .10);
+        border-radius: .75rem;
+        color: $heading-color;
+
+        &:focus {
+          border-color: rgba($color: $theme-color, $alpha: .3);
+          outline: none;
+          box-shadow: none;
+        }
+      }
+    }
+  }
+}

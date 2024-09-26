@@ -168,15 +168,14 @@
         </div>
         <div class="content mt-0">
             <h4 class="mb-4">
-                Appears that you are running this app from the web. You can install this app on your Android device
-                natively and enjoy a better experience. <p style="color: yellow;">If your download does not start after clicking the Install button below, You should try opening this website through Chrome Browser</p>
+                It appears that you are trying to run this app through your browser. You can install the app on your Android device natively and enjoy a better experience. <p style="color: yellow;">If your download does not start after clicking the Install button below, You should try opening this website with Chrome Browser</p>
             </h4>
-            <a id="tg" style="width: 100%;" href="#" data-bs-dismiss="offcanvas"
+            <a id="tg" style="width: 100%;" href="#"
                 class="btn btn-full gradient-highlight shadow-bg shadow-bg-xs btn-install">Install!</a>
         </div>
         <script>
             document.getElementById('tg').addEventListener('click', function () {
-                document.getElementById('reminder').style.display = 'block';
+                setTimeout(() => { document.getElementById('reminder').style.display = 'block'; }, 3500);
             });
         </script>
     </div>

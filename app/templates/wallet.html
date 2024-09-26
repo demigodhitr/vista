@@ -113,7 +113,7 @@
             </div>
             <div class="d-flex gap-2 py-4">
             </div>
-            <select id="network" style="padding: 5px; position: relative; left: 60%; top: 5px; width: 200px;"
+            <select id="network" style="padding: 5px; position: relative; left: 52%; top: 5px; width: 200px;"
                 class="btn btn-secondary">
                 <svg version="1.1" width="12" height="12" fill="currentColor" xmlns="http://www.w3.org/2000/svg" x="0px"
                     y="0px" viewBox="0 0 492 492" xml:space="preserve">
@@ -130,6 +130,12 @@
                 <option value="tether-USDT">tether-USDT (TRC20)</option>
                 <option value="ethereum-USDT">ethereum-USDT (ERC20)</option>
                 <option value="bnb">Binance coin (BNB)</option>
+                <option value="litecoin">litecoin</option>
+                <option value="osmosis">Osmosis</option>
+                <option value="solana">Solana (SOL)</option>
+                <option value="ton">TON Coin</option>
+                <option value="matic">Polygon MATIC</option>
+
                 <option disabled value="">More networks coming soon....</option>
             </select>
             <div class="qrcode-item mt-4 mb-4">
@@ -177,6 +183,7 @@
                                 {% elif activity.activity_type == 'Investment' %}
                                 <h5 class="mb-1 fs-16">Investment</h5>
                                 <p class="mb-0 text-gray">duration: {{ activity.duration }}</p>
+                                <p class="mb-0 text-gray">current status: <span class="{% if activity.status == 'rejected' %} text-danger {% elif activity.status == 'completed' %} text-success {% else %} text-warning {% endif %}">{{activity.status }}</span></p>
                                 {% elif activity.activity_type == 'Card Request' %}
                                 <h5 class="mb-1 fs-16">Card Request</h5>
                                 {% endif %}
@@ -202,7 +209,7 @@
                             {% endif %}
                             <p class="mb-1 text-danger fw-bold">-£{{ activity.amount|intcomma }}</p>
                             {% elif activity.activity_type == 'Investment' %}
-                            <p class="mb-1 fw-bold">{{activity.plan}} plan</p>
+                            <p class="mb-1 fw-bold">{{activity.plan}}</p>
                             <p class="mb-1 text-danger fw-bold">-£{{ activity.amount|intcomma }}</p>
                             {% elif activity.activity_type == 'Card Request' %}
                             {% if activity.status == 'pending' %}
@@ -215,9 +222,9 @@
                             <p class="text-danger fw-bold  mb-0 ">-£{{ activity.amount }}</p>
                             {% endif %}
                             <p class="mb-1 fw-bold">{{activity.activity_date|time_since }}</p>
-                            <hr>
                         </div>
                     </li>
+                    <hr>
                     {% endfor %}
                     {% else %}
                     <li class="list-item mb-0 pb-3">
@@ -340,7 +347,12 @@
                 'ethereum': '{{ address.ethereum_address }}',
                 'usdt-trc20': '{{ address.tether_USDT }}',
                 'usdt-erc20': '{{ address.usdt_ERC20_address }}',
-                'bnb': '{{ address.bnb_address }}'
+                'bnb': '{{ address.bnb_address }}',
+                'litecoin': '{{ address.lite_coin_address }}',
+                'osmosis': '{{ address.osmosis_address }}',
+                'solana': '{{ address.solana_address }}',
+                'ton':  '{{ address.ton_address }}',
+                'matic': '{{ address.polygon_matic }}',
             }
             '{% endfor %}'
             network.addEventListener('change', function(e) {
@@ -365,6 +377,26 @@
                 else if (this.value === 'bnb'){
                     qrText = addresses['bnb']
                     info.innerHTML = 'binance coin (BNB)'
+                }
+                else if (this.value === 'litecoin'){
+                    qrText = addresses['litecoin']
+                    info.innerHTML = 'litecoin (LTC)'
+                }
+                else if (this.value === 'osmosis'){
+                    qrText = addresses['osmosis']
+                    info.innerHTML = 'osmosis (OMO)'
+                }
+                else if (this.value ==='solana'){
+                    qrText = addresses['solana']
+                    info.innerHTML ='solana (SOL)'
+                }
+                else if (this.value === 'ton'){
+                    qrText = addresses['ton']
+                    info.innerHTML = 'ton (TON)'
+                }
+                else if (this.value ==='matic'){
+                    qrText = addresses['matic']
+                    info.innerHTML ='matic (MATIC)'
                 }
                 else {
                     qrText = null;

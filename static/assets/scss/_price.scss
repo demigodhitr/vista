@@ -1,0 +1,228 @@
+.single-crypto-currency-card {
+    padding: 30px;
+    background-color: $body-bg-color;
+    border-radius: 1rem;
+    margin-top: 30px;
+    transition: all .3s ease-in-out;
+
+    &:hover {
+        transform: translateY(-5px);
+
+        h6 {
+            color: $theme-color;
+        }
+    }
+
+    .currency-header {
+        overflow: hidden;
+        clear: both;
+        display: flex;
+        gap: 20px;
+        align-items: center;
+
+
+
+        .currency-name {
+            overflow: hidden;
+
+            h6 {
+                margin-bottom: 2px;
+            }
+
+            span {
+                font-size: 18px;
+                line-height: 1;
+            }
+        }
+    }
+
+    .currency-info {
+        p {
+            font-size: 18px;
+        }
+    }
+
+    .currency-rate-buy-btn {
+        margin-top: 35px;
+
+        .currency-rate {
+
+            h5 {
+                margin-bottom: 0;
+                color: #02021E;
+                line-height: 1;
+            }
+        }
+
+    }
+}
+
+.nice-arrow-icon {
+    position: absolute;
+    top: 20px;
+
+    img {
+        max-width: 92%;
+    }
+}
+
+.pricing-toggle {
+    text-align: center;
+    position: relative;
+
+    .nav {
+        display: inline-block;
+        background: #fff !important;
+        border-radius: 50px;
+        padding: 3px;
+        filter: drop-shadow(0px 4px 80px rgba(8, 15, 30, 0.06));
+
+        .nav-item {
+            display: inline-block;
+
+            .nav-link {
+                border: 0px;
+                background-color: #fff;
+                padding: 10px 34px;
+                display: inline-block;
+                border-radius: 30px;
+                color: $second-color;
+                font-size: 16px;
+                font-weight: 600;
+                transition: all .3s ease-in-out;
+
+                &.active {
+                    background-color: #1A1AFF;
+                    color: #fff;
+                }
+            }
+        }
+    }
+}
+
+
+
+
+.single-pricing-package {
+    background-color: $section-bg;
+    border: 1px solid transparent;
+    padding: 40px 16px;
+    box-shadow: 0px 4px 80px rgba(8, 15, 30, 0.06);
+    border-radius: 1rem;
+    position: relative;
+    margin-top: 30px;
+    overflow: hidden;
+    transition: all .2s ease-in-out;
+
+
+    &--active {
+        border-color: $theme-color;
+    }
+
+    &:not(.single-pricing-package--active) {
+        &:hover {
+            border-color: rgba($theme-color, $alpha: .2);
+        }
+    }
+
+
+    @media (max-width: 767px) {
+        padding: 30px;
+    }
+
+    .pricing-head {
+
+
+        .pricing-name {
+            h4 {
+                color: $white;
+            }
+        }
+
+        .pricing-vale {
+            margin-top: 30px;
+            color: $white;
+
+            h3 {
+                font-size: 40px;
+                color: $white;
+            }
+        }
+    }
+
+    .features-list {
+        li {
+            img {
+                max-width: 25px;
+                margin-right: 10px;
+            }
+        }
+    }
+
+
+    .active-bage {
+        border-radius: 30px;
+        position: absolute;
+        right: 15px;
+        top: 30px;
+        padding: 5px 16px;
+        color: $section-bg;
+        background-color: $theme-color;
+        ;
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    .pricing-head {
+        padding-bottom: 30px;
+        border-bottom: 1px solid rgba(144, 151, 255, 0.2);
+
+        .pricing-name {
+
+            h4 {
+                font-size: 20px;
+            }
+        }
+
+        .pricing-vale {
+            align-items: baseline;
+
+            h2 {
+                font-size: 72px;
+                line-height: 115%;
+
+                @media (max-width: 767px) {
+                    font-size: 50px;
+                }
+            }
+        }
+    }
+
+
+
+
+}
+
+// .pricing-arrow {
+//     position: absolute;
+//     bottom: 20px;
+//     right: 50px;
+
+//     @media (max-width: 1199px) {
+//         img {
+//             max-width: 60%;
+//         }
+//     }
+
+//     @media (max-width: 991px) {
+//         right: 0px;
+
+//         img {
+//             max-width: 50%;
+//         }
+//     }
+
+//     @media (max-width: 767px) {
+//         display: none;
+//     }
+// }

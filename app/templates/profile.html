@@ -135,6 +135,13 @@
                         </div>
                         <h4 class="my-2">{{ user.firstname}} {{ user.lastname }}</h4>
                         <p class="mb-0 text-gray">Username: {{ user.username }}</p>
+
+                        {% if request.user.profiles.verification_status == 'Under review' or request.user.profiles.verification_status == 'Verified' %}
+                        <hr>
+                            <p class="mb-2 text-gray">Verification: <span class="text-{% if request.user.profiles.verification_status == 'Under review' %}warning {% elif request.user.profiles.verification_status == 'Verified' %}success {% endif %}" >{{ request.user.profiles.verification_status }}</span></p>
+                        <hr>
+                        {% endif %}
+
                         <p class="mb-2 text-gray">Referral Code: {{ user.referrals.referral_id }}</p>
                         <h6 style="cursor: pointer;" data-url="{% url 'referrals' user.referrals.referral_id %}" id="r-code" class="mb-0 text-primary">Click me to copy referral link</h6>
                     </div>

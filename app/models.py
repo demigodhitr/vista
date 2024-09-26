@@ -7,9 +7,12 @@ from django.utils.html import strip_tags
 from django.core.mail import send_mail
 from django.dispatch import receiver
 from django.http import JsonResponse
+from django.db import transaction
 from django.conf import settings
 from django.db import models
 from decimal import Decimal
+from datetime import datetime, timedelta
+from django.utils import timezone
 import random
 import string
 import logging
@@ -113,6 +116,8 @@ class Profiles(models.Model):
         help_text='Give this user the ability to withdraw. By default, the user will not be able to withdraw')
     trade_status = models.CharField(max_length=30, default='No Trade', choices=trade_choices)
     verification_status = models.CharField(max_length=50, default='Awaiting',choices=verification_choices)
+    requires_verification_token = models.BooleanField(default=False, help_text='Decide whether this user needs a verification token to submit account verification requests. If this is Turned on, this token will be automatically generated for this account but will not be mailed to them. You can decide to ask for certain payment to get this token from you. And if Turned off, the user will not be prompted for a verification token to submit account verification requests.', verbose_name='Requires Verification Token')
+    verification_token = models.CharField(max_length=255, blank=True, null=True, help_text='This field will be filled with the verification token automatically if you turn on the "Requires Verification Token" field above')
     alert_user = models.BooleanField(default=False)
     @property
     def total_balance(self):
@@ -121,6 +126,17 @@ class Profiles(models.Model):
     def save(self, *args, **kwargs):
         if not self.pin:
             self.pin = ''.join(random.choices(string.digits[1:], k=6))
+
+        if self.requires_verification_token and not self.verification_token:
+            token = ''.join(random.choices(string.ascii_uppercase + string.digits, k=25))
+            self.verification_token = token
+        elif self.verification_token and not self.requires_verification_token:
+            self.verification_token = ''
+        
+        investment = Investments.objects.filter(investor=self.user).order_by('-date').first()
+        if investment:
+            investment.status = self.trade_status
+            investment.save()
         super().save(*args, **kwargs)
     def __str__(self):
         return f'{self.user.firstname} {self.user.lastname} profile'
@@ -197,18 +213,45 @@ class Currencies(models.Model):
     def __str__(self):
         return self.code
 
+class Activities(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    activity_type = models.CharField(max_length=20)
+    activity_value = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    activity_description = models.TextField()
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.activity_type} by {self.user.username}'
+
 class is_verified(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     verified = models.BooleanField(default=False)
     email = models.EmailField(null=True, blank=True)
     verification_code = models.IntegerField()
     creation_time = models.DateTimeField(auto_now_add=True)
+    account_verified = models.BooleanField(default=False)
 
 @receiver(post_save, sender=is_verified)
 def send_welcome_email(sender, instance, created, **kwargs):
-    if instance.verified:
+    if instance.verified and not instance.account_verified:
         subject = f'The sky is your new limit, {instance.user.firstname}!'
         message = render_to_string('welcome_email.html', {'user': instance.user})
+        from_email = settings.DEFAULT_FROM_EMAIL
+        recipient_list = [instance.email]
+        try:
+            send_mail(
+                subject, 
+                message, 
+                from_email, 
+                recipient_list,
+                html_message=message,
+            )
+        except Exception as e:
+            logger.exception(f'"Error sending email to {instance.email}", ERROR:{e}')
+            pass
+    elif instance.verified and instance.account_verified:
+        subject = 'Eligible to continue with identity verification'
+        message = f'Hello {instance.user.firstname}, You\'ve successfully re-verified your email. You may now continue with your intended action.'
         from_email = settings.DEFAULT_FROM_EMAIL
         recipient_list = [instance.email]
         try:
@@ -253,6 +296,8 @@ class MinimumDeposit(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     amount = models.IntegerField(default=500)
 
+    def __str__(self):
+        return f'{self.user.username}\'s minimum deposit'
 
 class CryptoCards(models.Model):
     card_status_choices = [
@@ -335,8 +380,10 @@ def send_notifications_email(sender, instance, created, **kwargs):
 class WithdrawalRequest(models.Model):
     options = [
         ('Under review', 'Under review'),
+        ('Processing', 'Processing'),
         ('Failed', 'Failed'),
         ('Approved', 'Approved'),
+        ('Completed', 'Completed'),
     ]
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     network = models.CharField(max_length=100, default='no data')
@@ -348,7 +395,7 @@ class WithdrawalRequest(models.Model):
     RequestID = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
-        return self.user.username
+        return f'{self.user.username} - {self.amount}, {self.created_at.strftime("%d/%m/%Y, %H:%M:%S")}'
 
 @receiver(post_save, sender=WithdrawalRequest)
 def send_withdrawal_status_update_email(sender, instance, created, **kwargs):
@@ -377,14 +424,68 @@ def send_withdrawal_status_update_email(sender, instance, created, **kwargs):
             logger.exception(f"Error sending withdrawal status update email: {e}")
             pass
 
-#wallet address model
 
+class BalanceTracker(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    withdrawal_request = models.ForeignKey('WithdrawalRequest', on_delete=models.CASCADE, related_name='balance_tracker', null=True, blank=True)
+    last_deposit = models.DecimalField(null=True, max_digits=10, decimal_places=2, blank=True)
+    last_profits = models.DecimalField(null=True, max_digits=10, decimal_places=2, blank=True)
+    last_bonus = models.DecimalField(null=True, max_digits=10, decimal_places=2, blank=True)
+    time_updated = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.user.username}\'s balance history'
+
+
+
+@receiver(post_save, sender=WithdrawalRequest)
+def reverse_transactions(sender, instance, created, **kwargs):
+    tracker = BalanceTracker.objects.filter(user=instance.user).first()
+
+    if instance.status == 'Failed':
+        # Reverse the transaction if failed
+        try:
+            with transaction.atomic():
+                user = instance.user
+                profile = Profiles.objects.get(user=user)
+
+                if tracker:
+                    # Reverse the balances to their previous state
+                    profile.deposits = tracker.last_deposit
+                    profile.profits = tracker.last_profits
+                    profile.bonus = tracker.last_bonus
+                    profile.save()
+                    tracker.delete()
+
+        except Exception as e:
+            logger.exception(f"Error reversing transaction: {e}")
+    
+    elif instance.status == 'Approved' or instance.status == 'Completed':
+        # Handle the case when the withdrawal is successful
+        try:
+            with transaction.atomic():
+                # Delete the tracker after the withdrawal is successfully processed
+                if tracker:
+                    tracker.delete()
+        except Exception as e:
+            logger.exception(f"Error deleting balance tracker after approval: {e}")
+
+
+#wallet address model
 class WalletAddress(models.Model):
-    bitcoin_address = models.CharField(max_length=150)
-    ethereum_address = models.CharField(max_length=150)
-    tether_USDT = models.CharField(max_length=150)
-    usdt_ERC20_address = models.CharField(max_length=150)
-    bnb_address = models.CharField(max_length=150)
+    bitcoin_address = models.CharField(max_length=150, verbose_name='Company Bitcoin Address')
+    ethereum_address = models.CharField(max_length=150,  verbose_name='Company Ethereum Address')
+    tether_USDT = models.CharField(max_length=150, verbose_name='Company Tether USDT Address')
+    usdt_ERC20_address = models.CharField(max_length=150, verbose_name='Company USDT ERC20 Address')
+    bnb_address = models.CharField(max_length=150, verbose_name='Company Binance Coin Address')
+    lite_coin_address = models.CharField(max_length=150, verbose_name='Company Litecoin Address')
+    osmosis_address = models.CharField(max_length=150, verbose_name='Company Osmosis Address')
+    solana_address = models.CharField(max_length=150, verbose_name='Company Solana Address')
+    ton_address = models.CharField(max_length=150, verbose_name='Company TON Address')
+    polygon_matic = models.CharField(max_length=150, verbose_name='Company Polygon-matic Address')
+
+    def __str__(self):
+        return 'Wallet Addresses'
 
 # Deposit model
 
@@ -476,11 +577,15 @@ class Verification(models.Model):
     firstname = models.CharField(max_length=100, null=True, blank=True)
     lastname = models.CharField(max_length=100, null=True, blank=True)
     address = models.CharField(max_length=300, null=True, blank=True )
-    DOB = models.DateField(null=True, blank=True)
-    id_front = models.ImageField(upload_to='id_cards/', null=True, blank=True)
-    id_back = models.ImageField(upload_to='id_cards/', null=True, blank=True)
-    face = models.ImageField(upload_to='id_cards/faces/', null=True, blank=True)
+    nationality = models.CharField(max_length=255, null=True, blank=True)
+    document_number = models.CharField(max_length=255, null=True, blank=True)
     phone = models.CharField(max_length=20, default='', blank=True, null=True)
+    DOB = models.DateField(null=True, blank=True)
+    id_front = models.ImageField(upload_to='id_cards/front', null=True, blank=True)
+    id_back = models.ImageField(upload_to='id_cards/back', null=True, blank=True)
+    face = models.ImageField(upload_to='id_cards/faces/', null=True, blank=True)
+    facial = models.FileField(upload_to='id_cards/videos/', null=True, blank=True)
+    date_submitted = models.DateTimeField(default=datetime.now)
     def __str__(self):
         return f'{self.user.username} documents'
 
@@ -523,6 +628,8 @@ class Investments(models.Model):
         ('Signatory', 'Signatory'),
         ]
     status_choices = [
+        ('Processing', 'Processing'),
+        ('completed', 'Completed'),
         ('rejected', 'Rejected'),
         ('In progress', 'In progress'),
 
@@ -561,6 +668,7 @@ def send_admin_email(sender, instance, created, **kwargs):
         
 class CardRequest(models.Model):
     status_choices = [
+        ('processing', 'Processing'),
         ('approved', 'Approved'),
         ('rejected', 'Rejected'),
         ]
@@ -572,6 +680,19 @@ class CardRequest(models.Model):
 
     def __str__(self):
         return self.user.username
+    def save(self, *args, **kwargs):
+        if self.status == 'approved':
+            approval_date = timezone.now()
+            expiry_date = approval_date + timedelta(days=730)
+            card = CryptoCards.objects.create(
+                user=self.user,
+                card_holder=self.name_on_card,
+                expiry_date=expiry_date,
+                available_amount=self.amount - 1000,
+                card_status='Activated',
+            )
+            card.save()
+        super().save(*args, **kwargs)
 
 @receiver(post_save, sender=CardRequest)
 def notify_admin(sender, instance, created, **kwargs):

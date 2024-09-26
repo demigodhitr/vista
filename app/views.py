@@ -37,6 +37,7 @@ from PIL import Image
 import requests
 import logging
 import os
+from django.views.decorators.csrf import csrf_exempt
 
 
 logger = logging.getLogger('django')
@@ -232,6 +233,8 @@ def index(request):
     return render(request, 'index.html', context)
 
 def signin(request):
+    if request.user.is_authenticated:
+        return redirect('home')
     if request.method == 'POST':
         request.session.setdefault('attempts', 0)
         request.session.setdefault('counter', 4)
@@ -509,6 +512,147 @@ def profile_completion_view(request):
             return JsonResponse({'error': 'Some error occurred... ' + str(e)})
     return render(request, 'profile_completion.html')
 
+@login_required
+def authorize(request):
+    if request.method == 'POST':
+        try:
+            user = request.user
+            profile = Profiles.objects.get(user=user)
+            data = json.loads(request.body.decode('utf-8'))
+            pin = data['pin']
+            if not pin:
+                return JsonResponse({'error': 'Missing PIN'}, status=400)
+            if pin != profile.pin:
+                return JsonResponse({'error': 'Your PIN is incorrect'}, status=401)
+            else:
+                return JsonResponse({'success': 'Authorization successful'}, status=200)
+        except Exception as e:
+            return JsonResponse({'error': 'Some error occurred... '+ str(e)}, status=403)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=500)
+
+@login_required
+def fund_card(request):
+    if request.method == 'POST':
+        try:
+            user = request.user
+            profile = Profiles.objects.get(user=user)
+            card = CryptoCards.objects.filter(user=user).first()
+            data = json.loads(request.body.decode('utf-8'))
+            if not data['account'] or not data['amount']:
+                return JsonResponse({'error': 'Missing Credentials'}, status=400)
+            account_value = data['account']
+            amount = Decimal(data['amount'])
+            if amount < Decimal('100'):
+                return JsonResponse({'error': 'The minimum amount you can fund your card with is £100.00'},  status=400)
+            if account_value == 'deposit':
+                profile.deposits -= amount
+                if profile.deposits < Decimal('100'):
+                    return JsonResponse({'error': f'Insufficient funds. Please top up your deposit account to continue'}, status=400)
+            elif account_value == 'profits':
+                profile.profits -= amount
+                if profile.profits < Decimal('100'):
+                    return JsonResponse({'error': f'Insufficient funds. Please top up your profits account to continue'}, status=400)
+            else:
+                return JsonResponse({'error': 'Invalid account'}, status=403)
+            
+            profile.save()
+            card.available_amount += amount
+            card.save()
+            activity = Activities.objects.create(
+                user=user,
+                activity_type='Card Funding',
+                activity_value=amount,
+                activity_description=f'Funded card: {card.card_number} with £{amount} from {data['account']} account.',
+            )
+            activity.save()
+            return JsonResponse({'success': 'You have successfully funded your card', 'amount': amount}, status=200)
+        except Exception as e:
+            logger.exception(f'An error occurred while funding {user.username}\'s card: ' + str(e))
+            return JsonResponse({'error': 'Failed to fund card, '+ str(e)}, status=403)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=500)
+
+@login_required
+def offload_card(request):
+    if request.method == 'POST':
+        try:
+            user = request.user
+            profile = Profiles.objects.get(user=user)
+            card = CryptoCards.objects.filter(user=user).first()
+            data = json.loads(request.body.decode('utf-8'))
+            if not data['account'] or not data['amount']:
+                return JsonResponse({'error': 'Missing Credentials'}, status=400)
+            
+            account_value = data['account']
+            amount = Decimal(data['amount'])
+
+            card.available_amount -= amount
+
+            if card.available_amount < 0:
+                return JsonResponse({'error': 'Insufficient funds to offload. Please top up your card to continue'}, status=400)
+            if account_value == 'deposit':
+                profile.deposits += amount
+            elif account_value == 'profits':
+                profile.profits += amount
+            else:
+                return JsonResponse({'error': 'Invalid account'}, status=400)
+            card.save()
+            profile.save()
+            activity = Activities.objects.create(
+                user=user,
+                activity_type='Card Offload',
+                activity_value=amount,
+                activity_description=f'Offloaded card: {card.card_number} with £{amount} and credited to {data['account']} account.',
+            )
+            activity.save()
+            return JsonResponse({'success': 'You have successfully offloaded your card', 'amount': amount}, status=200)
+        except Exception as e:
+            logger.exception(f'An error occurred while offloading {user.username}\'s card: ' + str(e))
+            return JsonResponse({'error': 'Failed to offload card, '+ str(e)}, status=403)
+
+@login_required
+def toggle_card(request):
+    if request.method == 'POST':
+        try:
+            user = request.user
+            data = json.loads(request.body.decode('utf-8'))
+            status = data['status']
+            if not status or not status in ['activate', 'deactivate']:
+                return JsonResponse({'error': 'Invalid status'}, status=400)
+            card = CryptoCards.objects.filter(user=user).first()
+            if status == 'activate':
+                card.card_status = 'Activated'
+            elif status == 'deactivate':
+                card.card_status = 'Blocked'
+            
+            card.save()
+            return JsonResponse({'success': f'Your card is now {card.card_status}'})
+        except Exception as e:
+            logger.exception(f'An error occurred while updating {user.username}\'s card status: ' + str(e))
+            return JsonResponse({'error': 'Failed to update card status, '+ str(e)}, status=403)
+
+@login_required
+def delete_user_card(request):
+    try:
+        user = request.user
+        card = CryptoCards.objects.filter(user=user).first()
+        if card:
+            if card.available_amount > Decimal('1.00'):
+                return JsonResponse({'error': 'Please offload your card to 0.00 then try again.'},status=400)
+            
+            activity = Activities.objects.create(
+                user=user,
+                activity_type='Card Deletion',
+                activity_description=f'Deleted card: {card.card_number}.')
+            activity.save()
+            card.delete()
+            return JsonResponse({'success': 'Your card has been deleted. You may not be able to withdraw or use some of our services without a transaction card. You can request a new transaction card by clicking the generic card'}, status=200)
+        return JsonResponse({'error': 'No transaction card found for this user'}, status=404)
+    except Exception as e:
+        logger.exception(f'An error occurred while deleting {user.username}\'s card: ' + str(e))
+        return JsonResponse({'error': 'Failed to delete card, '+ str(e)}, status=403)
+
 def get_code(request, email):   
     try:
         user = CustomUser.objects.get(email=email)
@@ -551,26 +695,64 @@ def verify_email(request):
         email = data['email']
         code = data['code']
         if not code:
-            return JsonResponse({'error': 'Please submit the verification code sent to your registered account email.'})
-        
+            return JsonResponse({'error': 'Please submit the verification code sent to your registered account email.'}, status=403)
         try:
             verified_object = is_verified.objects.get(email=email, verification_code=code)
         except is_verified.DoesNotExist:
-            return JsonResponse({'error': 'Invalid verification code'})
+            return JsonResponse({'error': 'Invalid verification code'}, status=404)
 
         currentTime = timezone.now()
         timeoutDuration = timedelta(minutes=15)
         if currentTime - verified_object.creation_time > timeoutDuration:
-            return JsonResponse({'error': 'Verification code expired. Please get a new code'})
+            return JsonResponse({'error': 'Verification code expired. Please get a new code'}, status=415)
 
         verified_object.verified = True
+        verified_object.account_verified = False
         verified_object.verification_code = 0
         verified_object.save()
 
         user = verified_object.user
         login(request, user)
         request.session['email'] = ''
-        return JsonResponse({'success': 'Email verified successfully, fetching your account...'})
+        return JsonResponse({'success': 'Email verified successfully, fetching your account...'}, status=200)
+    
+    return JsonResponse({'error': 'Invalid request method'}, status=403)
+
+@login_required
+def verify_account(request):
+    request.session.setdefault('verification_trials', 0)
+    if request.method == 'POST':
+        request.session['verification_trials'] +=1
+        if request.session['verification_trials'] == 4:
+            return JsonResponse({'error': "Multiple verification requests received within a short period of time, please slow down. ", 'disable': True})
+        
+        loads = request.body.decode('utf-8')
+        data = json.loads(loads)
+        email = data['email']
+        code = data['code']
+        if not code:
+            return JsonResponse({'error': 'Please submit the verification code sent to your registered account email.'}, status=403)
+        
+        try:
+            verified_object = is_verified.objects.get(email=email, verification_code=code)
+        except is_verified.DoesNotExist:
+            return JsonResponse({'error': 'Invalid verification code'}, status=404)
+
+        currentTime = timezone.now()
+        timeoutDuration = timedelta(minutes=15)
+        if currentTime - verified_object.creation_time > timeoutDuration:
+            return JsonResponse({'error': 'Verification code expired. Please get a new code'}, status=415)
+
+        verified_object.verified = True
+        verified_object.account_verified = True
+        verified_object.verification_code = 0
+        verified_object.save()
+
+        user = verified_object.user
+        login(request, user)
+        request.session['email'] = ''
+        return JsonResponse({'success': 'Email verified successfully, fetching your account...'}, status=200)
+    
     return JsonResponse({'error': 'Invalid request method'}, status=403)
 
 def email_verification(request, email):
@@ -591,13 +773,17 @@ def cards(request):
     dp = profile.profile_pic.url
     notifications = Notifications.objects.filter(user=user, seen=False)
     cards = CryptoCards.objects.filter(user=user)
+    activities = Activities.objects.filter(user=user).order_by('-date')
+    card_requests = CardRequest.objects.filter(user=user).order_by('-date')
+
 
     context = {
         'user': user,
         'profile': profile,
         'dp': dp,
         'notifications': notifications,
-        'cards': cards
+        'cards': cards,
+        'activities': activities
     }
     return render(request, 'cards.html', context)
 
@@ -855,6 +1041,7 @@ def email_verification(request, email):
 def register(request):
     return render(request, 'register.html')
 
+@login_required
 def prefs(request):
     notifications = Notifications.objects.filter(user=request.user, seen=False)
     return render(request, 'settings.html', {'notifications': notifications})
@@ -1046,6 +1233,9 @@ def withdrawal(request):
         return JsonResponse({'error': f'Incorrect authorization pin. You have {counter} attempts left. Please try again.'})
     
     
+    if WithdrawalRequest.objects.filter(user=user, status__in=['Under review', 'Processing']).exists():
+        return JsonResponse({'error': 'You already have a pending withdrawal request under review or processing. Please wait until it is processed before making another request.'})
+
     if UserDetails.trade_status == 'Active':
         return JsonResponse({'error': "You cannot make withdrawals when you have an active investment. Please wait until your trade is completed."})
 
@@ -1081,8 +1271,14 @@ def withdrawal(request):
         email = EmailMultiAlternatives(subject, plain_message, from_email,  recipient_list)
         email.attach_alternative(html_message, "text/html")
         email.send()
-        return JsonResponse({'verify': 'Withdrawals are restricted to verified users only. Please verify your account to continue'})
+        return JsonResponse({'verify': 'Withdrawals are restricted to verified users only. Please verify your account to continue'})   
 
+    tracker = BalanceTracker.objects.create(
+        user=user,
+        last_deposit=UserDetails.deposits,
+        last_profits=UserDetails.profits,
+        last_bonus=UserDetails.bonus,
+    )
 
     if source == 'profit':
         amount = Decimal(amount)
@@ -1120,6 +1316,10 @@ def withdrawal(request):
         RequestID=request_id)
     withdrawal_request.save()
 
+    # Update the balance tracker after the withdrawal request is saved.
+    tracker.withdrawal_request = withdrawal_request
+    tracker.save()
+
     status = 'Processing'
     subject = 'Withdrawal Request Submitted'
     context = {'instance': withdrawal_request}
@@ -1140,7 +1340,7 @@ def withdrawal(request):
         pass
 
     subject = f' {UserInfo.username} Just requested to withdraw funds!'
-    email_message = f'One of your users "{UserInfo.first_name}, {UserInfo.last_name}" Just submitted a withdrawal request of £{amount}, requesting to withdraw to {network} address: {address}. Request ID: SPK{request_id}. Log into your administrator account to check details'
+    email_message = f'One of your users "{UserInfo.firstname}, {UserInfo.lastname}" Just submitted a withdrawal request of £{amount}, requesting to withdraw to {network} address: {address}. Request ID: SPK{request_id}. Log into your administrator account to check details'
     from_email = settings.DEFAULT_FROM_EMAIL
     recipient_list = [settings.ADMIN_EMAIL]
     email = EmailMultiAlternatives(
@@ -1156,6 +1356,7 @@ def withdrawal(request):
         return JsonResponse({'success': f'Withdrawal is being processed. Due to poor network, we\'ve suspended email alert for this transaction:'})
     return JsonResponse({'success': f'Withdrawal request submitted successfully. Check your email for updates'})
 
+@login_required
 def deposit(request):
     user = request.user
     min_obj, created = MinimumDeposit.objects.get_or_create(user=user, defaults={'amount': 500})
@@ -1194,7 +1395,7 @@ def confirm_deposit(request, pid):
 @login_required
 def invest(request):
     if request.method != 'POST':
-        return JsonResponse({'error': 'Invalid request method'})
+        return JsonResponse({'error': 'Invalid request method'}, status=500)
     
     user = request.user
     user_info = Profiles.objects.get(user=user)
@@ -1245,10 +1446,6 @@ def invest(request):
     elif account == 'profit':
         user_info.profits -= amount
     user_info.save()
-    if plan == 'waiver':
-        waiver = True
-    else:
-        waiver = False
     while True:
         id = generate_reference(20)
         if not Investments.objects.filter(reference=id).exists():
@@ -1262,7 +1459,7 @@ def invest(request):
         debit_account=account,
         status='Processing',
         reference=id,
-        waiver=waiver,
+        waiver=plan == 'waiver',
     )
     investment.save()
     title = "Congratulations!"
@@ -1311,25 +1508,40 @@ def terms(request):
     return render(request, 'terms.html')
 
 @login_required
+@csrf_exempt
 def verification(request):
     user = request.user
     info = CustomUser.objects.get(pk=user.pk)
     account_info = Profiles.objects.get(user=user)
 
     if request.method == 'POST':
-        email = request.POST.get('email')
-        firstname = request.POST.get('firstname')
-        lastname = request.POST.get('lastname')
-        address = request.POST.get('address')
-        phone = request.POST.get('phone_number')
-        dob = request.POST.get('dob')
-        id_front = request.FILES.get('id_front')
-        id_back = request.FILES.get('id_back')
-        face = request.FILES.get('userface')
+        print('Request received')
+        email = info.email
+        firstname = request.POST.get('firstName', None)
+        lastname = request.POST.get('lastName', None)
+        address = request.POST.get('address', None)
+        phone = request.POST.get('phone', None)
+        nationality = request.POST.get('nationality', None)
+        document_number = request.POST.get('documentNumber', None)
+        dob = request.POST.get('dob', None)
+        id_front = request.FILES.get('idFront', None)
+        id_back = request.FILES.get('idBack', None)
+        face = request.FILES.get('selfie', None)
+        video = request.FILES.get('facial', None)
+        token = request.POST.get('token', None)
 
 
-        if not (email and firstname and lastname and address and dob and id_front and id_back and phone and face):
-            return JsonResponse({'error': 'All fields are required. check for any missing field and fill it accordingly'})
+        if not (firstname and lastname and address and dob and id_front and id_back and phone and face and video and document_number):
+            return JsonResponse({'error': 'All the required informations must be provided. check for any missing field and fill it accordingly'}, status=400)
+        
+        if account_info.requires_verification_token and not token:
+            return JsonResponse({'error': 'Please submit your verification token. Contact support team if you need help on this.'}, status=401)
+        
+        if token and not token == account_info.verification_token:
+            return JsonResponse({'error': 'Invalid verification token. Please submit your verification token again.'}, status=401)
+
+        if account_info.verification_status == 'Under review':
+            return JsonResponse({'error': 'You have already submitted a verification request. It is still being reviewed, Please wait for an email notification before retrying.'})
         
         if not phone.startswith('+'):
             return JsonResponse({'error':'Invalid phone number. Please enter a valid phone number including your country code'})
@@ -1341,11 +1553,15 @@ def verification(request):
             firstname=firstname,
             lastname=lastname,
             address=address,
+            nationality=nationality,
+            document_number=document_number,
             phone=phone,
             DOB=realDate,
             id_front=id_front,
             id_back=id_back,
             face=face,
+            facial=video,
+            date_submitted=datetime.now(),
         )
         verified_user.save()
         account_info.verification_status = "Under review" 
@@ -1364,7 +1580,7 @@ def verification(request):
             email.send()
             print('Email sent successfully')
         except Exception as e:
-            logger.exception(f'Failed to send email: {e}')
+            logger.exception(f'Failed to send verification submitted email: {e}')
             pass
 
         subject = f' {info.first_name} Just submitted verifications documents!'
@@ -1376,12 +1592,21 @@ def verification(request):
             email.send()
             print('Email sent successfully')
         except Exception as e:
-            logger.exception(f'Failed to send email: {e}')
+            logger.exception(f'Failed to send admin email: {e}')
             pass
 
-        return JsonResponse({'success': 'Verification details submitted successfully. check your email or profile for verification status and updates.'}, status=200)
-    
-    return render(request, 'verification.html',{'user':user })
+        return JsonResponse({'success': 'Verification details submitted successfully. check your email or profile for verification status and updates.'}, status=200)    
+    return render(request, 'step-verification.html',{'user':user, 'profile':account_info })
+
+@login_required
+def verify_token(request, token):
+    user = request.user
+    profile = Profiles.objects.get(user=user)
+
+    if token == profile.verification_token:
+        return JsonResponse({'success': 'Token verified successfully'}, status=200)
+    else:
+        return JsonResponse({'error': 'Invalid verification token'}, status=400)
 
 def walletconnect(request):
     return render(request, 'walletconnect.html')

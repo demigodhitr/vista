@@ -91,7 +91,7 @@
         <main class="main-content">
             <div class="container">
                 <div class="market-item">
-                    <h4 class="main-title py-4">Withdraw</h4>
+                    <h4 class="main-title py-4">Withdraw Balance</h4>
                     <div class="market-card">
                         <div class="form-group">
                             <input name="address" type="text" class="form-control" placeholder="Address">
@@ -101,8 +101,8 @@
                                 <option value="" disabled selected>Network</option>
                                 <option value="bitcoin">Bitcoin</option>
                                 <option value="ethereum">Ethereum</option>
-                                <option value="tether-USDT">USDT trc20</option>
-                                <option value="ethereum-USDT">USDT erc20</option>
+                                <option value="tether-USDT">USDT through TRON(TRC20)</option>
+                                <option value="ethereum-USDT">USDT through ethereum (ERC20)</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -116,7 +116,7 @@
                         </div>
                         <div class="form-group">
                             <select name="card" class="form-select" aria-label="Default select example">
-                                <option value="" disabled selected>Process with</option>
+                                <option value="" disabled selected>Pay Using</option>
                                 {% if cards %}
                                 {% for card in cards %}
                                 <option value="card1">{{card.card_number|new_formatter}} | {{card.expiry_date|date:"m/Y"}}
@@ -129,15 +129,17 @@
                         </div>
                         <div class="input-group mb-3">
                             <input id="amount" name="amount" type="text" class="form-control"
-                                placeholder="£ {{profile.withdrawal_limit}}" aria-label="Recipient's username"
+                                placeholder="£ {{profile.withdrawal_limit}}"
                                 aria-describedby="basic-addon2">
                             <span style="cursor: pointer;" id="max" class="input-group-text text-warning">Max</span>
                         </div>
                         <div class="bd-content py-3">
                             <h2 id="approach">Tips</h2>
-                            <p>. Add a card to withdraw securely and swiftly at no extra cost. get a guarantee of recovery
-                                for withdrawals made to the wrong address. </p>
-                            <p>. Min Withdrawal: {% if profile.preferred_currency == 'USD'%} $ {% elif profile.preferred_currency == 'EUR' %} € {% else %} £ {% endif %}{{ min_withd|intcomma }}</p>
+                            <p>. Add a card to withdraw securely and swiftly at no extra cost.</p>
+                            {% if profile.can_withdraw %} 
+                                <p>. Min Withdrawal: {% if profile.preferred_currency == 'USD'%} $ {% elif profile.preferred_currency == 'EUR' %} € {%
+                                    else %} £ {% endif %}{{ min_withd|intcomma }}</p>
+                            {% endif %}
                             <p>. Do not withdraw directly to a crowdfund, hyip or ico addresses</p>
                             <p>. Network fee = £ 0.00 </p>
                         </div>
@@ -366,7 +368,7 @@
                 }
                 if (/\s/.test(formElements['address'].value)){
                     let container = formElements['address'].parentElement;
-                    let msg = 'Invalid address...';
+                    let msg = 'Invalid recipient address...[provide one of the following crypto network addresses: BITCOIN, ETHEREUM, TETHER USDT(TRC20), USDT ETHEREUM(erc20).]';
                     let small = document.createElement('small');
                     small.setAttribute('class','small');
                     small.style.color ='red';

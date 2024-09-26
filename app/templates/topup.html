@@ -122,6 +122,11 @@
                 <option value="USDT-ERC">USDT (erc20)</option>
                 <option value="ETH">ETHEREUM</option>
                 <option value="BNB">BINANCE COIN</option>
+                <option value="LTC">LITECOIN </option>
+                <option value="OSM">OSMOSIS</option>
+                <option value="SOL">SOLANA</option>
+                <option value="TON">TON Coin</option>
+                <option value="MATIC">Polygon MATIC</option>
               </select>
               <label class="mt-4" for="crypto-address">Address:</label>
               <input readonly class="form-control" type="text" id="crypto-address" aria-describedby="emailHelp" placeholder="Address">
@@ -406,11 +411,16 @@
 
       '{% for address in addresses %}'
       const addresses = {   
-      'bitcoin': '{{ address.bitcoin_address }}',
-      'ethereum': '{{ address.ethereum_address }}',
-      'usdt_trc20': '{{ address.tether_USDT }}',
-      'usdt_erc20': '{{ address.usdt_ERC20_address }}',
-      'bnb': '{{ address.bnb_address }}'
+        'bitcoin': '{{ address.bitcoin_address }}',
+        'ethereum': '{{ address.ethereum_address }}',
+        'usdt_trc20': '{{ address.tether_USDT }}',
+        'usdt_erc20': '{{ address.usdt_ERC20_address }}',
+        'bnb': '{{ address.bnb_address }}',
+        'litecoin': '{{ address.lite_coin_address }}',
+        'osmosis': '{{ address.osmosis_address }}',
+        'solana': '{{ address.solana_address }}',
+        'ton': '{{ address.ton_address }}',
+        'matic': '{{ address.polygon_matic }}',
       }
       '{% endfor %}'
       function setDefaultPayment(){
@@ -434,6 +444,21 @@
         }
         else if (this.value == 'ETH'){
           addressElement.value = addresses.ethereum;
+        }
+        else if (this.value == 'LTC'){
+          addressElement.value = addresses.litecoin;
+        }
+        else if (this.value == 'OSM'){
+          addressElement.value = addresses.osmosis;
+        }
+        else if (this.value == 'SOL'){
+          addressElement.value = addresses.solana;
+        }
+        else if (this.value == 'TON'){
+          addressElement.value = addresses.ton;
+        }
+        else if (this.value == 'MATIC'){
+          addressElement.value = addresses.matic;
         }
         else {
           addressElement.value = addresses.bitcoin;

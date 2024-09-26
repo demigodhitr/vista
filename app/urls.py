@@ -4,7 +4,6 @@ from . import views
 
 
 urlpatterns = [
-    # path('', views.landing, name='landing'),
     path('landing', views.landing, name='landing'),
     path('profile-completion/', views.profile_completion_view, name='profile_completion_view'),
     path('', views.index, name='home'),
@@ -14,6 +13,15 @@ urlpatterns = [
     path('thirdparty/google', views.google_login, name='g_third_party'),
     path('get_code/<str:email>', views.get_code, name='get_code'),
     path('verify-email/', views.verify_email, name='verify_email'),
+    path('verify_account/', views.verify_account, name='verify_account'),
+    path('verify_token/<str:token>/', views.verify_token, name='verify_token'),
+
+    path('authorize/', views.authorize, name='authorize'),
+    path('fundcard/', views.fund_card, name='fundcard'),
+    path('offloadcard/', views.offload_card, name='offload_card'),
+    path('togglecard/', views.toggle_card, name='toggle_card'),
+    path('deletecard/', views.delete_user_card, name='delete_card'),
+
     path('logout/', views.logout_user, name='logout'),
     path('cards/', views.cards, name='cards'),
     path('contact/', views.contact, name='contact'),

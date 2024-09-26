@@ -131,9 +131,9 @@
                 <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
                 {
                 "autosize": true,
-                "height": 400,
+                "height": 600,
                 "symbol": "FX:GBPUSD",
-                "interval": "D",
+                "interval": "1",
                 "timezone": "Etc/UTC",
                 "theme": "dark",
                 "style": "1",
@@ -672,7 +672,7 @@
                     let container = formElements[i].parentElement;
                     let br = document.createElement('br');
                     container.appendChild(br);
-                    let msg = 'Please provide the ' + formElements[i].name + ' for this investment';
+                    let msg = 'Please provide the ' + formElements[i].name + ' for your investment';
                     let small = document.createElement('small');
                     formElements[i].style.transition = '0.6s ease-in-out';
                     formElements[i].style.marginRight = '100px';
@@ -726,6 +726,7 @@
                         actionModal.querySelector('.message').innerHTML = data.success;
                         showModal(actionModal.id, 20000);
                         setTimeout(() => reset(submitButton, preloader), 1200)
+                        investmentForm.reset();
                     }
                     })
                     .catch(error => {

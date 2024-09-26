@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="description" content="Nextcoin">
-    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="keywords" content="HTML,CSS,JavaScript">
     <meta name="author" content="">
@@ -22,6 +22,14 @@
     <link rel="apple-touch-icon" sizes="168x168" href="{% static 'img/touch/homescreen168.png' %}">
     <link rel="apple-touch-icon" sizes="192x192" href="{% static 'img/touch/homescreen192.png' %}">
     <!-- Stylesheet-->
+
+    <!-- Offcanvas stylesheets-->
+    <link rel="stylesheet" href="{% static 'css/offcanvas.css' %}" type="text/css" media="all" />
+    <link rel="stylesheet" type="text/css" href="{% static 'fonts/bootstrap-icons.css' %}">
+    <!-- Ends here -->
+    <!-- FontAwesome CDN -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Ends here -->
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css" media="all" />
     <link rel="stylesheet" href="{% static 'css/animate.min.css' %}" type="text/css" media="all" />
     <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}" type="text/css" media="all" />
@@ -91,71 +99,383 @@
         <div class="owl-carousel main-slider">
             {% if cards %}
             {% for card in cards %}
-            <div class="item-card">
-                <div class="card-content bg-success">
-                    <div class="logo-card">
-                        {% if card.card_number|startswith:"5190" %}
-                        <img src="{% static 'img/icons/mastercard.png' %}" alt="logo">
-                        {% elif card.card_number|startswith:"4040" %}
-                        <img src="{% static 'img/icons/symbols.png' %}" alt="logo">
-                        {% elif card.card_number|startswith:"5922" %}
-                        <img src="{% static 'img/icons/mastercard.png' %}" alt="logo">
-                        {% elif card.card_number|startswith:"4139" %}
-                        <img src="{% static 'img/icons/symbols.png' %}" alt="logo">
-                        {% endif %}
-                    </div>
-                    <span>Balance </span>
-                    <h2 class="text-light">£{{ card.available_amount|intcomma }}</h2>
-                    <h5 class="text-light text-end">{{card.card_number|format_number}}</h5>
-                    <div class="card-info d-flex mt-4">
-                        <div class="info-holder">
-                            <span>Card Holder</span>
-                            <h4 class="text-light">{{ card.card_holder }}</h4>
+            <a data-bs-toggle="offcanvas" data-bs-target="#card-menu" href="#">
+                <div class="item-card">
+                    <div class="card-content bg-success">
+                        <div class="logo-card">
+                            {% if card.card_number|startswith:"5190" %}
+                            <img src="{% static 'img/icons/mastercard.png' %}" alt="logo">
+                            {% elif card.card_number|startswith:"4040" %}
+                            <img src="{% static 'img/icons/symbols.png' %}" alt="logo">
+                            {% elif card.card_number|startswith:"5922" %}
+                            <img src="{% static 'img/icons/mastercard.png' %}" alt="logo">
+                            {% elif card.card_number|startswith:"4139" %}
+                            <img src="{% static 'img/icons/symbols.png' %}" alt="logo">
+                            {% endif %}
                         </div>
-                        <div class="info-exp ms-5">
-                            <span>Expires</span>
-                            <h4 class="text-light">{{card.expiry_date|date:"m/Y"}}</h4>
+                        <span>Balance </span>
+                        <h2 class="text-light">£{{ card.available_amount|intcomma }}</h2>
+                        <h5 class="text-light text-end">{{card.card_number|format_number}}</h5>
+                        <div class="card-info d-flex mt-4">
+                            <div class="info-holder">
+                                <span>Card Holder</span>
+                                <h4 class="text-light">{{ card.card_holder }}</h4>
+                            </div>
+                            <div class="info-exp ms-5">
+                                <span>Expires</span>
+                                <h4 class="text-light">{{card.expiry_date|date:"m/Y"}}</h4>
+                            </div>
+                            <div class="info-Verifi ms-6">
+                                <span>CVV</span>
+                                <h4 class="text-light">{{ card.cvv}}</h4>
+                            </div>
+                
                         </div>
-                        <div class="info-Verifi ms-6">
-                            <span>CVV</span>
-                            <h4 class="text-light">{{ card.cvv}}</h4>
-                        </div>
-    
                     </div>
                 </div>
-            </div>
+            </a>
             {% endfor %}
             {% else %}
-            <div id="generic-card" class="item-card">
-                <div class="card-content bg-danger">
-                    <div class="logo-card">
-                        <img src="{% static 'img/icons/mastercard.png' %}" alt="logo">
-                    </div>
-                    <span>Not Activated</span>
-                    <h2 class="text-light">£10</h2>
-                    <h5 class="text-light text-end">1234 5678 9101 1131</h5>
-                    <div class="card-info d-flex mt-4">
-                        <div class="info-holder">
-                            <span>Card Holder</span>
-                            <h4 class="text-light">Generic Card</h4>
+            <a data-bs-toggle="offcanvas" data-bs-target="#request-card" href="#">
+                <div id="generic-card" class="item-card">
+                    <div class="card-content bg-danger">
+                        <div class="logo-card">
+                            <img src="{% static 'img/icons/mastercard.png' %}" alt="logo">
                         </div>
-                        <div class="info-exp ms-5">
-                            <span>Expires</span>
-                            <h4 class="text-light">08/27</h4>
-                        </div>
-                        <div class="info-Verifi ms-6">
-                            <span>CVV</span>
-                            <h4 class="text-light">552</h4>
+                        <span>Not Activated</span>
+                        <h2 class="text-light">£10</h2>
+                        <h5 class="text-light text-end">1234 5678 9101 1131</h5>
+                        <div class="card-info d-flex mt-4">
+                            <div class="info-holder">
+                                <span>Card Holder</span>
+                                <h4 class="text-light">Generic Card</h4>
+                            </div>
+                            <div class="info-exp ms-5">
+                                <span>Expires</span>
+                                <h4 class="text-light">08/27</h4>
+                            </div>
+                            <div class="info-Verifi ms-6">
+                                <span>CVV</span>
+                                <h4 class="text-light">552</h4>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
             {% endif %}
         </div>
-        <h6 style="min-width: 400px; opacity: 0.4;" class="text-center mt-4">You can request a new transaction card through
-            the homescreen </h6>
+        {% if cards %}
+            <h6 style="min-width: 400px; opacity: 0.4;" class="text-center mt-4">Click the card to open and manage your card preferences</h6>
+        {% else %}
+            <h6 style="min-width: 400px; opacity: 0.4;" class="text-center mt-4">To request a new card, click on the generic card above</h6>
+        {% endif %}
+
+    </div>
+    <!-- Activity History Section-->
+    <div class="transaction-item">
+            <h4 class="main-title py-4">Activity History</h4>
+            <div class="transcation-card">
+                <ul class="transaction-list">
+                    <hr>
+                    {% if activities %}
+                        {% for activity in activities %}
+                            <li class="list-item mb-0 pb-3">
+                                <div class="media align-items-center">
+                                    <img src="{% static 'img/icons/chainlink.png' %}" alt="coin image">
+                                    <div class="media-body">
+                                        <h5 class="{% if activity.activity_type == 'Card Funding' %}text-success{% elif activity.activity_type == 'Card Offload' or activity.activity_type == 'Card Deletion' %}text-danger{% endif %} mb-1 fs-16">{{ activity.activity_type }}</h5>
+                                        <p style="max-width: 250px;" class="mb-0 text-gray">{{ activity.activity_description }} </p>
+                                    </div>
+                                </div>
+                                <div class="text-right ms-auto">
+                                    <p class="mb-1">{{ activity.date|time_since }}</p>
+
+                                        {% if activity.activity_type == 'Card Funding' %}
+                                            <p class="mb-0 fw-bold"><span class="text-success">+£{{ activity.activity_value|intcomma }} </span></p>
+                                        {% elif activity.activity_type == 'Card Offload' %}
+                                        <p class="mb-0 fw-bold"><span class="text-danger">-£{{ activity.activity_value|intcomma }} </span></p>
+
+                                     {% endif %}
+                                </div>
+                            </li>
+                            <hr>
+                        {% endfor %}
+                    {% else %} 
+                        <li class="list-item mb-0 pb-3">
+                            <div class="media align-items-center">
+                                <img src="{% static 'img/icons/chainlink.png' %}" alt="coin image">
+                                <div class="media-body">
+                                    <h5 class="mb-1 fs-16"></h5>
+                                    <p class="mb-0 text-gray"></p>
+                                </div>
+                            </div>
+                            <div class="text-right ms-auto">
+                                <p class="mb-1 fw-bold">Here, you will see all your card related activities.</p>
+                            </div>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
     </div>
 </main>
+
+<!-- Card Menu  Canvas-->
+<div id="card-menu" style="min-height:380px; overflow: auto;"
+    class="offcanvas offcanvas-bottom rounded-m offcanvas-detached">
+    <form method="post">
+        <div class="d-flex m-3">
+            <div class="align-self-center">
+                <h2 class="font-700 mb-0">Preferences </h2>
+                <p> Manage your card preferences through this modal</p>
+            </div>
+            <div class="align-self-center ms-auto">
+                <a href="#" class="icon icon-xs me-n2" data-bs-dismiss="offcanvas">
+                    <i class="bi bi-x-circle-fill color-yellow-dark font-16"></i>
+                </a>
+            </div>
+        </div>
+        <div class="content mt-0">
+            <div class="input-group mb-3">
+                <input id="funding" data-bs-toggle="offcanvas" data-bs-target="#funding-menu" type="button"
+                    value="Fund Card" class="btn btn-main shadow-bg shadow-bg-xs" style="width: 100%;">
+            </div>
+            <div class="input-group mb-3">
+                <input id="withdrawal" data-bs-toggle="offcanvas" data-bs-target="#offloading-menu" type="button" value="Offload Card" class="btn btn-main shadow-bg shadow-bg-xs"
+                    style="width: 100%;">
+            </div>
+            <div class="input-group mb-3">
+                <div style="width: 100%; border-radius: 10px;"
+                    class="bg-dark list-group-item d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fs-16">Activate/Deactivate Card</h5>
+                    <div class="form-check form-switch">
+                        {% for x in cards %}
+                            {% if x.card_status == 'Activated' %}
+                                <input id="toggle-card" class="form-check-input" checked type="checkbox">
+                            {% else %}
+                                <input id="toggle-card" class="form-check-input" type="checkbox">
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="mb-1" style="display: flex; justify-content: center; align-items: center;">
+                <i style="color: red;" class="fas fa-xl fa-beat fa-exclamation-triangle"></i>
+            </div>
+            <p class="text-center text-danger">Danger Zone</p>
+            <div class="input-group mb-3">
+                <input data-id="{% for x in cards %} {{ x.id }} {% endfor %}" id="delete" type="button" value="Delete Card" class="btn btn-danger shadow-bg shadow-bg-xs"
+                    style="background-color: crimson !important; width: 100%;">
+            </div>
+            <!-- <button id="get-card" style="width: 100%;" type="submit"
+                class="btn btn-main shadow-bg shadow-bg-xs">Submit</button> -->
+            <!-- preloader -->
+            <div id="loader" style="display: none; justify-content: center; align-items: center;">
+                <div class="loader" id="line">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <!-- ends here -->
+        </div>
+    </form>
+</div>
+<!-- Card funding Canvas -->
+<div id="funding-menu" style="min-height:380px; overflow: auto;"
+    class="offcanvas offcanvas-bottom rounded-m offcanvas-detached">
+    <form method="post">
+        {% csrf_token %}
+        <div class="d-flex m-3">
+            <div class="align-self-center">
+                <h2 class="font-700 mb-0">Fund Card</h2>
+            </div>
+            <div class="align-self-center ms-auto">
+                <a href="#" class="icon icon-xs me-n2" data-bs-toggle="offcanvas" data-bs-target="#card-menu">
+                    <i class="bi bi-x-circle-fill color-yellow-dark font-16"></i>
+                </a>
+            </div>
+        </div>
+        <div class="content mt-0">
+            <div class="input-group mb-3">
+                <select id="funding-account" name="funding-account" class="btn btn-main shadow-bg shadow-bg-xs" style="width: 100%;">
+                    <option selected disabled value="">Select Account</option>
+                    <option value="deposit">Deposit Account</option>
+                    <option value="profits">Profits Account</option>
+                </select>
+                <small class="text-warning">Select the account you want to fund your card from</small>
+            </div>
+            <div class="input-group mb-3">
+                <input id="funding-amount" name="funding-amount" placeholder="Enter Amount to fund your card" type="number" class="form-control" style="width: 100%;">
+                <small class="text-warning">Enter the amount you want to fund your card with</small>
+            </div>
+            <button id="fundCard" style="width: 100%;" type="submit"
+                class="btn btn-success shadow-bg shadow-bg-xs">Fund Card</button>
+            <!-- preloader -->
+            <div id="funding-loader" style="display: none; justify-content: center; align-items: center;">
+                <div class="loader" id="line">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <!-- ends here -->
+        </div>
+    </form>
+</div>
+
+<!-- Card offloading Canvas -->
+<div id="offloading-menu" style="min-height:380px; overflow: auto;"
+    class="offcanvas offcanvas-bottom rounded-m offcanvas-detached">
+    <form method="post">
+        <div class="d-flex m-3">
+            <div class="align-self-center">
+                <h2 class="font-700 mb-0">Offload Card</h2>
+            </div>
+            <div class="align-self-center ms-auto">
+                <a href="#" class="icon icon-xs me-n2" data-bs-toggle="offcanvas" data-bs-target="#card-menu">
+                    <i class="bi bi-x-circle-fill color-yellow-dark font-16"></i>
+                </a>
+            </div>
+        </div>
+        <div class="content mt-0">
+            <div class="input-group mb-3">
+                <select name="offloading-account" id="offloading-account" class="btn btn-main shadow-bg shadow-bg-xs" style="width: 100%;">
+                    <option selected disabled value="">Select Account</option>
+                    <option value="deposit">Deposit Account</option>
+                    <option value="profits">Profits Account</option>
+                </select>
+                <small class="text-warning">Select the account you want to offload your card balance to. </small>
+            </div>
+            <div class="input-group mb-3">
+                <input id="offloading-amount" placeholder="Enter the amount you want to offload" type="number" class="form-control" style="width: 100%;">
+                <small class="text-warning">Enter the amount you want to offload</small>
+            </div>
+            <button id="offloadCard" style="width: 100%;" type="submit"
+                class="btn btn-danger shadow-bg shadow-bg-xs">Offload Card</button>
+            <!-- preloader -->
+            <div id="offload-loader" style="display: none; justify-content: center; align-items: center;">
+                <div class="loader" id="line">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <!-- ends here -->
+        </div>
+    </form>
+</div>
+
+<!-- Card request Canvas -->
+<div id="request-card" style="height:380px;" class="offcanvas offcanvas-bottom rounded-m offcanvas-detached">
+    <form id="card-form">
+        <div class="d-flex m-3">
+            <div class="align-self-center">
+                <h2 class="font-700 mb-0">Request card</h2>
+                <p>Enjoy fast and safe withdrawals / payments directly from your Vista wallet. Activate a card and go limitless in payments!
+                </p>
+            </div>
+            <div class="align-self-center ms-auto">
+                <a href="#" class="icon icon-xs me-n2" data-bs-dismiss="offcanvas">
+                    <i class="bi bi-x-circle-fill color-yellow-dark font-16"></i>
+                </a>
+            </div>
+        </div>
+        <div class="content mt-0">
+            <div class="input-group mb-3">
+                <input name="name" type="text" class="form-control"
+                    placeholder="Enter the card holder's full name. surname first">
+                <div class="input-group-append">
+                    <span class="input-group-text">Card holder's name</span>
+                </div>
+            </div>
+            <div class="input-group mb-3">
+                <input name="amount" type="number" class="form-control" placeholder="Enter amount to fund card with">
+                <div class="input-group-append">
+                    <span class="input-group-text">Fund card with</span>
+                </div>
+            </div>
+            <button id="get-card" style="width: 100%;" type="submit"
+                class="btn btn-main shadow-bg shadow-bg-xs">Submit</button>
+            <!-- preloader -->
+            <div id="get-card-loader" style="display: none; justify-content: center; align-items: center;">
+                <div class="loader" id="line">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <!-- ends here -->
+        </div>
+    </form>
+</div>
+
+<!--Server Response OffCanvas -->
+<div id="response-canvas" style="height:auto;" class="offcanvas offcanvas-top rounded-m offcanvas-detached">
+    <div class="d-flex m-3">
+        <div class="align-self-center">
+            <h6 class="text-secondary font-300 mb-0">System response</h6>
+        </div>
+        <div class="align-self-center ms-auto">
+            <a href="#" class="text-primary icon icon-xs me-n2" data-bs-dismiss="offcanvas">
+                <i class="bi bi-x-circle-fill text-primary font-16"></i>
+            </a>
+        </div>
+    </div>
+    <div class="content mt-0">
+        <h4 id="message" class="message text-primary mb-4">
+
+        </h4>
+        <br>
+        <a style="min-width: 100%;" href="#" data-bs-dismiss="offcanvas" class="btn btn-main  shadow-bg-xs">Dismiss!</a>
+    </div>
+</div>
+<!-- Ends here -->
+
+<!-- Authorization Offcanvas-->
+<div id="action-canvas" style="width:320px; max-height: 500px !important;"
+    class="offcanvas offcanvas-modal rounded-m offcanvas-detached">
+    <div class="d-flex m-3">
+        <div class="align-self-center">
+            <h5 class="font-400 mb-0">Authorization Center</h5>
+            <small class="text-warning">Please enter your transaction PIN to proceed</small>
+        </div>
+        <div class="align-self-center ms-auto">
+            <a href="#" class="icon icon-xs me-n2" data-bs-dismiss="offcanvas">
+                <i class="bi bi-x-circle-fill color-yellow-dark font-16"></i>
+            </a>
+        </div>
+    </div>
+    <div class="content mt-0 py-4">
+        <div class="input-group mb-3">
+            <input id="pin-input" type="password" class="form-control" placeholder="Enter your transaction Pin">
+        </div>
+        <a id="action-button" style="min-width: 100%;" class="btn btn-main  shadow-bg-xs">Authorize!</a>
+    </div>
+</div>
+<!-- Authorization Offcanvas ends here -->
+
+<!-- Success Offcanvas here -->
+<div id="success-canvas" style="width:320px; max-height: 500px !important;"
+    class="offcanvas offcanvas-modal rounded-m offcanvas-detached">
+    <div class="d-flex m-3">
+        <div class="align-self-center">
+            <h5 class="font-400 mb-0">System Response</h5>
+        </div>
+        <div class="align-self-center ms-auto">
+            <a href="#" class="icon icon-xs me-n2" data-bs-dismiss="offcanvas">
+                <i class="bi bi-x-circle-fill color-yellow-dark font-16"></i>
+            </a>
+        </div>
+    </div>
+    <div class="content mt-0 py-4">
+        <h6 class="text-success message"></h6>
+        <a id="success-button" style="min-width: 100%;" class="btn btn-main  shadow-bg-xs">Awesome!</a>
+    </div>
+</div>
 <!-- Footer Section-->
 <footer>
     <div class="container">
@@ -239,5 +559,362 @@
 <script src="{% static 'js/chart-custom.js' %}"></script>
 <script src="{% static 'js/script.js' %}"></script>
 <script src="{% static 'js/pwa.js' %}"></script>
+
+<script>
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    const csrftoken = getCookie('csrftoken');
+
+
+    document.addEventListener("click", function (e) {
+        const target = e.target;
+        switch (target.id) {
+            case 'fundCard':
+                e.preventDefault();
+                const accountInput = document.getElementById('funding-account');
+                const amountInput = document.getElementById('funding-amount');
+                if (accountInput.value === ''){
+                    alert('Please select the account to fund from');
+                    return false;
+                }
+                if (amountInput.value === ''){
+                    alert('Please enter the amount you want to fund your card with');
+                    return false;
+                }
+                async function fundCard() {
+                    try {
+                        const authorizationResult = await authorizeRequest();
+                        if (authorizationResult) {
+                            const amount = amountInput.value;
+                            const account = accountInput.value;
+                            const url = '/app/fundcard/';
+                            try{
+                                const response = await fetch(url, {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'X-CSRFToken': csrftoken,
+                                    },
+                                    body: JSON.stringify({ 'amount': amount, 'account': account })
+                                })
+                                const data = await response.json();
+                                    if (data.success){
+                                    const successElement = document.getElementById('response-canvas');
+                                     successElement.querySelector('.message').innerHTML = data.success ? data.success : 'You\'ve successfully funded your account with ' + '£' + data.amount;
+                                     const successCanvas = new bootstrap.Offcanvas(successElement)
+                                     successCanvas.show();
+                                     setTimeout(() => window.location.reload(), 3250)
+                                    }else{
+                                        const responseElement = document.getElementById('response-canvas');
+                                        responseElement.querySelector('.message').innerHTML = data.error ? data.error : 'There was a problem funding your card. Please try again.';
+                                        const responseCanvas = new bootstrap.Offcanvas(responseElement)
+                                        responseCanvas.show();
+                                        setTimeout(() => responseCanvas.hide(), 5000);
+                                    }
+                            }catch(e){
+                                    console.error('Error during API call:', e);
+                                    alert('An error occurred. Please try again');
+                                    return;
+                            }
+
+                        } else {
+                            alert('Authorization failed.');
+                        }
+                    } catch (error) {
+                        console.error('Error during authorization:', error);
+                    }
+                }
+                fundCard();
+                break;
+
+            case 'offloadCard':
+                e.preventDefault();
+                const offloadAccount = document.getElementById('offloading-account');
+                const offloadAmount = document.getElementById('offloading-amount');
+                if (offloadAccount.value === ''){
+                    alert('Please select the account to offload from');
+                    return false;
+                }
+                if (offloadAmount.value === ''){
+                    alert('Please enter the amount you want to offload');
+                    return false;
+                }
+                async function offloadCard() {
+                    try{
+                        const authorizationResult = await authorizeRequest();
+                        if (authorizationResult){
+                            const amount = offloadAmount.value;
+                            const account = offloadAccount.value;
+                            const url = '/app/offloadcard/';
+                            try{
+                                const response = await fetch(url, {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'X-CSRFToken': csrftoken,
+                                    },
+                                    body: JSON.stringify({ 'amount': amount, 'account': account })
+                                })
+                                const data = await response.json();
+                                if (data.success){
+                                const successElement = document.getElementById('response-canvas');
+                                    successElement.querySelector('.message').innerHTML = data.success? data.success : 'You\'ve successfully offloaded your account with ' + '£' + amount + ' Your ' + account + ' account has been successfully credited';
+                                    const successCanvas = new bootstrap.Offcanvas(successElement)
+                                    successCanvas.show();
+                                    setTimeout(() => window.location.reload(), 3250)
+                                }else{
+                                    const responseElement = document.getElementById('response-canvas');
+                                    responseElement.querySelector('.message').innerHTML = data.error? data.error : 'There was a problem offloading your card. Please try again.';
+                                     const responseCanvas = new bootstrap.Offcanvas(responseElement)
+                                     responseCanvas.show();
+                                     setTimeout(() => responseCanvas.hide(), 5000);
+                                }
+                            } 
+                            catch(e){
+                                console.error('Error during API call:', e);
+                                alert('An error occurred. Please try again');
+                                return;
+                            }
+
+                        } else {
+                            alert('Authorization failed.');
+                        }
+                    }catch (error) {
+                        console.error('Error during authorization: ', error);
+                        return;
+                    }
+                }
+                offloadCard();
+                break;
+
+            case 'toggle-card':
+                const toggler = document.getElementById('toggle-card');
+                let status;
+                if (toggler.checked) {
+                    status = 'activate';
+                }
+                else {
+                    status = 'deactivate';
+                }
+                console.log(status);
+                async function toggleCard() {
+                    try{
+                        const authorizationResult = await authorizeRequest();
+                        if (authorizationResult){
+                            const url = '/app/togglecard/'
+                            try{
+                                const response = await fetch(url, {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'X-CSRFToken': csrftoken,
+                                    },
+                                    body: JSON.stringify({ 'status': status })
+                                })
+                                const data = await response.json();
+                                if (data.success){
+                                    const successElement = document.getElementById('response-canvas');
+                                    successElement.querySelector('.message').innerHTML = data.success? data.success : 'Your card has been successfully'+ status + 'd';
+                                    const successCanvas = new bootstrap.Offcanvas(successElement)
+                                    successCanvas.show();
+                                    setTimeout(() => window.location.reload(), 3250)
+                                } else {
+                                    const responseElement = document.getElementById('response-canvas');
+                                    responseElement.querySelector('.message').innerHTML = data.error? data.error : 'There was a problem applying your changes, please try again.'
+                                    const responseCanvas = new bootstrap.Offcanvas(responseElement)
+                                    responseCanvas.show();
+                                     setTimeout(() => responseCanvas.hide(), 5000);
+                                }
+                            } catch(e){
+                                console.error('Error during API call: ', e);
+                                
+                            }
+                        } else {
+                            alert('Authorization failed')
+                        }
+
+                    }catch(e){
+                        console.error('Error during authorization: ', e);
+                        return;
+                    }
+                }
+                toggleCard();
+                break;
+            
+            case 'delete':
+                e.preventDefault();
+                const confirmation = confirm('This is a potentially dangerous operation. Deleting your transaction card will affect your eligibility to withdraw or perform some other transactions. Please ensure that you fully understand the consequences of this operation as it is irreversible after deleting your transaction card. if you click "OK", you will be prompted to authorize this operation with your transaction PIN. if you changed your mind, please click "Cancel" to go back')
+                if (confirmation){
+                    async function deleteCard(){
+                        try{
+                            const authorizationResult = await authorizeRequest();
+                            if (authorizationResult){
+                                try{
+                                    const url = '/app/deletecard/';
+                                    const response = await fetch(url);
+                                    const data = await response.json();
+                                    if (data.success){
+                                        const successElement = document.getElementById('response-canvas');
+                                        successElement.querySelector('.message').innerHTML = data.success? data.success : 'Your transaction card has been successfully deleted. Please note that you will need to register a new card to continue using our withdrawal services.';
+                                        const successCanvas = new bootstrap.Offcanvas(successElement)
+                                        successCanvas.show();
+                                        setTimeout(() => window.location.reload(), 3250)
+                                    }
+                                    else{
+                                        const responseElement = document.getElementById('response-canvas');
+                                        responseElement.querySelector('.message').innerHTML = data.error? data.error : 'There was a problem deleting your card. Please try again.';
+                                        const responseCanvas = new bootstrap.Offcanvas(responseElement)
+                                        responseCanvas.show();
+                                    }
+                                }catch(e){
+                                     console.error('Error during API call: ', e);
+                                     alert('An error occurred. Please try again');
+                                     return;
+                                }
+                            }
+                        }catch(e){
+                            console.error('Error during authorization: ', e);
+                            return;
+                        }
+                    }
+                    deleteCard();
+                } else {
+                    console.log('User cancelled dangerous operation.')
+                }
+                break;
+            
+            default:
+                break;
+        }
+    });
+        function authorizeRequest() {
+            return new Promise((resolve, reject) => {
+                const actionCanvas = new bootstrap.Offcanvas(document.getElementById('action-canvas'))
+                const responseElement = document.getElementById('response-canvas')
+                const responseCanvas = new bootstrap.Offcanvas(responseElement);
+                actionCanvas.show();
+                const actionButton = document.getElementById('action-button');
+                actionButton.addEventListener('click', () => {
+                    const pinInput = document.getElementById('pin-input');
+                    if (!pinInput.value){
+                        alert('Please enter your PIN');
+                        return false;
+                    }
+                    if (pinInput.value.length < 6 || pinInput.value.length > 6){
+                        alert('Please enter a valid PIN');
+                        return false;
+                    }
+                    const pin = parseInt(pinInput.value)
+                    actionCanvas.hide();
+                    const url = '/app/authorize/';
+                    try{
+                        fetch(url,{
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': csrftoken,
+                            },
+                            body: JSON.stringify({ 'pin': pin })
+                        })
+                        .then(response => {
+                            return response.json()
+                        })
+                        .then(data => {
+                            if (data.success){
+                                resolve(true);
+                            }else{
+                                responseElement.querySelector('.message').innerHTML = data.error ? data.error : 'Authorization Failed';
+                                responseCanvas.show();
+                                setTimeout(() => responseCanvas.hide(),5000);
+                                reject(false);
+                            }
+                        })
+                        .finally(() => pinInput.value = '');
+                    }catch(e){
+                        console.error('Error during API call:', e);
+                        alert('Failed to authorize');
+                        reject(false);
+                        return;
+                    }
+                })
+            });
+        }
+
+    const form = document.getElementById('card-form');
+        const submitButton = document.getElementById('get-card');
+        const preloader = document.getElementById('get-card-loader');
+        const responseCanvas = document.getElementById('response-canvas');
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            let container = this.parentElement;
+            let formElements = this.elements;
+            if (formElements['name'].value === '' || formElements['amount'].value === '') {
+                let small = document.createElement('small');
+                small.style.color = 'red';
+                small.innerHTML = 'You have not specified the name or amount';
+                container.appendChild(small);
+                formElements['name'].addEventListener('input', function (e) {
+                    small.remove();
+                });
+                formElements['amount'].addEventListener('input', function (e) {
+                    small.remove();
+                });
+                return;
+            }
+            submitButton.style.display = 'none';
+            preloader.style.display = 'flex';
+            let formData = new FormData(this);
+            let url = '{% url "getcard" %}';
+            setTimeout(() => {
+                fetch(url, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': csrftoken
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    container.querySelector('.icon').click();
+                    if (!data.success) {
+                        responseCanvas.querySelector('.message').innerHTML = data.error;
+                        showModal('response-canvas', 7000);
+                        reset(submitButton, preloader);
+                        form.reset();
+                    } else {
+                        responseCanvas.querySelector('.message').innerHTML = data.success;
+                        showModal(responseCanvas
+                        .id, 15000);
+                        reset(submitButton, preloader);
+                        form.reset();
+                    }
+                })
+                .catch(error => console.log(error))
+            }, 1200)
+        })
+
+        function showModal(modalId, timeout) {
+            const canvas = new bootstrap.Offcanvas(document.getElementById(modalId));
+            canvas.show()
+            setTimeout(() => canvas.hide(), timeout)
+        }
+        function reset(button, loader) {
+            button.style.display = 'block';
+            loader.style.display = 'none';
+        }
+</script>
 </body>
 </html>

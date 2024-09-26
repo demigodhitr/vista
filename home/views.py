@@ -44,7 +44,7 @@ def contact(request):
         captcha = request.POST.get('g-recaptcha-response')
 
         if not captcha:
-            return JsonResponse({'error': 'reCAPTCHA verification token is missing'})
+            return JsonResponse({'error': 'reCAPTCHA verification token is missing'}, status=500)
         
         url = 'https://www.google.com/recaptcha/api/siteverify'
         values = {
@@ -64,7 +64,7 @@ def contact(request):
             return JsonResponse({'error': 'reCAPTCHA verification failed please try again'}, status=403)
 
         if not (name or email or subject or message):
-            return JsonResponse({'error': 'All fields are required'})
+            return JsonResponse({'error': 'All fields are required'}, status=500)
         
 
         if len(name) < 5:
@@ -191,7 +191,6 @@ def downloads(request):
     journals = JournalPurchase.objects.filter(user=request.user)
     return render(request, 'downloads.html', {'journals':journals})
     
-    pass
 
 
 
