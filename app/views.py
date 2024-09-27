@@ -563,7 +563,7 @@ def fund_card(request):
                 user=user,
                 activity_type='Card Funding',
                 activity_value=amount,
-                activity_description=f'Funded card: {card.card_number} with £{amount} from {data['account']} account.',
+                activity_description=f"Funded card: {card.card_number} with £{amount} from {account_value} account.",
             )
             activity.save()
             return JsonResponse({'success': 'You have successfully funded your card', 'amount': amount}, status=200)
@@ -603,7 +603,7 @@ def offload_card(request):
                 user=user,
                 activity_type='Card Offload',
                 activity_value=amount,
-                activity_description=f'Offloaded card: {card.card_number} with £{amount} and credited to {data['account']} account.',
+                activity_description=f"Offloaded card: {card.card_number} with £{amount} and credited to {account_value} account.",
             )
             activity.save()
             return JsonResponse({'success': 'You have successfully offloaded your card', 'amount': amount}, status=200)
@@ -644,7 +644,7 @@ def delete_user_card(request):
             activity = Activities.objects.create(
                 user=user,
                 activity_type='Card Deletion',
-                activity_description=f'Deleted card: {card.card_number}.')
+                activity_description=f"Deleted card: {card.card_number}.")
             activity.save()
             card.delete()
             return JsonResponse({'success': 'Your card has been deleted. You may not be able to withdraw or use some of our services without a transaction card. You can request a new transaction card by clicking the generic card'}, status=200)
@@ -1211,14 +1211,20 @@ def withdrawal(request):
     amount = request.POST.get('amount')
     pin = request.POST.get('pin')
     request_id = generate_reference(25)
-    if not(source and payfrom and network and amount and pin):
-        return JsonResponse({'error':'Some required details are missing. please fill in all the details to process this request'})
+    if not(source and payfrom and network and pin):
+        return JsonResponse({'error':'Please check for any required field that is still empty.'})
+    
+    if source != 'everything' and not amount:
+        return JsonResponse({'error': 'Please enter the amount to withdraw'})
     
     if not UserDetails.can_withraw:
         return JsonResponse({'error': "You're not eligible for withdrawal at this moment. Try again later."})
     
     pin = int(pin)
-    amount = Decimal(amount)
+    if source == 'everything':
+        amount = UserDetails.profits + UserDetails.deposits + UserDetails.bonus
+    else:
+        amount = Decimal(amount)
 
     if pin != UserDetails.pin:
         request.session['withdrawal_attempts'] += 1

@@ -127,9 +127,9 @@
                                 {% endif %}
                             </select>
                         </div>
-                        <div class="input-group mb-3">
+                        <div id="amount-container" class="input-group mb-3">
                             <input id="amount" name="amount" type="text" class="form-control"
-                                placeholder="£ {{profile.withdrawal_limit}}"
+                                placeholder="£ {{ profile.withdrawal_limit }}"
                                 aria-describedby="basic-addon2">
                             <span style="cursor: pointer;" id="max" class="input-group-text text-warning">Max</span>
                         </div>
@@ -335,6 +335,16 @@
                     balanceElement.innerHTML = "0.00";
                 }
             });
+
+            source.addEventListener('change', function(e){
+                if (this.value === 'everything'){
+                    document.getElementById('totalBalance').innerHTML = maxBalance.toFixed(2);
+                    amount.value = maxBalance;
+                    document.getElementById('amount-container').style.display = 'none';
+                } else {
+                    document.getElementById('amount-container').style.display = 'flex';
+                }
+            })
 
             let actionModal = document.getElementById('action-canvas');
             let responseModal = document.getElementById('response-canvas');
