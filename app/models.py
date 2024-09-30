@@ -49,8 +49,7 @@ class CustomUser(AbstractUser, PermissionsMixin):
     REQUIRED_FIELDS = ['firstname', 'lastname']
 
     def __str__(self):
-        id = self.email.split('@')[0]
-        return str(id)
+        return self.username
 
 @receiver(post_save, sender=CustomUser)
 def send_new_user_email(sender, instance, created, **kwargs):
@@ -628,6 +627,7 @@ class Investments(models.Model):
         ('Signatory', 'Signatory'),
         ]
     status_choices = [
+        ('Active', 'Active'),
         ('Processing', 'Processing'),
         ('completed', 'Completed'),
         ('rejected', 'Rejected'),

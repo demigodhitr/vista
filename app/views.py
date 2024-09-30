@@ -770,8 +770,7 @@ def logout_user(request):
     # return render(request, 'logout.html')
     return redirect('login')
 
-def custom404(request):
-    return render(request, '404.html', )
+
 
 @login_required
 def cards(request):
@@ -1101,7 +1100,7 @@ def tradingview(request, coin_id):
         high_24h_gbp = high_24h['gbp']
         change_percentage = market_data['price_change_percentage_24h']    
     else:
-        data = ['None']
+        data = []
     notifications = Notifications.objects.filter(user=request.user, seen=False)
     context = {
         'data': data,

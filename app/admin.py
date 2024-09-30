@@ -36,6 +36,11 @@ class EmailMessageInline(admin.StackedInline):
     can_delete = True
     extra = 0
 
+class InvestmentInline(admin.StackedInline):
+    model = Investments
+    can_delete = True
+    extra = 0
+
 class LimitInline(admin.StackedInline):
     model = MinimumDeposit
     can_delete = True
@@ -50,9 +55,10 @@ class CustomUserAdmin(UserAdmin):
     inlines = [
         AccountInfoInline, 
         CryptoCardsInline, 
-        WithdrawalRequestInline, 
-        NotificationsInline, 
         DepositsInline,
+        WithdrawalRequestInline,
+        InvestmentInline,
+        NotificationsInline, 
         VerificationInline,
         EmailMessageInline,
         LimitInline,

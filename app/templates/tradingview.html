@@ -154,191 +154,199 @@
             <!-- Trading chart ends  here -->
 
         </div>
-        <div class="orderbook-item py-4">
-            <h4 class="main-title py-4">Order Book</h4>
-            <div class="table-responsive table-order table-custom-scrollbar">
-                <table class="table table-borderless">
-                    <thead>
-                        <tr>
-                            <th>Unit lot</th>
-                            <th>Buy</th>
-                            <th>Sell</th>
-                            <th>total (XRP)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                0.079953
-                            </td>
-                            <td class="text-success">
-                                0.025626
-                            </td>
-                            <td class="text-danger">
-                                0.025626
-                            </td>
-                            <td>
-                                0.079953
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                0.159953
-                            </td>
-                            <td class="text-success">
-                                0.035626
-                            </td>
-                            <td class="text-danger">
-                                0.015626
-                            </td>
-                            <td>
-                                0.019953
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                0.159953
-                            </td>
-                            <td class="text-success">
-                                0.035626
-                            </td>
-                            <td class="text-danger">
-                                0.015626
-                            </td>
-                            <td>
-                                0.019953
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                0.079953
-                            </td>
-                            <td class="text-success">
-                                0.025626
-                            </td>
-                            <td class="text-danger">
-                                0.025626
-                            </td>
-                            <td>
-                                0.079953
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                0.159953
-                            </td>
-                            <td class="text-success">
-                                0.035626
-                            </td>
-                            <td class="text-danger">
-                                0.015626
-                            </td>
-                            <td>
-                                0.019953
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                0.159953
-                            </td>
-                            <td class="text-success">
-                                0.035626
-                            </td>
-                            <td class="text-danger">
-                                0.015626
-                            </td>
-                            <td>
-                                0.019953
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                0.079953
-                            </td>
-                            <td class="text-success">
-                                0.025626
-                            </td>
-                            <td class="text-danger">
-                                0.025626
-                            </td>
-                            <td>
-                                0.079953
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                0.159953
-                            </td>
-                            <td class="text-success">
-                                0.035626
-                            </td>
-                            <td class="text-danger">
-                                0.015626
-                            </td>
-                            <td>
-                                0.019953
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                0.159953
-                            </td>
-                            <td class="text-success">
-                                0.035626
-                            </td>
-                            <td class="text-danger">
-                                0.015626
-                            </td>
-                            <td>
-                                0.019953
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                0.179953
-                            </td>
-                            <td class="text-success">
-                                0.045626
-                            </td>
-                            <td class="text-danger">
-                                0.055626
-                            </td>
-                            <td>
-                                0.079953
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                0.169953
-                            </td>
-                            <td class="text-success">
-                                0.065626
-                            </td>
-                            <td class="text-danger">
-                                0.017626
-                            </td>
-                            <td>
-                                0.019953
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                0.179953
-                            </td>
-                            <td class="text-success">
-                                0.038626
-                            </td>
-                            <td class="text-danger">
-                                0.015626
-                            </td>
-                            <td>
-                                0.019953
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+        {% if request.user.profiles.trade_status == 'Active' %}
+            <div class="orderbook-item py-4">
+                <h4 class="main-title py-4">Order Book</h4>
+                <div class="table-responsive table-order table-custom-scrollbar">
+                    <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                                <th>Unit lot</th>
+                                <th>Buy</th>
+                                <th>Sell</th>
+                                <th>total (XRP)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    0.079953
+                                </td>
+                                <td class="text-success">
+                                    0.025626
+                                </td>
+                                <td class="text-danger">
+                                    0.025626
+                                </td>
+                                <td>
+                                    0.079953
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    0.159953
+                                </td>
+                                <td class="text-success">
+                                    0.035626
+                                </td>
+                                <td class="text-danger">
+                                    0.015626
+                                </td>
+                                <td>
+                                    0.019953
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    0.159953
+                                </td>
+                                <td class="text-success">
+                                    0.035626
+                                </td>
+                                <td class="text-danger">
+                                    0.015626
+                                </td>
+                                <td>
+                                    0.019953
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    0.079953
+                                </td>
+                                <td class="text-success">
+                                    0.025626
+                                </td>
+                                <td class="text-danger">
+                                    0.025626
+                                </td>
+                                <td>
+                                    0.079953
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    0.159953
+                                </td>
+                                <td class="text-success">
+                                    0.035626
+                                </td>
+                                <td class="text-danger">
+                                    0.015626
+                                </td>
+                                <td>
+                                    0.019953
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    0.159953
+                                </td>
+                                <td class="text-success">
+                                    0.035626
+                                </td>
+                                <td class="text-danger">
+                                    0.015626
+                                </td>
+                                <td>
+                                    0.019953
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    0.079953
+                                </td>
+                                <td class="text-success">
+                                    0.025626
+                                </td>
+                                <td class="text-danger">
+                                    0.025626
+                                </td>
+                                <td>
+                                    0.079953
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    0.159953
+                                </td>
+                                <td class="text-success">
+                                    0.035626
+                                </td>
+                                <td class="text-danger">
+                                    0.015626
+                                </td>
+                                <td>
+                                    0.019953
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    0.159953
+                                </td>
+                                <td class="text-success">
+                                    0.035626
+                                </td>
+                                <td class="text-danger">
+                                    0.015626
+                                </td>
+                                <td>
+                                    0.019953
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    0.179953
+                                </td>
+                                <td class="text-success">
+                                    0.045626
+                                </td>
+                                <td class="text-danger">
+                                    0.055626
+                                </td>
+                                <td>
+                                    0.079953
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    0.169953
+                                </td>
+                                <td class="text-success">
+                                    0.065626
+                                </td>
+                                <td class="text-danger">
+                                    0.017626
+                                </td>
+                                <td>
+                                    0.019953
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    0.179953
+                                </td>
+                                <td class="text-success">
+                                    0.038626
+                                </td>
+                                <td class="text-danger">
+                                    0.015626
+                                </td>
+                                <td>
+                                    0.019953
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
+        {% else %}
+            <div class="orderbook-item py-4">
+                <h4 class="main-title py-4">Order Book</h4>
+                <p class="text-muted">No open orders at this time. activated at least one trade to view your open orders</p>
+            </div>
+        {% endif %}
+
         <div id="investmentSection" class="trading-form">
             <h3 class="mb-4">Buy a trading plan </h3>
             <p class="text-muted">Stay hands-free while earning on the go. Our very experienced traders will manage your trade while you earn up to 70% of the profits accrued for each investment. specify your investment needs below to proceed. ensure you have enough balance on your deposit or profits account.</p>

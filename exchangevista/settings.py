@@ -10,6 +10,7 @@ LOGOUT_URL = 'logout'
 
 SESSION_COOKIE_AGE = 1500
 SESSION_SAVE_EVERY_REQUEST = True
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 AUTH_USER_MODEL = 'app.CustomUser'
 # Quick-start development settings - unsuitable for production
