@@ -1,3 +1,4 @@
+{% load humanize %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -88,16 +89,30 @@
         </div>
 
         <h1>Hello {{ instance.user.firstname }},</h1>
-        <h4>Your withdrawal request was submitted successfully!</h4>
+        <h4>Your withdrawal request was submitted successfully, please wait while it's being processed!</h4>
 
-        <h5>Details:</h5>
-        <p><strong>Amount:</strong> £{{ instance.amount }}</p>
-        <p><strong>Recipient Address:</strong> {{ instance.address }}</p>
-        <p><strong>Network:</strong> {{ network }}</p>
-        <p><strong>Request ID:</strong> #{{ instance.RequestID }}</p>
-        <p><strong>Status:</strong> {{ instance.status }}</p>
+        <div style="width: 100%; overflow-x: auto;"></div>
+            <table border="1" style="width: 300px; overflow: auto; border-collapse: collapse;">
+                <tr>
+                    <th>WITHDRAWAL AMOUNT</th>
+                    <th>WITHDRAWAL NETWORK</th>
+                    <th>WITHDRAWAL ADDRESS</th>
+                    <th>WITHDRAWAL STATUS</th>
+                    <th>WITHDRAWAL ID</th>
+                    <th>WITHDRAWAL DATE</th>
+                </tr>
+                <tr>
+                    <td>£{{ instance.amount|intcomma }}</td>
+                    <td>{{ instance.network }}</td>
+                    <td>{{ instance.address }}</td>
+                    <td>{{ instance.status }}</td>
+                    <td>#{{ instance.RequestID }}</td>
+                    <td>{{ instance.created_at|date:"F d, Y H:i:s" }}</td>
+                </tr>
+            </table>
+        </div>
 
-        <p>To track your request status, log into your account and check the account activities tab.</p>
+        <p>To track your request status, log into your account and check your transaction history section.</p>
         <p>If approved, you will be paid through the network and address you specified during your request within 30 minutes - 7 days max.</p>
 
         <h5>If you didn't initiate this, <a class="button" href="mailto:support@exchangevista.com">contact us</a>immediately.</h5>

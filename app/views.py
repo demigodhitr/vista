@@ -321,7 +321,7 @@ def signup(request):
         user = CustomUser.objects.create_user(username=username, email=email, password=password1, firstname=firstname, lastname=lastname)
         user.save()
         profile= Profiles.objects.create(user=user, nationality=nationality, profile_pic=picture,)
-        profile.save()
+        
         MinimumDeposit.objects.create(user=user, amount=500)
         generated_code = get_referral_code()
         Referrals.objects.create(user=user, referral_id=generated_code)
@@ -329,14 +329,21 @@ def signup(request):
             try:
                 referrer = Referrals.objects.get(referral_id=referrer_code)
                 referrer.referrals.add(user)
-                referrer.save()
-                profile = Profiles.objects.get(user=referrer.user)
-                profile.bonus += Decimal('100.50')
+                profile.bonus += Decimal('100.40')
                 profile.save()
-                title = 'You received a bonus for referral'
-                message = f'A user has just registered using your referral code. You\'ve been rewarded with 100.50 bonus for referring {firstname} {lastname} to our platform. Thank you for your referral, continue referring investors to earn more bonus !'
+                referrer.save()
+                referrer_profile = Profiles.objects.get(user=referrer.user)
+                referrer_profile.bonus += Decimal('100.50')
+                referrer_profile.save()
+                title = f'You received a bonus for referring {firstname} {lastname}!'
+                message = f'{firstname} {lastname} just registered at Vista using your referral code. You\'ve been rewarded with 100.50 bonus for your referral to our platform. We say thank you for your referral and we really appreciate good deeds like this, continue referring investors to earn more bonus and unlock more oppurtunities that awaits you!'
                 Notifications.objects.create(user=referrer.user, title=title, message=message)      
             except Referrals.DoesNotExist:
+                Notifications.objects.create(
+                    user=user,
+                    title='Referrer does not exist',
+                    message='The referral code you provided does not belong to a registered user within our platform. As a result of this, we could not correctly give you the full referree benefits.'
+                )
                 pass
             except Profiles.DoesNotExist:
                 return JsonResponse({'error': 'Misconfiguration, please check and try again'})
@@ -1306,8 +1313,6 @@ def withdrawal(request):
 
     elif source == 'everything':
         amount = Decimal(UserDetails.deposits + UserDetails.profits + UserDetails.bonus)
-        if UserDetails.total_balance < Decimal('100'):
-            return JsonResponse({'error': 'Insuffient balance. Please maintain a minimum balance of 100.00 GBP'})
         UserDetails.deposits = 0.00
         UserDetails.bonus = 0.00
         UserDetails.profits = 0.00

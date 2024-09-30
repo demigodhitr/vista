@@ -49,7 +49,7 @@ urlpatterns = [
     path('email_verification/<str:email>/', views.email_verification, name='email_verification'),
     path('terms-of-service/',  views.terms, name='terms'),
     path('verification/', views.verification, name='verification'),
-    path('referrals/<str:id>/', views.register_as_referred, name='referrals'),
+    path('joinvista/referrer/<str:id>/', views.register_as_referred, name='referrals'),
     path('update_prefs', views.update_prefs, name='update_prefs'),
     path('email_prefs', views.email_prefs, name='email_prefs'),
 

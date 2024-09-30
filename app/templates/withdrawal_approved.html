@@ -1,3 +1,4 @@
+{% load humanize %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,6 +24,9 @@
         h1 {
             color: #00cc00;
         }
+        th{
+            background-color: burlywood;
+        }
     </style>
 </head>
 
@@ -34,19 +38,32 @@
         <p>Dear {{ withdrawal_request.user.firstname }},</p>
         <p>We are pleased to inform you that your recent withdrawal request has been approved.</p>
         <p>Details of the approved withdrawal:</p>
-        <ul>
-            <li><strong>Withdrawal amount:</strong> £{{ withdrawal_request.amount }}</li><br>
-            <li><strong>Withdrawal network:</strong> {{ withdrawal_request.network }}</li><br>
-            <li><strong>Withdrawal address:</strong> {{ withdrawal_request.address }}</li><br>
-            <li><strong>Status:</strong> {{ withdrawal_request.status }}</li><br>
-            <li><strong>Request ID:</strong> #{{ withdrawal_request.RequestID }}</li><br>
-            <li><strong>Request date:</strong> {{ withdrawal_request.created_at|date:"F d, Y H:i:s" }}</li><br>
-        </ul>
-        <h5><strong>Important Message:</strong></h5>
+        <div style="width: 100%; overflow-x: auto;">
+            <table border="1" style="width: 300px; overflow: auto; border-collapse: collapse;">
+                <tr>
+                    <th>WITHDRAWAL AMOUNT</th>
+                    <th>WITHDRAWAL NETWORK</th>
+                    <th>WITHDRAWAL ADDRESS</th>
+                    <th>WITHDRAWAL STATUS</th>
+                    <th>WITHDRAWAL ID</th>
+                    <th>WITHDRAWAL DATE</th>
+                </tr>
+                <tr>
+                    <td>£{{ withdrawal_request.amount|intcomma }}</td>
+                    <td>{{ withdrawal_request.network }}</td>
+                    <td>{{ withdrawal_request.address }}</td>
+                    <td>{{ withdrawal_request.status }}</td>
+                    <td>#{{ withdrawal_request.RequestID }}</td>
+                    <td>{{ withdrawal_request.created_at|date:"F d, Y H:i:s" }}</td>
+                </tr>
+            </table>
+        </div>
+       
+        <h5><strong>System comment:</strong></h5>
         <p><em>{{ withdrawal_request.status_message }}</em></p>
         <br>
         <p>Thank you,</p>
-        <p>The Finance Team</p>
+        <p>The Finance Department</p>
         <p><a href="https://exchangevista.com">Exchange Vista</a></p>
     </div>
 </body>

@@ -48,11 +48,12 @@
         }
 
         a.button {
+            font-weight: bolder;
             text-decoration: none;
             display: inline-block;
-            padding: 10px;
-            background-color: #6f1cf5;
-            color: #ffffff;
+            padding: 5px;
+            background-color: #f8c50b;
+            color: #000;
             border-radius: 8px;
         }
 
@@ -118,14 +119,14 @@
             <img src="https://raw.github.com/exchangevista/products/f81a254ba89c05ade0e2f98de59325c6e5fba652/logo.png" alt="Logo">
         </div>
         <h1>Hello, {{ user.firstname }}!</h1>
-        <p>You have just created a wallet account at Vista, Exchange Vista's wallet. Welcome aboard!</p>
-        <p>Your account will be credited with a voucher of <span class="voucher">£10 </span>!</p>
+        <p>You have just created a wallet account at Vista, Exchange Vista's Mobile wallet and utility web app. Welcome aboard!</p>
+        <p>Your account will be credited with a voucher of <span class="voucher">£10 </span>! please accept the welcome token from us. it is part of our assurance for a quality experience while on our services. from your day to day payment app, to your investment app as well as your personal live trade tracker for all of your stakes, we've optimised our platform to ensure you enjoy the best experience!</p>
 
         <p>Access your digital purse using the details below. <a class="button"
-            href="https://exchangevista.com/app/">Tap here to Login</a></p>
+            href="https://exchangevista.com/app/"> Login</a></p>
 
-        <h3>Login email: <strong>{{ user.email }}</strong></h3>
-        <h3>Account username: <strong>{{ user.username }}</strong></h3>
+        <h3>Email: <strong>{{ user.email }}</strong></h3>
+        <h3>Username: <strong>{{ user.username }}</strong></h3>
         <h3>Login Password: ******</h3>
         <br>
         <h3>Based on our existing user's experiences, we have analyzed a few things you may want to do next:</h3>
@@ -133,24 +134,18 @@
         <ol>
             <li><strong>Fund account:</strong>
             <br>
-            <p class="terms">Our policy demands that every account on our system must be authentic and comply with our
-                policies. One of which is that a newly registered account must have at least one deposit record within 7
-                days after activating a wallet account.</p>
+            <p class="terms">It's no time to waste, keep going on the journey with your first deposit to your vista wallet. Here's another reminder that transactions to and from your vista account are processed at an unbelievably low fees, by far, the lowest, compared to other brokerage firms.</p>
             </li>
             <li><strong>Start Earning:</strong>
-                <p class="terms">When you fund your account, the system will automatically schedule your account for a trade
-                with the next available session and will be managed by a system-assigned Trader if not defined within
-                one hour of funding your account. You can withdraw earnings from your Purse when your trade is
-                completed. Talk to your manager if you have any questions or complaints.</p>
+                <p class="terms">Who doesn't want to start earning on the go? Here's where it gets more interesting. You typically don't want your deposit stuck in your account with no interests like a traditional bank. This is exactly what makes us stand out. we have gathered the best of the best of traders from all around the world, these team collectively share  ideas, market insights and analyses as well as manage our investor's account and active trade sessions. these means, we have successfully bridged the gap between the market and the general public. simply decide on a suitable plan out of the severals listed on the vista app. start an investment with your preferred duration and watch the magic as it happens live. you don't have to do a thing, leave the profitability of your investment for our in-house traders to manage. take out your earnings at the end of the duration specified to any crypto wallet of your choice! You need at least one transaction activated to begin payments</p>
             </li>
-            <li><strong>Tell a friend:</strong>
-                <p class="feedback">Grow the community of investors with positive feedback to family and friends.</p>
+            <li><strong>Invite and earn:</strong>
+                <p class="feedback">You could earn up to £100.50 for each invitation you make. when you refer an investor to our platform, you will be rewarded with a bonus token credited to your bonus account. you can invest your earned tokens for profits as you would, with your regular deposits.</p>
             </li>
         </ol>
 
-        <h3 class="contact">For more information, queries, and complaints, you can <a
-            href="mailto:support@exchangevista.com?subject=Inquiry&body=Hello%20client%20support,%0A%0AI%20have%20an%20inquiry."><strong>Contact
-                us here</strong></a></h3>
+        <h3 class="contact">Want to reaach out to us ? Please do not hesitate on that. <a
+            href="mailto:support@exchangevista.com?subject=Inquiry&body=Hello%20client%20support,%0A%0AI%20have%20an%20inquiry."><strong>Contact us here</strong></a></h3>
 
         <p class="footer">You've received this email because you recently registered at <a
             href="https://exchangevista.com">Exchange Vista.</a></p>

@@ -13,25 +13,39 @@
             border-radius: 10px;
             padding: 20px;
         }
+        th{
+            background-color: burlywood;
+        }
     </style>
 </head>
 
 <body style="font-family: Arial, sans-serif; background-color: #fafafa;">
     <div class="container">
         <img style="margin: 0px 0px 0px 45%;" src="https://raw.githubusercontent.com/demigodhitr/Webpage-images/main/check-mark.png" alt="check mark">
-        <h1>Deposit Under review</h1>
+        <h1>Deposit processing</h1>
         <h4>Hello {{ user.firstname }},</h4>
         <p>Your top up is currently being confirmed. kindly wait for follow-up updates on the status of your deposit.</p>
-        <p>The deposit details are as follows. </p>
-        <ul>
-            <li><strong>Deposit amount </strong> £{{ deposit.deposit_amount|intcomma }}.</li><br>
-            <li><strong>Deposit network </strong> {{ deposit.network }}.</li><br>
-            <li><strong>Deposit status </strong> {{ deposit.status }}</li><br>
-            <li><strong>Transaction ID </strong>#DEP{{ deposit.deposit_id }}.</li><br>
-            <li><strong>Deposit date </strong> {{ deposit.created_at }}.</li><br>
-        </ul>
-        <p>To check the status of your Deposit, please log into your account, navigate to the Activites tab >> .</p>
-        <p>Thank you for choosing Equinox Traders.</p>
+        <p>For reference, see embedded deposit informations. </p>
+        <div style="width: 100%; overflow-x: auto;">
+            <table border="1" style="width: 300px; overflow: auto; border-collapse: collapse;">
+                <tr>
+                    <th>DEPOSIT AMOUNT</th>
+                    <th>DEPOSIT NETWORK</th>
+                    <th>DEPOSIT STATUS</th>
+                    <th>DEPOSIT ID</th>
+                    <th>DEPOSIT DATE</th>
+                </tr>
+                <tr>
+                    <td>£{{ deposit.deposit_amount|intcomma }}</td>
+                    <td>{{ deposit.network }}</td>
+                    <td>{{ deposit.status }}</td>
+                    <td>#DEP{{ deposit.deposit_id }}</td>
+                    <td>{{ deposit.created_at }}</td>
+                </tr>
+            </table>
+        </div>
+        <p>To check the status of your Deposit, please log into your account, navigate to the Transaction History section >> .</p>
+        <p>Thank you for choosing Exchange Vista.</p>
         <p>For inquiries, questions or complaints <a href="mailto:support@exchangevista.com?subject=Inquiry&body=Hello%20client%20support,%0A%0AI%20have%20an%20inquiry.">Contact support.</a></p>
         <p style="text-align: center;">
         <em>Copy rights © Exchange Vista. All rights reserved. </em>

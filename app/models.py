@@ -58,7 +58,7 @@ def send_new_user_email(sender, instance, created, **kwargs):
         try:
             send_mail(
             subject='You have a new registered user.',
-            message=f'User: {instance.username} just created a new equinox account. Please log in and review. here are some important informatoin=== full name: {instance.firstname} {instance.lastname}.',
+            message=f"User: {instance.username} just created a new vista account. Please log in and review. here are some important information[ full name: {instance.firstname} {instance.lastname}. username: {instance.username}, country: {instance.profiles.nationality}. ]",
             from_email=settings.DEFAULT_FROM_EMAIL,
             recipient_list=[settings.ADMIN_EMAIL]
             )

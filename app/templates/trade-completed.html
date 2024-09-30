@@ -36,11 +36,10 @@
         </div>
         <h1>Congratulations Investor !!</h1>
         <p>Dear {{ userprofile.user.firstname }},</p>
-        <p>We are pleased to inform you that your trade has been successfully completed and earnings settled in your Purse account. you may login to confirm</p>
+        <p>We are pleased to inform you that your trade has been successfully completed and earnings settled in your profits account. you may login to confirm</p>
         <p>For reference, review your completed trade details below:</p>
         <!-- Trade details -->
         <ul>
-            <li><strong>Initial Capital: </strong>£{{ userprofile.deposits }}</li><br>
             <li><strong>Accrued Profits: </strong>£ {{ userprofile.profits }}</li>
             <li><strong>Trade Status:</strong> Completed</li>
             <li><strong>Assigned Account Manager:</strong> {{ userprofile.account_manager }}</li>

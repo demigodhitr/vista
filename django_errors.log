@@ -30,3 +30,13 @@ Traceback (most recent call last):
 decimal.InvalidOperation: [<class 'decimal.ConversionSyntax'>]
 ERROR 2024-09-27 05:56:21,399 basehttp "POST /app/withdrawal/ HTTP/1.1" 500 79063
 ERROR 2024-09-27 05:56:21,402 basehttp "POST /app/withdrawal/ HTTP/1.1" 500 79063
+ERROR 2024-09-29 14:42:59,776 log Internal Server Error: /api/check_eligibility/1
+ERROR 2024-09-29 14:42:59,778 basehttp "GET /api/check_eligibility/1 HTTP/1.1" 500 33
+ERROR 2024-09-29 15:24:39,297 models Failed to send welcome email to support@exchangevista.com. Error: CustomUser has no profiles.
+Traceback (most recent call last):
+  File "C:\Users\achod\OneDrive\Desktop\Archive\brokers\exchange-vista\exchangevista\app\models.py", line 61, in send_new_user_email
+    message=f"User: {instance.username} just created a new vista account. Please log in and review. here are some important information[ full name: {instance.firstname} {instance.lastname}. username: {instance.username}, country: {instance.profiles.nationality}. ]",
+                                                                                                                                                                                                                                       ^^^^^^^^^^^^^^^^^
+  File "C:\Users\achod\OneDrive\Desktop\Archive\brokers\exchange-vista\vista\Lib\site-packages\django\db\models\fields\related_descriptors.py", line 525, in __get__
+    raise self.RelatedObjectDoesNotExist(
+app.models.CustomUser.profiles.RelatedObjectDoesNotExist: CustomUser has no profiles.

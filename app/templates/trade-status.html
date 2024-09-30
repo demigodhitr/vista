@@ -33,10 +33,9 @@
         </div>
         <h1>Congratulations! Your Trade Has Been Activated</h1>
         <p>Dear {{ userprofile.user.firstname }},</p>
-        <p>We are pleased to inform you that your trade has been successfully activated and <strong>{{ userprofile.account_manager }}</strong> has been assigned to manage your trade for the current session. you can continously track your trade progress by logging into your purse account, navigate to Activities >>Account Report >> Trade Report .</p>
+        <p>We are pleased to inform you that your trade has been successfully activated and <strong>{{ userprofile.account_manager }}</strong> has been assigned to manage your trade for the current session. you can continously track your trade progress by logging into your vista account, and navigating to the market section .</p>
         <p>for reference, review the trade details below. </p>
         <ul>
-            <li><strong>Initial capital: </strong> £ {{ userprofile.deposits }}</li><br>
             <li><strong>Trade Status: </strong> Active</li>
             <li><strong>Assigned Account Manager: </strong> {{ userprofile.account_manager }}</li>
             <li><strong>Estimated daily growth: 0.64% </strong></li>

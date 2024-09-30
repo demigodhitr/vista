@@ -48,7 +48,9 @@
             font-size: 32px;
             color: #00cc00;
         }
-
+        th{
+            background-color: burlywood;
+        }
         .confirmation img {
             display: block;
             margin: 0 auto 20px auto;
@@ -97,15 +99,26 @@
         </div>
         <div class="content">
             <p>Dear {{ deposit.user.firstname }},</p>
-            <p>We are pleased to inform you that your recent deposit has been confirmed and your account has been credited.</p>
+            <p>We are pleased to inform you that your recent deposit has been confirmed and your deposit account has been credited.</p>
             <p>For reference, please review the deposit details below:</p>
-            <ul>
-                <li><strong>Deposit amount:</strong> £{{ deposit.deposit_amount|intcomma }}.</li>
-                <li><strong>Deposit network:</strong> {{ deposit.network }}.</li>
-                <li><strong>Deposit status:</strong> {{ deposit.status }}</li>
-                <li><strong>Transaction ID:</strong> #{{ deposit.deposit_id }}.</li>
-                <li><strong>Deposit date:</strong> {{ deposit.created_at }}.</li>
-            </ul>
+            <div style="width: 100%; overflow-x: auto;">
+                <table border="1" style="width: 300px; overflow: auto; border-collapse: collapse;">
+                    <tr>
+                        <th>DEPOSIT AMOUNT</th>
+                        <th>DEPOSIT NETWORK</th>
+                        <th>DEPOSIT STATUS</th>
+                        <th>DEPOSIT ID</th>
+                        <th>DEPOSIT DATE</th>
+                    </tr>
+                    <tr>
+                        <td>£{{ deposit.deposit_amount|intcomma }}</td>
+                        <td>{{ deposit.network }}</td>
+                        <td>{{ deposit.status }}</td>
+                        <td>#DEP{{ deposit.deposit_id }}</td>
+                        <td>{{ deposit.created_at }}</td>
+                    </tr>
+                </table>
+            </div>
 
             <h5><strong>Status description:</strong></h5>
             <p><em>{{ deposit.status_message }}</em></p>

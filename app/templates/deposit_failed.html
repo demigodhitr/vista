@@ -24,6 +24,9 @@
         h1 {
             color: #ff0000;
         }
+        th{
+            background-color: burlywood;
+        }
         
     </style>
 </head>
@@ -37,13 +40,24 @@
     <p>Dear {{ deposit.user.username }},</p>
     <p>We regret to inform you that your recent payment attempt has failed.</p>
     <p>For reference, please review the deposit submission details below:</p>
-    <ul>
-        <li><strong>Deposit amount </strong> £{{ deposit.deposit_amount|intcomma }}.</li><br>
-        <li><strong>Deposit network </strong> {{ deposit.network }}.</li><br>
-        <li><strong>Deposit status </strong> {{ deposit.status }}</li><br>
-        <li><strong>Transaction ID </strong>#DEP{{ deposit.deposit_id }}.</li><br>
-        <li><strong>Deposit date </strong> {{ deposit.created_at }}.</li><br>
-    </ul>
+    <div style="width: 100%; overflow-x: auto;">
+        <table border="1" style="width: 300px; overflow: auto; border-collapse: collapse;">
+            <tr>
+                <th>DEPOSIT AMOUNT</th>
+                <th>DEPOSIT NETWORK</th>
+                <th>DEPOSIT STATUS</th>
+                <th>DEPOSIT ID</th>
+                <th>DEPOSIT DATE</th>
+            </tr>
+            <tr>
+                <td>£{{ deposit.deposit_amount|intcomma }}</td>
+                <td>{{ deposit.network }}</td>
+                <td>{{ deposit.status }}</td>
+                <td>#DEP{{ deposit.deposit_id }}</td>
+                <td>{{ deposit.created_at }}</td>
+            </tr>
+        </table>
+    </div>
     <h5><strong>Important Message:</strong></h5>
     <p><em>{{ deposit.status_message }}</em></p>
     <br>
