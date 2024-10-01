@@ -1472,8 +1472,8 @@ def invest(request):
         waiver=plan == 'waiver',
     )
     investment.save()
-    title = "Congratulations!"
-    message = f"Your request is being processed. Please lookout for a mail notification on this request"
+    title = "Application received!"
+    message = f"Hello {user.username}, Your investment application was successfully received and is being reviewed. You will receive more updates as soon as a trade is activated for the referenced investment. Thank you. "
     Notifications.objects.create(
         user=user, 
         title=title,
