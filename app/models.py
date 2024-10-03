@@ -652,8 +652,6 @@ class Investments(models.Model):
                         self.investor.profiles.profits += self.amount
                                        
                     self.investor.profiles.save()
-                    
-                    self.amount = Decimal('0.00')
 
                     title = f'RVSL: Reversal to your {self.debit_account} account'
                     message = (
@@ -661,14 +659,12 @@ class Investments(models.Model):
                         f'Investment capital reversed upon request rejection, £{self.amount} credited to your {self.debit_account} account.'
                     )
                     Notifications.objects.create(user=self.investor, title=title, message=message)
+                    
+                    self.amount = Decimal('0.00')
 
             except Exception:
                 logger.exception(f'Error while reversing investment capital to {self.investor.username}\'s {self.debit_account} account')
         
-        elif self.status in ['In progress', 'Active']:
-            self.investor.profiles.trade_status = 'Active'
-            self.investor.profiles.alert_user = True
-            self.investor.profiles.save()
 
         super().save(*args, **kwargs)
 
