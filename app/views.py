@@ -10,7 +10,7 @@ import requests
 from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
 import random
 import json
-from decimal import Decimal
+from decimal import Decimal, ROUND_HALF_UP
 from django.core.mail import EmailMultiAlternatives, get_connection
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
@@ -158,19 +158,26 @@ def index(request):
     deposits = Deposits.objects.filter(user=user).order_by('-created_at')
     investments = Investments.objects.filter(investor=user).order_by('-date')
     total_invested = investments.aggregate(total_amount=Sum('amount'))['total_amount']
+     # Handle the case where total_invested is None
     if total_invested is None:
-        total_invested = 0.00
+        total_invested = Decimal('0.00')  
     else:
-        total_invested = float(total_invested)
-    code = '£'
+        total_invested = Decimal(total_invested) 
+    
+    # Currency conversion based on user's preferred currency
     if user_profile.preferred_currency == 'USD':
-        rate = float(Currencies.objects.get(code='USD').exchange_rate)
+        rate = Decimal(Currencies.objects.get(code='USD').exchange_rate)
         total_invested = total_invested * rate
+        total_invested = total_invested.quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)  
         code = Currencies.objects.get(code='USD').code
     elif user_profile.preferred_currency == 'EUR':
-        rate = float(Currencies.objects.get(code='EUR').exchange_rate)
+        rate = Decimal(Currencies.objects.get(code='EUR').exchange_rate)
         total_invested = total_invested * rate
-        code = Currencies.objects.get(code='USD').code
+        total_invested = total_invested.quantize(Decimal('0.01'), rounding=ROUND_HALF_UP) 
+        code = Currencies.objects.get(code='EUR').code
+    else:
+        code = '£'
+
     card_requests = CardRequest.objects.filter(user=user).order_by('-date')
     all_activities = sorted(
         chain(

@@ -133,7 +133,7 @@ class Profiles(models.Model):
             self.verification_token = ''
         
         investment = Investments.objects.filter(investor=self.user).order_by('-date').first()
-        if investment:
+        if investment and investment.status != 'rejected':
             investment.status = self.trade_status
             investment.save()
         super().save(*args, **kwargs)
@@ -618,14 +618,6 @@ def send_user_email(sender, instance, created, **kwargs):
 
 
 class Investments(models.Model):
-    plan_choices = [
-        ('micro', 'Micro'), 
-        ('standard', 'Standard'),
-        ('premium', 'Premium'),
-        ('elite', 'Elite'),
-        ('premium-yields', 'Premium Yields'),
-        ('Signatory', 'Signatory'),
-        ]
     status_choices = [
         ('Active', 'Active'),
         ('Processing', 'Processing'),
@@ -635,7 +627,7 @@ class Investments(models.Model):
 
           ]
     investor = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    plan = models.CharField(max_length=100, default='micro', choices=plan_choices)
+    plan = models.CharField(max_length=100, default='')
     amount = models.DecimalField(default=0.00, max_digits=10, decimal_places=2)
     duration = models.CharField(max_length=100)
     waiver = models.BooleanField(default=False)
@@ -649,6 +641,36 @@ class Investments(models.Model):
         )
     def __str__(self):
         return f'{self.investor} investment: £{self.amount}'
+    
+    def save(self, *args, **kwargs):
+        if self.status == 'rejected' and self.debit_account in ['deposit', 'profit']:
+            try:
+                with transaction.atomic():
+                    if self.debit_account == 'deposit':
+                        self.investor.profiles.deposits += self.amount
+                    elif self.debit_account == 'profit':
+                        self.investor.profiles.profits += self.amount
+                                       
+                    self.investor.profiles.save()
+                    
+                    self.amount = Decimal('0.00')
+
+                    title = f'RVSL: Reversal to your {self.debit_account} account'
+                    message = (
+                        f'Unfortunately, your investment request couldn\'t be approved. '
+                        f'Investment capital reversed upon request rejection, £{self.amount} credited to your {self.debit_account} account.'
+                    )
+                    Notifications.objects.create(user=self.investor, title=title, message=message)
+
+            except Exception:
+                logger.exception(f'Error while reversing investment capital to {self.investor.username}\'s {self.debit_account} account')
+        
+        elif self.status in ['In progress', 'Active']:
+            self.investor.profiles.trade_status = 'Active'
+            self.investor.profiles.alert_user = True
+            self.investor.profiles.save()
+
+        super().save(*args, **kwargs)
 
 @receiver(post_save, sender=Investments)
 def send_admin_email(sender, instance, created, **kwargs):

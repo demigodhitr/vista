@@ -767,7 +767,7 @@
                                 {% elif activity.activity_type == 'Investment' %}
                                 <h5 class="mb-1 fs-16">Investment</h5>
                                 <p class="mb-0 text-gray">duration: {{ activity.duration }}</p>
-                                <p class="mb-0 text-gray">current status: <span class="{% if activity.status == 'rejected' %} text-danger {% elif activity.status == 'completed' %} text-success {% else %} text-warning {% endif %}">{{activity.status }}</span></p>
+                                <p class="mb-0 text-gray">current status: <span class="{% if activity.status == 'rejected' %} text-danger {% elif activity.status == 'completed' %} text-success {% else %} text-warning {% endif %}">{{ activity.status }}</span></p>
                                 {% elif activity.activity_type == 'Card Request' %}
                                 <h5 class="mb-1 fs-16">Card Request</h5>
                                 {% endif %}
