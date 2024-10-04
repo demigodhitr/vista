@@ -1443,7 +1443,7 @@ def invest(request):
         return JsonResponse({'error': 'For Premium plan, you can only investment a minimum of £4,999.99 and a maximum of £9,999.99'}, status=400)
     
     elif plan == 'elite-plan' and (amount < 9999 or amount > 19999):
-        return JsonResponse({'error': 'For Elite plan, you can only investment a minimum of £10,999.99 and a maximum of £9,999.99'}, status=400)
+        return JsonResponse({'error': 'For Elite plan, you can only investment a minimum of £10,999.99 and a maximum of £19,999.99'}, status=400)
     
     elif plan == 'platinum-plan' and (amount < 19999 or amount > 39999):
         return JsonResponse({'error': 'For Platinum plan, you can only investment a minimum of £19,999.99 and a maximum of £39,999.99'}, status=400)
