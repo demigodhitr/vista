@@ -1380,7 +1380,7 @@ def deposit(request):
     addresses = WalletAddress.objects.all()
     context = {'addresses':addresses}
     if request.method == 'POST':
-        data = json.loads(request.body.decode('utf'))
+        data = json.loads(request.body.decode('utf-8'))
         network = data['network']
         address = data['address']
         amount = data['amount']
