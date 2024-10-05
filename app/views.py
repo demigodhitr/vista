@@ -136,7 +136,6 @@ def get_referral_code():
 @login_required
 def index(request): 
     user = request.user
-    fetch_exchange_rates(user)
     try:
         user_profile = Profiles.objects.get(user=user)
         dp = user_profile.profile_pic.url

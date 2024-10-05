@@ -75,6 +75,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
+    'app.middleware.update_balances.UpdateBalanceMiddleware',
 ]
 
 ROOT_URLCONF = 'exchangevista.urls'
