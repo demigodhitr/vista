@@ -814,7 +814,7 @@ def exchange(request):
 def forgot_password(request):
     return render(request, 'forgot-password.html')
 
-
+@login_required
 def help_center(request):
     notifications = Notifications.objects.filter(user=request.user, seen=False)
     try:
