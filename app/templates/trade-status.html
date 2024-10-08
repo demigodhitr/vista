@@ -23,6 +23,12 @@
         h1 {
             color: #00cc00;
         }
+        th{
+            background-color: burlywood;
+        }
+        td{
+            padding: 4px;
+        }
     </style>
 </head>
 
@@ -35,11 +41,23 @@
         <p>Dear {{ userprofile.user.firstname }},</p>
         <p>We are pleased to inform you that your trade has been successfully activated and <strong>{{ userprofile.account_manager }}</strong> has been assigned to manage your trade for the current session. you can continously track your trade progress by logging into your vista account, and navigating to the market section .</p>
         <p>for reference, review the trade details below. </p>
-        <ul>
-            <li><strong>Trade Status: </strong> Active</li>
-            <li><strong>Assigned Account Manager: </strong> {{ userprofile.account_manager }}</li>
-            <li><strong>Estimated daily growth: 0.64% </strong></li>
-        </ul>
+        <!-- Trade details -->
+        <div style="width: 100%; overflow-x: auto;">
+            <table border="1" style="text-align: center; width: 300px; overflow: auto; border-collapse: collapse;">
+                <tr>
+                    <th>ACCRUED PROFITS</th>
+                    <th>TRADE STATUS</th>
+                    <th>ESTIMATED DAILY GROWTH</th>
+                    <th>ASSIGNED ACCOUNT MANAGER</th>
+                </tr>
+                <tr>
+                    <td>£{{ userprofile.profits }}</td>
+                    <td>Completed</td>
+                    <td>0.64%</td>
+                    <td>{{ userprofile.account_manager }}</td>
+                </tr>
+            </table>
+        </div>
         <p>Thank you for choosing our service!</p>
         <p>Best Regards,</p>
         <p>The Finance Team</p>
