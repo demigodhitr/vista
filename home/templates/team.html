@@ -276,12 +276,11 @@
                     <div class="col-xl-3 col-lg-4 col-md-6 col-12">
                         <div class="single-footer-widget wow fadeInLeft">
                             <div class="about-us-widget">
-                                <a href="{% url 'home' %}" class="footer-logo d-block">
+                                <a href="{% url 'web' %}" class="footer-logo d-block">
                                     <img src="{% static 'assets/img/logo/logo.png' %}" alt="TradePro">
                                 </a>
                                 <p>We offer the best, most reliable investment plans and trading services around. Open your
-                                    equinox trading account and start
-                                    finding great deals</p>
+                                    Vista wallet account and start finding great deals</p>
                             </div>
                         </div>
                     </div>
@@ -291,7 +290,7 @@
                                 <h5>Company</h5>
                             </div>
                             <ul>
-                                <li><a href="{% url 'about' %}">About Equinox</a></li>
+                                <li><a href="{% url 'about' %}">About ExchangeVista</a></li>
                                 <li><a href="{% url 'contact' %}">Contact & support</a></li>
                             </ul>
                         </div>
@@ -326,7 +325,7 @@
             <div class="container">
                 <div class="footer-bottom-content d-md-flex justify-content-between">
                     <div class="site-copyright wow fadeInUp" data-wow-delay=".2" data-wow-duration="1s">
-                        <p>&copy; 2024 <a href="#">Equinox Traders</a> All Rights
+                        <p>&copy; 2024 <a href="#">ExchangeVista</a> All Rights
                             Reserved.</p>
                     </div>
                     <div class="social-links mt-4 mt-md-0 wow fadeInUp" data-wow-delay=".3" data-wow-duration="1s">
@@ -358,6 +357,25 @@
     <script src="{% static 'assets/js/wow.min.js' %}"></script>
     <script src="{% static 'assets/js/metismenu.js' %}"></script>
     <script src="{% static 'assets/js/active.js' %}"></script>
+    <script>
+        document.querySelectorAll('form[action="#"]').forEach(f => {
+            f.addEventListener('submit', (e)=>{
+                e.preventDefault();
+                if (!f.querySelector('input[type="email"]').value){
+                    alert('Please enter your email address');
+                    return;
+                }
+                const email = f.querySelector('input[type="email"]').value; 
+                const btn = f.querySelector('button[type="submit"]');
+                btn.style.opacity = '0.4';
+                localStorage.setItem('marketing_email', email);
+                setTimeout(()=> {
+                    btn.style.opacity = '1';
+                    alert('Subscription successful. we\'ll keep you up to date on market trends, hottest releases and very important announcements, making sure you don\'t miss any updates from us.');
+                }, 900)
+            });
+        });
+    </script>
 </body>
 
 </html>

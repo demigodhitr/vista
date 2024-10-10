@@ -30,6 +30,10 @@ class Command(BaseCommand):
                         # Investment duration completed
                         investment.status = 'Completed'
                         investment.save()
+                        profile = investment.investor.profiles
+                        profile.trade_status = 'Completed'
+                        profile.save()
+                        logger.info(f'Completed investment {investment.pk} for user {investment.investor.username}')
                         continue
 
                     # Calculate total profit target

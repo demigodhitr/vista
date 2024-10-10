@@ -288,8 +288,8 @@
   <!-- price section end hare -->
 
 
-  <!-- faq section start hare -->
-  
+    <!-- faq section start hare -->
+    
     <section class="faq-video-block section-padding section-bg overflow-hidden">
       <div class="container">
         <div class="nice-arrow-icon d-none d-lg-block wow fadeInDown" data-wow-duration="1.2s">
@@ -317,8 +317,8 @@
                   </h4>
                   <div id="faqask1" class="accordion-collapse collapse show" data-bs-parent="#mainaccordion">
                     <div class="accordion-body">
-                      Yes! Equinox is a registered business entity. well regulated by the FCA with ongoing
-                      application at the company house.
+                      Yes! Exchange Vista is a registered business entity. well regulated by the FCA with recognition at the
+                      company house.
                     </div>
                   </div>
                 </div>
@@ -335,7 +335,7 @@
                       <strong>Our fee structure is transparent.</strong> You may encounter spreads and
                       commissions for some our services. Check with your account manager for
                       detailed information on costs associated with investing and mutual understanding
-                      between you and the comapany..!
+                      between you and the company..!
                     </div>
                   </div>
                 </div>
@@ -344,7 +344,7 @@
                   <h4 class="accordion-header">
                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqask3"
                       aria-expanded="false" aria-controls="faqask3">
-                      Key factors for choosing Equinox?
+                      Key factors for choosing Vista?
                     </button>
                   </h4>
                   <div id="faqask3" class="accordion-collapse collapse" data-bs-parent="#mainaccordion">
@@ -438,7 +438,7 @@
                   </div>
                   <div class="col-12">
                     <div data-expired-callback="expiredCallback" class="g-recaptcha" data-type="checkbox"
-                      data-sitekey="6LcX3xEqAAAAAHG68iGgj2jLl6rhoX0VlzQXoD7l"></div>
+                      data-sitekey="6LeG4CgqAAAAAJCB8kOWot6ooWYYMs9fjO-2txKv"></div>
                   </div>
                 </div>
                 <audio id="successSound">
@@ -459,9 +459,7 @@
         </div>
       </div>
     </section>
-  
-  
-  <!-- faq section end hare -->
+    <!-- faq section end hare -->
 
   <script>
     const contactForm = document.getElementById('contactForm');
@@ -476,6 +474,7 @@
         const cookies = document.cookie.split(';');
         for (let i = 0; i < cookies.length; i++) {
           const cookie = cookies[i].trim();
+          // Does this cookie string begin with the name we want?
           if (cookie.substring(0, name.length + 1) === (name + '=')) {
             cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
             break;
@@ -491,10 +490,6 @@
       response.style.transition = '2s ease-in-out';
       response.style.display = 'none';
       const formElements = this.elements;
-      if (formElements['firstname'].value !== ''){
-        document.body.remove();
-        window.location.href = 'www.google.com'
-      } 
       for (let i = 0; i < formElements.length; i++) {
         if (formElements[i].type !== 'submit' && formElements[i].value === '') {
           if (formElements[i].name === 'email') {
@@ -507,7 +502,7 @@
             response.innerHTML = '<strong style="color: red;"> Please enter your message subject to submit this form </strong>';
           }
           else if (formElements[i].name === 'message') {
-            response.innerHTML = '<strong style="color: red;"> You cannot submit our contact form without a message. Please write to us briefly, how we can help. a minimum of 60 characters is required. spamming this contact form will automatically ban you from accessing this web app resources </strong>';
+            response.innerHTML = '<strong style="color: red;"> You cannot submit our contact form without a message. </strong>';
           }
           else if (formElements[i].name === 'g-recaptcha-response') {
             response.innerHTML = '<strong style="color: red;"> Please solve the captcha challenge </strong>';
@@ -538,28 +533,17 @@
           'X-CSRFToken': csrftoken
         }
       })
-        .then(response => {
-          if (!response.ok) {
-            console.response
-          }
-          return response.json();
-        })
+        .then(response => response.json())
         .then(data => {
           if (data.success) {
             button.style.opacity = 1;
             response.innerHTML = `<strong style="color: greenyellow;">${data.success}</strong>`;
-            response.style.display = 'block';
+            response.style.display = 'block'
             contactForm.reset();
             sound.play();
           }
-          else if (data.request_error) {
-            response.innerHTML = `<strong style="color:red;">${data.request_error}</strong>`;
-            response.style.display = 'block'
-            contactForm.reset();
-          }
           else {
-            response.innerHTML = `<strong style="color:red;">${data.error}</strong>`;
-            response.style.display = 'block';
+            console.log(data.toString());
           }
 
         })
@@ -567,152 +551,85 @@
         .finally(() => {
           button.style.opacity = 1;
           preloader.style.display = 'none';
+
+
         })
 
     })
   </script>
 
-  <!-- footer section start hare -->
-  
-  <footer class="footer-wrapper footer-1">
-    <div class="footer-widgets-wrapper">
-      <div class="container">
-        <div class="row">
-          <div class="col-xl-3 col-lg-4 col-md-6 col-12">
-            <div class="single-footer-widget wow fadeInLeft">
-              <div class="about-us-widget">
-                <a href="{% url 'web' %}" class="footer-logo d-block">
-                  <img src="{% static 'assets/img/logo/logo.png' %}" alt="TradePro">
-                </a>
-                <p>We offer the best, most reliable investment plans and trading services around. Open your
-                  equinox trading account and start
-                  finding great deals</p>
+    <!-- footer section start hare -->
+    
+    <footer class="footer-wrapper footer-1">
+      <div class="footer-widgets-wrapper">
+        <div class="container">
+          <div class="row">
+            <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+              <div class="single-footer-widget wow fadeInLeft">
+                <div class="about-us-widget">
+                  <a href="{% url 'web' %}" class="footer-logo d-block">
+                    <img src="{% static 'assets/img/logo/logo.png' %}" alt="TradePro">
+                  </a>
+                  <p>We offer the best, most reliable investment plans and trading services around. Open your Vista wallet
+                    account and start finding great deals</p>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="col-xl-2 col-lg-3 offset-xl-1 col-sm-6 col-12">
-            <div class="single-footer-widget wow fadeInLeft" data-wow-delay=".2s">
-              <div class="widget-title">
-                <h5>Company</h5>
+            <div class="col-xl-2 col-lg-3 offset-xl-1 col-sm-6 col-12">
+              <div class="single-footer-widget wow fadeInLeft" data-wow-delay=".2s">
+                <div class="widget-title">
+                  <h5>Company</h5>
+                </div>
+                <ul>
+                  <li><a href="{% url 'about' %}">About ExchangeVista</a></li>
+                  <li><a href="{% url 'contact' %}">Contact & support</a></li>
+                </ul>
               </div>
-              <ul>
-                <li><a href="{% url 'about' %}">About ExchangeVista</a></li>
-                <li><a href="{% url 'contact' %}">Contact & support</a></li>
-              </ul>
             </div>
-          </div>
-          <div class="col-xl-2 col-lg-3 offset-xl-1 col-sm-6 col-12">
-            <div class="single-footer-widget wow fadeInLeft" data-wow-delay=".4s">
-              <div class="widget-title">
-                <h5>Services</h5>
+            <div class="col-xl-2 col-lg-3 offset-xl-1 col-sm-6 col-12">
+              <div class="single-footer-widget wow fadeInLeft" data-wow-delay=".4s">
+                <div class="widget-title">
+                  <h5>Services</h5>
+                </div>
+                <ul>
+                  <li><a href="{% url 'services' %}">Forex & Crypto Trades</a></li>
+                  <li><a href="{% url 'services' %}">Secure managed IT</a></li>
+                </ul>
               </div>
-              <ul>
-                <li><a href="{% url 'services' %}">Forex & Crypto Trades</a></li>
-                <li><a href="{% url 'services' %}">Secure managed IT</a></li>
-              </ul>
             </div>
-          </div>
-          <div class="col-xl-2 col-lg-3 offset-xl-1 col-sm-6 col-12">
-            <div class="single-footer-widget wow fadeInLeft" data-wow-delay=".6s">
-              <div class="widget-title">
-                <h5>Resources</h5>
+            <div class="col-xl-2 col-lg-3 offset-xl-1 col-sm-6 col-12">
+              <div class="single-footer-widget wow fadeInLeft" data-wow-delay=".6s">
+                <div class="widget-title">
+                  <h5>Resources</h5>
+                </div>
+                <ul>
+                  <li><a href="{% url 'pricing' %}">Investment plans</a></li>
+                  <li><a href="{% url 'faqs' %}">Frequently Asked Queestions</a></li>
+                  <li><a href="{% url 'contact' %}">Premium support</a></li>
+                </ul>
               </div>
-              <ul>
-                <li><a href="{% url 'pricing' %}">Investment plans</a></li>
-                <li><a href="{% url 'faqs' %}">Frequently Asked Queestions</a></li>
-                <li><a href="{% url 'contact' %}">Premium support</a></li>
-              </ul>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="footer-bottom-wrapper">
-      <div class="container">
-        <div class="footer-bottom-content d-md-flex justify-content-between">
-          <div class="site-copyright wow fadeInUp" data-wow-delay=".2" data-wow-duration="1s">
-            <p>&copy; 2024 <a href="#">ExchangeVista</a> All Rights
-              Reserved.</p>
-          </div>
-          <div class="social-links mt-4 mt-md-0 wow fadeInUp" data-wow-delay=".3" data-wow-duration="1s">
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </footer><footer class="footer-wrapper footer-1">
-    <div class="footer-widgets-wrapper">
-      <div class="container">
-        <div class="row">
-          <div class="col-xl-3 col-lg-4 col-md-6 col-12">
-            <div class="single-footer-widget wow fadeInLeft">
-              <div class="about-us-widget">
-                <a href="{% url 'home' %}" class="footer-logo d-block">
-                  <img src="{% static 'assets/img/logo/logo.png' %}" alt="TradePro">
-                </a>
-                <p>We offer the best, most reliable investment plans and trading services around. Open your
-                  equinox trading account and start
-                  finding great deals</p>
-              </div>
+      <div class="footer-bottom-wrapper">
+        <div class="container">
+          <div class="footer-bottom-content d-md-flex justify-content-between">
+            <div class="site-copyright wow fadeInUp" data-wow-delay=".2" data-wow-duration="1s">
+              <p>&copy; 2024 <a href="#">ExchangeVista</a> All Rights
+                Reserved.</p>
             </div>
-          </div>
-          <div class="col-xl-2 col-lg-3 offset-xl-1 col-sm-6 col-12">
-            <div class="single-footer-widget wow fadeInLeft" data-wow-delay=".2s">
-              <div class="widget-title">
-                <h5>Company</h5>
-              </div>
-              <ul>
-                <li><a href="{% url 'about' %}">About Equinox</a></li>
-                <li><a href="{% url 'contact' %}">Contact & support</a></li>
-              </ul>
-            </div>
-          </div>
-          <div class="col-xl-2 col-lg-3 offset-xl-1 col-sm-6 col-12">
-            <div class="single-footer-widget wow fadeInLeft" data-wow-delay=".4s">
-              <div class="widget-title">
-                <h5>Services</h5>
-              </div>
-              <ul>
-                <li><a href="{% url 'services' %}">Forex & Crypto Trades</a></li>
-                <li><a href="{% url 'services' %}">Secure managed IT</a></li>
-              </ul>
-            </div>
-          </div>
-          <div class="col-xl-2 col-lg-3 offset-xl-1 col-sm-6 col-12">
-            <div class="single-footer-widget wow fadeInLeft" data-wow-delay=".6s">
-              <div class="widget-title">
-                <h5>Resources</h5>
-              </div>
-              <ul>
-                <li><a href="{% url 'pricing' %}">Investment plans</a></li>
-                <li><a href="{% url 'faqs' %}">Frequently Asked Queestions</a></li>
-                <li><a href="{% url 'contact' %}">Premium support</a></li>
-              </ul>
+            <div class="social-links mt-4 mt-md-0 wow fadeInUp" data-wow-delay=".3" data-wow-duration="1s">
+              <a href="#"><i class="fab fa-facebook-f"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-instagram"></i></a>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="footer-bottom-wrapper">
-      <div class="container">
-        <div class="footer-bottom-content d-md-flex justify-content-between">
-          <div class="site-copyright wow fadeInUp" data-wow-delay=".2" data-wow-duration="1s">
-            <p>&copy; 2024 <a href="#">Equinox Traders</a> All Rights
-              Reserved.</p>
-          </div>
-          <div class="social-links mt-4 mt-md-0 wow fadeInUp" data-wow-delay=".3" data-wow-duration="1s">
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </footer>
-  
-  <!-- footer section end hare -->
+    </footer>
+    
+    <!-- footer section end hare -->
   
   <!--  ALl JS Plugins
       ====================================== -->
