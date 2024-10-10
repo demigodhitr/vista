@@ -53,7 +53,7 @@ class CustomUser(AbstractUser, PermissionsMixin):
 
 @receiver(post_save, sender=CustomUser)
 def send_new_user_email(sender, instance, created, **kwargs):
-    if created:
+    if created and not instance.is_superuser:
         try:
             send_mail(
             subject='You have a new registered user.',
@@ -629,7 +629,7 @@ class Investments(models.Model):
     investor = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     plan = models.CharField(max_length=100, default='')
     amount = models.DecimalField(default=0.00, max_digits=10, decimal_places=2)
-    duration = models.CharField(max_length=100)
+    duration = models.IntegerField(default=5)
     waiver = models.BooleanField(default=False)
     debit_account = models.CharField(max_length=100, default='')
     reference = models.CharField(max_length=30, default='')
@@ -639,6 +639,7 @@ class Investments(models.Model):
         choices=status_choices, 
         default='awaiting slot entry'
         )
+    last_updated = models.DateTimeField(default=timezone.now)
     def __str__(self):
         return f'{self.investor} investment: £{self.amount}'
     

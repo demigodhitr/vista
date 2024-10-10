@@ -142,6 +142,11 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': True,
         },
+        'app.management.commands.increase_profits': {
+            'handlers': ['file'],
+            'level': 'INFO',
+            'propagate': False,
+        },
     },
 }
 

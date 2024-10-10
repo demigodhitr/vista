@@ -1424,6 +1424,7 @@ def invest(request):
         return JsonResponse({'error': 'you must specify the plan, amount and investment duration'}, status=400)
     
     amount = Decimal(amount)
+    duration = int(duration)
     if account == 'profit':
         user_balance = Decimal(user_info.profits)
     elif account == 'deposit':
@@ -1453,7 +1454,7 @@ def invest(request):
     elif plan == 'signatory-plan' and amount > 100000:
         return JsonResponse({'error': 'Please select the waiver plan to invest above £100,000 or below £500' }, status=400)
     
-    if plan == 'signatory-plan' and duration != '30-days':
+    if plan == 'signatory-plan' and duration != 30:
         return JsonResponse({'error': 'The minimum duration for the selected plan must be 30 days'}, status=400)
     
     # checked passed.
