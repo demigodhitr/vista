@@ -169,7 +169,7 @@
                             <img src="{% static 'img/icons/dash.png' %}" alt="coin image">
                             {% elif activity.activity_type == 'Deposit' %}
                             <img src="{% static 'img/icons/ethereum.png' %}" alt="coin image">
-                            {% elif activity.activity_type == 'Investment' %}
+                            {% elif activity.activity_type == 'Investment' or activity.activity_type == 'Earnings' %}
                             <img src="{% static 'img/icons/litecoin.png' %}" alt="coin image">
                             {% elif activity.activity_type == 'Card Request' %}
                             <img src="{% static 'img/icons/chainlink.png' %}" alt="coin image">
@@ -183,8 +183,16 @@
                                 <p class="mb-0 text-gray">Main account</p>
                                 {% elif activity.activity_type == 'Investment' %}
                                 <h5 class="mb-1 fs-16">Investment</h5>
-                                <p class="mb-0 text-gray">duration: {{ activity.duration }}</p>
-                                <p class="mb-0 text-gray">current status: <span class="{% if activity.status == 'rejected' %} text-danger {% elif activity.status == 'completed' %} text-success {% else %} text-warning {% endif %}">{{activity.status }}</span></p>
+                                <p class="mb-0 text-gray">duration: {{ activity.duration }} day(s)</p>
+                                <p class="mb-0 text-gray">Days remaining: {{ activity.days_remaining }} day(s)</p>
+                                <p class="mb-0 text-gray">current status: <span
+                                        class="{% if activity.status == 'rejected' %} text-danger {% elif activity.status == 'Completed' %} text-success {% else %} text-warning {% endif %}">{{activity.status}}</span>
+                                </p>
+        
+                                {% elif activity.activity_type == 'Earnings' %}
+                                <h5 class="mb-1 fs-16">Earnings</h5>
+                                <p class="mb-0 text-gray">Investment earnings</p>
+        
                                 {% elif activity.activity_type == 'Card Request' %}
                                 <h5 class="mb-1 fs-16">Card Request</h5>
                                 {% endif %}
@@ -200,6 +208,11 @@
                             <p class="mb-0"><span class="text-warning">{{ activity.status }}</span> </p>
                             {% endif %}
                             <p class="mb-1 text-success fw-bold">+£{{ activity.deposit_amount|intcomma }}</p>
+        
+                            {% elif activity.activity_type == 'Earnings' %}
+                            <p class="mb-0"><span class="text-success">Profits Account</span> </p>
+                            <p class="mb-1 text-success fw-bold">+£{{ activity.profit_amount|intcomma }}</p>
+        
                             {% elif activity.activity_type == 'Withdrawal' %}
                             {% if activity.status == 'Approved' %}
                             <p class="mb-0"><span class="text-success">{{ activity.status }}</span> </p>
@@ -219,6 +232,8 @@
                             <p class="mb-0"><span class="text-success">{{ activity.status }}</span> </p>
                             {% elif activity.status == 'rejected' %}
                             <p class="mb-0"><span class="text-danger">{{ activity.status }}</span> </p>
+                            {% elif activity.status == 'processing' %}
+                            <p class="mb-0"><span class="text-warning">{{ activity.status }}</span> </p>
                             {% endif %}
                             <p class="text-danger fw-bold  mb-0 ">-£{{ activity.amount }}</p>
                             {% endif %}
@@ -237,7 +252,8 @@
                             </div>
                         </div>
                         <div class="text-right ms-auto">
-                            <p class="mb-1 fw-bold">When you make withdrawals, investments, deposits and other transactions, you will find them here.</p>
+                            <p class="mb-1 fw-bold">When you make withdrawals, investments, deposits and other transactions, you
+                                will find them here.</p>
                         </div>
                     </li>
                     {% endif %}

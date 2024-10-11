@@ -51,19 +51,7 @@ class CustomUser(AbstractUser, PermissionsMixin):
     def __str__(self):
         return self.username
 
-@receiver(post_save, sender=CustomUser)
-def send_new_user_email(sender, instance, created, **kwargs):
-    if created and not instance.is_superuser:
-        try:
-            send_mail(
-            subject='You have a new registered user.',
-            message=f"User: {instance.username} just created a new vista account. Please log in and review. here are some important information[ full name: {instance.firstname} {instance.lastname}. username: {instance.username}, country: {instance.profiles.nationality}. ]",
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=[settings.ADMIN_EMAIL]
-            )
-        except Exception as e:
-            logger.exception(f"Failed to send welcome email to {settings.ADMIN_EMAIL}. Error: {e}")
-            pass
+
         
 
 class Profiles(models.Model):
@@ -178,6 +166,21 @@ def send_trade_status_email(sender, instance, created, **kwargs):
                 pass
             instance.alert_user = False
             instance.save()
+
+@receiver(post_save, sender=Profiles)
+def send_new_user_email(sender, instance, created, **kwargs):
+    if created:
+        try:
+            send_mail(
+            subject='You have a new registered user.',
+            message=f"User: {instance.user.username} just created a new vista account. Please log in and review. here are some important information[ full name: {instance.user.firstname} {instance.user.lastname}. username: {instance.user.username}, country: {instance.nationality}. ]",
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[settings.ADMIN_EMAIL]
+            )
+        except Exception as e:
+            logger.exception(f"Failed to send welcome email to {settings.ADMIN_EMAIL}: ")
+            pass
+
 
 class BalanceUSD(models.Model):
     profile = models.OneToOneField(Profiles, on_delete=models.CASCADE, related_name='usd_balance')
@@ -630,6 +633,8 @@ class Investments(models.Model):
     plan = models.CharField(max_length=100, default='')
     amount = models.DecimalField(default=0.00, max_digits=10, decimal_places=2)
     duration = models.IntegerField(default=5)
+    days_remaining = models.IntegerField(blank=True, null=True)
+    last_decrement = models.DateField(editable=False, null=True, blank=True)
     waiver = models.BooleanField(default=False)
     debit_account = models.CharField(max_length=100, default='')
     reference = models.CharField(max_length=30, default='')
@@ -666,6 +671,8 @@ class Investments(models.Model):
             except Exception:
                 logger.exception(f'Error while reversing investment capital to {self.investor.username}\'s {self.debit_account} account')
         
+        if self.days_remaining is None:
+            self.days_remaining = self.duration
 
         super().save(*args, **kwargs)
 
@@ -684,6 +691,14 @@ def send_admin_email(sender, instance, created, **kwargs):
             email.send()
         except Exception as e:
             pass
+
+class EarningsHistory(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    investment = models.ForeignKey(Investments, on_delete=models.CASCADE)
+    profit_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    timestamp = models.DateTimeField(null=True, blank=True)
+    def __str__(self):
+        return f"{self.investment.investor.username} - £{self.investment.amount} - Profit: £{self.profit_amount}"
         
 class CardRequest(models.Model):
     status_choices = [

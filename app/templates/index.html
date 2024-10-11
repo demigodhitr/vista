@@ -5,11 +5,11 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta name="description" content="Nextcoin">
-    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="description" content="Vista">
+    <meta name="mobile-web-app-capable" content="yes"/>
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="keywords" content="Cryptocurrency Exchange & Investment platform">
-    <meta name="author" content="">
+    <meta name="keywords" content="2025, 2026, best, best investment platform, Cryptocurrency Exchange & Investment platform">
+    <meta name="author" content="Exchange Vista dev team">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
     <title>ExchangeVista </title>
@@ -740,7 +740,7 @@
                 {% endfor %}
             </div>
         </div>
-        <div class="transaction-item pb-4">
+        <div id="historySection" class="transaction-item pb-4">
             <h4 class="main-title py-4">Transaction History</h4>
             <div class="transcation-card">
                 <ul class="transaction-list">
@@ -749,25 +749,31 @@
                     <li class="list-item mb-0 pb-3">
                         <div class="media align-items-center">
                             {% if activity.activity_type == 'Withdrawal' %}
-                            <img src="{% static 'img/icons/dash.png' %}" alt="coin image">
+                                <img src="{% static 'img/icons/dash.png' %}" alt="coin image">
                             {% elif activity.activity_type == 'Deposit' %}
-                            <img src="{% static 'img/icons/ethereum.png' %}" alt="coin image">
-                            {% elif activity.activity_type == 'Investment' %}
-                            <img src="{% static 'img/icons/litecoin.png' %}" alt="coin image">
+                                <img src="{% static 'img/icons/ethereum.png' %}" alt="coin image">
+                            {% elif activity.activity_type == 'Investment' or activity.activity_type == 'Earnings' %}
+                                <img src="{% static 'img/icons/litecoin.png' %}" alt="coin image">
                             {% elif activity.activity_type == 'Card Request' %}
-                            <img src="{% static 'img/icons/chainlink.png' %}" alt="coin image">
+                                <img src="{% static 'img/icons/chainlink.png' %}" alt="coin image">
                             {% endif %}
                             <div class="media-body">
                                 {% if activity.activity_type == 'Deposit' %}
-                                <p class="mb-0 text-gray">Wallet: Main</p>
-                                <h5 class="mb-1 fs-16">Wallet Top Up</h5>
+                                    <p class="mb-0 text-gray">Wallet: Main</p>
+                                    <h5 class="mb-1 fs-16">Wallet Top Up</h5>
                                 {% elif activity.activity_type == 'Withdrawal' %}
-                                <h5 class="mb-1 fs-16">Withdrawal</h5>
-                                <p class="mb-0 text-gray">Main account</p>
+                                    <h5 class="mb-1 fs-16">Withdrawal</h5>
+                                    <p class="mb-0 text-gray">Main account</p>
                                 {% elif activity.activity_type == 'Investment' %}
-                                <h5 class="mb-1 fs-16">Investment</h5>
-                                <p class="mb-0 text-gray">duration: {{ activity.duration }}</p>
-                                <p class="mb-0 text-gray">current status: <span class="{% if activity.status == 'rejected' %} text-danger {% elif activity.status == 'completed' %} text-success {% else %} text-warning {% endif %}">{{ activity.status }}</span></p>
+                                    <h5 class="mb-1 fs-16">Investment</h5>
+                                    <p class="mb-0 text-gray">duration: {{ activity.duration }} day(s)</p>
+                                    <p class="mb-0 text-gray">Days remaining: {{ activity.days_remaining }} day(s)</p>
+                                    <p class="mb-0 text-gray">current status: <span class="{% if activity.status == 'rejected' %} text-danger {% elif activity.status == 'Completed' %} text-success {% else %} text-warning {% endif %}">{{activity.status}}</span></p>
+        
+                                {% elif activity.activity_type == 'Earnings' %}
+                                <h5 class="mb-1 fs-16">Earnings</h5>
+                                <p class="mb-0 text-gray">Investment earnings</p>
+        
                                 {% elif activity.activity_type == 'Card Request' %}
                                 <h5 class="mb-1 fs-16">Card Request</h5>
                                 {% endif %}
@@ -775,37 +781,42 @@
                         </div>
                         <div class="text-right ms-auto">
                             {% if activity.activity_type == 'Deposit' %}
-                            {% if activity.status == 'Confirmed' %}
-                            <p class="mb-0"><span class="text-success">{{ activity.status }}</span> </p>
-                            {% elif activity.status == 'Failed' %}
-                            <p class="mb-0"><span class="text-danger">{{ activity.status }}</span> </p>
-                            {% elif activity.status == 'Under review' %}
-                            <p class="mb-0"><span class="text-warning">{{ activity.status }}</span> </p>
-                            {% endif %}
-                            <p class="mb-1 text-success fw-bold">+£{{ activity.deposit_amount|intcomma }}</p>
+                                {% if activity.status == 'Confirmed' %}
+                                    <p class="mb-0"><span class="text-success">{{ activity.status }}</span> </p>
+                                {% elif activity.status == 'Failed' %}
+                                    <p class="mb-0"><span class="text-danger">{{ activity.status }}</span> </p>
+                                {% elif activity.status == 'Under review' %}
+                                    <p class="mb-0"><span class="text-warning">{{ activity.status }}</span> </p>
+                                {% endif %}
+                                    <p class="mb-1 text-success fw-bold">+£{{ activity.deposit_amount|intcomma }}</p>
+        
+                            {% elif activity.activity_type == 'Earnings' %}
+                                <p class="mb-0"><span class="text-success">Profits Account</span> </p>
+                                <p class="mb-1 text-success fw-bold">+£{{ activity.profit_amount|intcomma }}</p>
+        
                             {% elif activity.activity_type == 'Withdrawal' %}
-                            {% if activity.status == 'Approved' %}
-                            <p class="mb-0"><span class="text-success">{{ activity.status }}</span> </p>
-                            {% elif activity.status == 'Failed' %}
-                            <p class="mb-0"><span class="text-danger">{{ activity.status }}</span> </p>
-                            {% elif activity.status == 'Under review' %}
-                            <p class="mb-0"><span class="text-warning">{{ activity.status }}</span> </p>
-                            {% endif %}
-                            <p class="mb-1 text-danger fw-bold">-£{{ activity.amount|intcomma }}</p>
+                                {% if activity.status == 'Approved' %}
+                                    <p class="mb-0"><span class="text-success">{{ activity.status }}</span> </p>
+                                {% elif activity.status == 'Failed' %}
+                                    <p class="mb-0"><span class="text-danger">{{ activity.status }}</span> </p>
+                                {% elif activity.status == 'Under review' %}
+                                    <p class="mb-0"><span class="text-warning">{{ activity.status }}</span> </p>
+                                {% endif %}
+                                <p class="mb-1 text-danger fw-bold">-£{{ activity.amount|intcomma }}</p>
                             {% elif activity.activity_type == 'Investment' %}
-                            <p class="mb-1 fw-bold">{{activity.plan}}</p>
-                            <p class="mb-1 text-danger fw-bold">-£{{ activity.amount|intcomma }}</p>
+                                <p class="mb-1 fw-bold">{{activity.plan}}</p>
+                                <p class="mb-1 text-danger fw-bold">-£{{ activity.amount|intcomma }}</p>
                             {% elif activity.activity_type == 'Card Request' %}
-                            {% if activity.status == 'pending' %}
-                            <p class="mb-0"><span class="text-warning">{{ activity.status }}</span> </p>
-                            {% elif activity.status == 'approved' %}
-                            <p class="mb-0"><span class="text-success">{{ activity.status }}</span> </p>
-                            {% elif activity.status == 'rejected' %}
-                            <p class="mb-0"><span class="text-danger">{{ activity.status }}</span> </p>
-                            {% elif activity.status == 'processing' %}
-                            <p class="mb-0"><span class="text-warning">{{ activity.status }}</span> </p>
-                            {% endif %}
-                            <p class="text-danger fw-bold  mb-0 ">-£{{ activity.amount }}</p>
+                                {% if activity.status == 'pending' %}
+                                    <p class="mb-0"><span class="text-warning">{{ activity.status }}</span> </p>
+                                {% elif activity.status == 'approved' %}
+                                    <p class="mb-0"><span class="text-success">{{ activity.status }}</span> </p>
+                                {% elif activity.status == 'rejected' %}
+                                    <p class="mb-0"><span class="text-danger">{{ activity.status }}</span> </p>
+                                {% elif activity.status == 'processing' %}
+                                    <p class="mb-0"><span class="text-warning">{{ activity.status }}</span> </p>
+                                {% endif %}
+                                <p class="text-danger fw-bold  mb-0 ">-£{{ activity.amount }}</p>
                             {% endif %}
                             <p class="mb-1 fw-bold">{{activity.activity_date|time_since }}</p>
                         </div>
@@ -822,8 +833,8 @@
                             </div>
                         </div>
                         <div class="text-right ms-auto">
-                            <p class="mb-1 fw-bold">When you make withdrawals, investments, deposits and other
-                                transactions, you will find them here.</p>
+                            <p class="mb-1 fw-bold">When you make withdrawals, investments, deposits and other transactions, you
+                                will find them here.</p>
                         </div>
                     </li>
                     {% endif %}

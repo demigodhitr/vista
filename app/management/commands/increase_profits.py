@@ -2,7 +2,7 @@ from django.core.management.base import BaseCommand
 from django.utils import timezone
 from decimal import Decimal, ROUND_DOWN
 from datetime import timedelta
-from app.models import Investments, Profiles
+from app.models import Investments, Profiles, EarningsHistory
 from django.db import transaction
 from django.core.mail import send_mail
 from django.conf import settings
@@ -20,7 +20,23 @@ class Command(BaseCommand):
 
         if active_investments:
             print('Active investments found, updating profits...')
+            today = now.date()
             for investment in active_investments:
+                investment_start = investment.date.date()
+                elapsed_days = (today - investment_start).days
+
+                if investment.days_remaining is None:
+                    investment.days_remaining = investment.duration - elapsed_days
+
+                # Decrease days_remaining counter if it's a new day
+                if investment.last_decrement != today and investment.days_remaining > 0:
+                    investment.days_remaining = max(investment.duration - elapsed_days, 0)
+                    investment.last_decrement = today
+                    investment.save()
+                    print(f'Decremented days_remaining for investment with ID: {investment.pk}. {investment.days_remaining} days remaining.')
+                
+
+
                 try:
                     duration_days = int(investment.duration)
                     investment_start = investment.date
@@ -62,6 +78,15 @@ class Command(BaseCommand):
                         with transaction.atomic():
                             profile.profits += profit_difference
                             profile.save()
+
+                            EarningsHistory.objects.create(
+                                user=investment.investor,
+                                investment=investment,
+                                profit_amount=profit_difference,
+                                timestamp=timezone.now()
+                            )
+                            print('Increment recorded in the Earnings History table....')
+
                             investment.last_updated = now
                             investment.save()
                             print(f'Increased profits for {investment.investor.username} by {profit_difference}')
