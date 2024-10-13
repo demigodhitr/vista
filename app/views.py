@@ -558,6 +558,11 @@ def fund_card(request):
                 return JsonResponse({'error': 'Missing Credentials'}, status=400)
             account_value = data['account']
             amount = Decimal(data['amount'])
+
+            if account_value == 'profits':
+                if profile.trade_status == 'Active' or Investments.objects.filter(user=user, status__in=['Active', 'Processing', 'In progress']).exists():
+                    return JsonResponse({'error': 'You cannot fund your card from your profits account while you have active trades or investments'}, status=400)
+                
             if amount < Decimal('100'):
                 return JsonResponse({'error': 'The minimum amount you can fund your card with is £100.00'},  status=400)
             if account_value == 'deposit':
@@ -601,6 +606,10 @@ def offload_card(request):
             
             account_value = data['account']
             amount = Decimal(data['amount'])
+
+            if account_value == 'profits':
+                if profile.trade_status == 'Active' or Investments.objects.filter(user=user, status__in=['Active', 'Processing', 'In progress']).exists():
+                    return JsonResponse({'error': 'You cannot offload your card to your profits account while you have active trades or investments'}, status=400)
 
             card.available_amount -= amount
 

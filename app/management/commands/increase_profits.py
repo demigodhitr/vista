@@ -12,15 +12,18 @@ import logging
 logger = logging.getLogger('django')
 
 class Command(BaseCommand):
-    help = 'Increase profits for active investments'
+    help = 'Auto Increase profits for active investments'
 
     def handle(self, *args, **kwargs):
         now = timezone.now()
+        today = now.date()
         active_investments = Investments.objects.filter(status='Active')
 
+        if today.weekday() in [5, 6]:
+            print ('It\'s weekend, profits will not be updated, updates continues on the start of a new week')
+            return
         if active_investments:
             print('Active investments found, updating profits...')
-            today = now.date()
             for investment in active_investments:
                 investment_start = investment.date.date()
                 elapsed_days = (today - investment_start).days
