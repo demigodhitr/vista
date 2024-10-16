@@ -6,6 +6,9 @@ from app.models import Investments, Profiles, EarningsHistory
 from django.db import transaction
 from django.core.mail import send_mail
 from django.conf import settings
+from django.template.loader import render_to_string
+from django.core.mail import EmailMultiAlternatives
+from django.utils.html import strip_tags
 
 import logging
 
@@ -52,8 +55,23 @@ class Command(BaseCommand):
                         profile = investment.investor.profiles
                         profile.trade_status = 'Completed'
                         profile.save()
-                        logger.info(f'Completed investment {investment.pk} for user {investment.investor.username}')
-                        continue
+                        try:
+                            subject = 'Congratulations! Your trade has been completed'
+                            template = 'trade-completed.html'
+                            html_content = render_to_string(template, {'userprofile': profile})
+                            text_content = strip_tags(html_content)
+                            email = EmailMultiAlternatives(
+                                subject,
+                                text_content,
+                                settings.DEFAULT_FROM_EMAIL,
+                                [investment.investor.email],
+                            )
+                            email.attach_alternative(html_content, "text/html")
+                            email.send()
+                            print(f'Completed investment {investment.pk} for user {investment.investor.username}')
+                        except Exception as e:
+                            logger.exception(f'"Error sending email to {investment.investor.email}", ERROR:{e}')
+                            continue
 
                     # Calculate total profit target
                     profit_target = investment.amount * Decimal('9')  # 10x growth

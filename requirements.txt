@@ -5,9 +5,10 @@ certifi==2024.6.2
 cffi==1.16.0
 charset-normalizer==3.3.2
 cryptography==42.0.8
+defusedxml==0.8.0rc2
 Django==5.0.6
 django-allauth==0.63.3
-django-sslserver==0.22
+django-cors-headers==4.4.0
 django-webpack-loader==3.1.0
 firebase-admin==6.5.0
 google-api-core==2.19.0
@@ -26,6 +27,7 @@ httplib2==0.22.0
 humanize==4.9.0
 idna==3.7
 msgpack==1.0.8
+oauthlib==3.2.2
 pillow==10.3.0
 proto-plus==1.24.0
 protobuf==4.25.3
@@ -34,8 +36,12 @@ pyasn1_modules==0.4.0
 pycparser==2.22
 PyJWT==2.8.0
 pyparsing==3.1.2
+python3-openid==3.2.0
 requests==2.32.3
+requests-oauthlib==2.0.0
 rsa==4.9
+social-auth-app-django==5.4.2
+social-auth-core==4.5.4
 sqlparse==0.5.0
 tzdata==2024.1
 uritemplate==4.1.1

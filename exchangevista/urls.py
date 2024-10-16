@@ -11,7 +11,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('app/', include('app.urls')),
     path('', include('home.urls')),
-    path('', include('allauth.urls'))
+    path('', include('allauth.urls')),
+    path('oauth/', include('social_django.urls', namespace='social')),
 ]
 
 if settings.DEBUG:
@@ -19,6 +20,6 @@ if settings.DEBUG:
 
 handler404 = 'app.views.custom404'
 
-handler403 = 'app.views.custom403'
+handler403 = 'app.views.permission_denied_handler'
 
 handler500 = 'app.views.custom500'

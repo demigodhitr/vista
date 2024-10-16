@@ -45,6 +45,9 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.facebook',
     'webpack_loader',
+
+    #third party apps
+    'social_django',
 ]
 
 SITE_ID = 1
@@ -75,6 +78,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
     'app.middleware.update_balances.UpdateBalanceMiddleware',
 ]
 
@@ -243,17 +247,42 @@ SERVER_EMAIL = 'alerts@exchangevista.com'
 FIREBASE_ADMIN = BASE_DIR / 'exchangevista' / 'firebase-admin-key.json'
 OAUTH_SECRET = BASE_DIR / 'exchangevista' / 'oauth-client-secret.json'
 
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '644563502959-iqv5j9ie2rjdpqd2t62dq8eh2gmb6097.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
+    'email',
+    'profile',
+]
+SOCIAL_AUTH_GOOGLE_OAUTH2_REDIRECT_URI = 'http://localhost:8080/oauth/complete/google-oauth2/'  # for local testing
+
+#PIPELINE
+SOCIAL_AUTH_PIPELINE = (
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.auth_allowed',
+    'social_core.pipeline.social_auth.social_user',
+    # 'social_core.pipeline.user.get_username',
+    # 'social_core.pipeline.user.create_user',  
+    'app.pipeline.save_profile', # custom pipeline function
+    'social_core.pipeline.social_auth.associate_user',
+    'social_core.pipeline.social_auth.load_extra_data',
+    'social_core.pipeline.user.user_details',
+)
+# AUTHENTICATION BACKEND
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'social_core.backends.google.GoogleOAuth2',
+)
+
+#default profile picture
 DEFAULT_AVATAR = BASE_DIR / 'app' / 'static' / 'default-avatar.png'
 
-# AUTHENTICATION BACKEND
-# AUTHENTICATION_BACKENDS = (
-#     'django.contrib.auth.backends.ModelBackend',
-#     'allauth.account.auth_backends.AuthenticationBackend',
-# )
 
-# ALL-AUTH REDIRECT PATH.
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
+
+# LOGIN REDIRECT PATH.
+LOGIN_REDIRECT_URL = '/app/'
+LOGOUT_REDIRECT_URL = '/app/'
 
 FACEBOOK_APP_ID = '490627753425286'
 FACEBOOK_APP_SECRET = '399a9fab546c89f97fe37c2ae17e7536'

@@ -8,6 +8,7 @@ urlpatterns = [
     path('profile-completion/', views.profile_completion_view, name='profile_completion_view'),
     path('', views.index, name='home'),
     path('register/', views.signup, name='register'),
+    path('getcountry/<str:country>/', views.get_country, name='get_country'),
     path('login/', views.signin, name='login'),
     path('thirdparty/facebook/', views.facebook_login, name='fb_third_party'),
     path('thirdparty/google', views.google_login, name='g_third_party'),

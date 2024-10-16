@@ -34,7 +34,6 @@ from django.core.files.temp import NamedTemporaryFile
 from django.core.cache import cache
 from io import BytesIO
 from PIL import Image
-import requests
 import logging
 import os
 from django.views.decorators.csrf import csrf_exempt
@@ -360,6 +359,10 @@ def signup(request):
     ref = request.session.get('id', None)
     return render(request, 'register.html', {'ref':ref})
 
+def get_country(request, country):
+    request.session.setdefault('nationality', country)
+    return JsonResponse({'success': True, 'country': country}, status=200)
+
 def register_as_referred(request, id):
     request.session.setdefault('id', id)
     return redirect('register')
@@ -444,69 +447,69 @@ def facebook_login(request):
 
 def google_login(request):
     if request.method == 'POST':
-        print('post received')
-        data = json.loads(request.body.decode('utf-8'))
-        email = data.get('email')
-        firstname = data.get('firstname')
-        lastname = data.get('lastname')
-        picture_url = data.get('picture', None)
-        google_id = data.get('sub')
-        nationality = data.get('nationality')
+    #     print('post received')
+    #     data = json.loads(request.body.decode('utf-8'))
+    #     email = data.get('email')
+    #     firstname = data.get('firstname')
+    #     lastname = data.get('lastname')
+    #     picture_url = data.get('picture', None)
+    #     google_id = data.get('sub')
+    #     nationality = data.get('nationality')
 
-        if not(email and firstname and lastname and picture_url and google_id):
-            return JsonResponse({'error': 'Missing google credentials'}) 
-        try:
-            user = CustomUser.objects.get(email=email)
-            profile = Profiles.objects.get(user=user)
-            if profile.can_login:
-                user.username = f'{user.firstname}-{google_id}'
-                user.save()
-                login(request, user)
-                print('Login successful')
-                return JsonResponse({'success': 'User authenticated','redirect_url': 'home'})
-            else:
-                return JsonResponse({'disabled': 'Your account has been locked. Please contact support.'})
-        except CustomUser.DoesNotExist:
-            user = CustomUser.objects.create_user(
-                username= f'{firstname}-{google_id}',
-                email=email,
-                firstname=firstname,
-                lastname=lastname,
-            )
-            profile = Profiles.objects.create(
-                user=user, 
-                nationality=nationality
-            )
-            referral_ID = get_referral_code()
-            Referrals.objects.create(user=user, referral_id=referral_ID)
-            MinimumDeposit.objects.create(user=user, amount=500)   
-            if picture_url:
-                try:
-                    response = requests.get(picture_url)
-                    if response.status_code == 200:
-                        img = Image.open(BytesIO(response.content))
-                        with NamedTemporaryFile() as temp_image:
-                            img.save(temp_image, format=img.format)
-                            temp_image.flush()
-                            temp_image.seek(0)  # Go back to the start of the file
-                            profile_pic_format = img.format.lower()
-                            profile_pic_name = f'{google_id}.{profile_pic_format}'
-                            profile.profile_pic.save(profile_pic_name, ContentFile(temp_image.read()), save=True)
-                    else:
-                        print('Failed to download image')
-                except Exception as e:
-                    logger.exception(f"Failed to download or save profile picture: {e}")
-                    default_image_path = settings.DEFAULT_AVATAR
-                    with open(default_image_path, 'rb') as f:
-                        profile.profile_pic.save('default-avatar.png', ContentFile(f.read()), save=True)
-            else:
-                default_image_path = settings.DEFAULT_AVATAR
-                with open(default_image_path, 'rb') as f:
-                    profile.profile_pic.save('default-avatar.png', ContentFile(f.read()), save=True)
-        profile.save()
-        login(request, user)
-        return JsonResponse({'success': True, 'redirect_url': 'home'})
-    
+    #     if not(email and firstname and lastname and picture_url and google_id):
+    #         return JsonResponse({'error': 'Missing google credentials'}) 
+    #     try:
+    #         user = CustomUser.objects.get(email=email)
+    #         profile = Profiles.objects.get(user=user)
+    #         if profile.can_login:
+    #             user.username = f'{user.firstname}-{google_id}'
+    #             user.save()
+    #             login(request, user)
+    #             print('Login successful')
+    #             return JsonResponse({'success': 'User authenticated','redirect_url': 'home'})
+    #         else:
+    #             return JsonResponse({'disabled': 'Your account has been locked. Please contact support.'})
+    #     except CustomUser.DoesNotExist:
+    #         user = CustomUser.objects.create_user(
+    #             username= f'{firstname}-{google_id}',
+    #             email=email,
+    #             firstname=firstname,
+    #             lastname=lastname,
+    #         )
+    #         profile = Profiles.objects.create(
+    #             user=user, 
+    #             nationality=nationality
+    #         )
+    #         referral_ID = get_referral_code()
+    #         Referrals.objects.create(user=user, referral_id=referral_ID)
+    #         MinimumDeposit.objects.create(user=user, amount=500)   
+    #         if picture_url:
+    #             try:
+    #                 response = requests.get(picture_url)
+    #                 if response.status_code == 200:
+    #                     img = Image.open(BytesIO(response.content))
+    #                     with NamedTemporaryFile() as temp_image:
+    #                         img.save(temp_image, format=img.format)
+    #                         temp_image.flush()
+    #                         temp_image.seek(0)  # Go back to the start of the file
+    #                         profile_pic_format = img.format.lower()
+    #                         profile_pic_name = f'{google_id}.{profile_pic_format}'
+    #                         profile.profile_pic.save(profile_pic_name, ContentFile(temp_image.read()), save=True)
+    #                 else:
+    #                     print('Failed to download image')
+    #             except Exception as e:
+    #                 logger.exception(f"Failed to download or save profile picture: {e}")
+    #                 default_image_path = settings.DEFAULT_AVATAR
+    #                 with open(default_image_path, 'rb') as f:
+    #                     profile.profile_pic.save('default-avatar.png', ContentFile(f.read()), save=True)
+    #         else:
+    #             default_image_path = settings.DEFAULT_AVATAR
+    #             with open(default_image_path, 'rb') as f:
+    #                 profile.profile_pic.save('default-avatar.png', ContentFile(f.read()), save=True)
+    #     profile.save()
+    #     login(request, user)
+    #     return JsonResponse({'success': True, 'redirect_url': 'home'})
+        pass
     return JsonResponse({'error': 'Invalid request'})
 
 @login_required
@@ -1675,4 +1678,7 @@ def custom403(request, exception):
 
 def custom500(request):
     return render(request, 'error.html', {}, status=500)
+
+def permission_denied_handler(request, exception=None):
+    return render(request, 'permission-denied.html',{'message': 'Your account has been suspended, please contact support for help'})
 # Create your views here.

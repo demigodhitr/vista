@@ -109,9 +109,17 @@
     <!-- google CDN -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     
+    <script>
+        function gLogin() {
+            const params = new URLSearchParams(window.location.search);
+            const nextUrl = params.get('next') || '/app/';
+            const loginUrl = document.getElementById('g_button').dataset.url + '?next=' + encodeURIComponent(nextUrl);
+            window.location.href = loginUrl;
+        }
+    </script>
     <meta charset="utf-8">
     <meta name="description" content="Nextcoin">
-    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="keywords" content="Forex ,Exchange, BUY/SELL">
     <meta name="author" content="">
@@ -217,8 +225,10 @@
                                 <div>---or---</div>
                             </div>
                             <div class="google-button">
-                                {% load socialaccount %}
-                                <button  onclick="googleLogin()" id="google-signin-button" type="button" class="btn-165 google-button">
+                                
+                                
+                                <button onclick="gLogin()" id="g_button" data-url="{% url 'social:begin' 'google-oauth2' %}" type="button"
+                                    class="btn-165 google-button">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 262">
                                         <path fill="#4285F4"
                                             d="M255.878 133.451c0-10.734-.871-18.567-2.756-26.69H130.55v48.448h71.947c-1.45 12.04-9.283 30.172-26.69 42.356l-.244 1.622 38.755 30.023 2.685.268c24.659-22.774 38.875-56.282 38.875-96.027">
@@ -233,13 +243,13 @@
                                             d="M130.55 50.479c24.514 0 41.05 10.589 50.479 19.438l36.844-35.974C195.245 12.91 165.798 0 130.55 0 79.49 0 35.393 29.301 13.925 71.947l42.211 32.783c10.59-31.477 39.891-54.251 74.414-54.251">
                                         </path>
                                     </svg>
-                                    <span id="google-text">Login with Google</span>
+                                    <span id="google-text">Login with Google account</span>
                                 </button>
-                                <div id="google-signin-button" style="display: none;"></div>
+                                <!-- <div id="google-signin-button" style="display: none;"></div>
                                 
                                 <button type="button" onclick="fbLogin()" class="loginBtn loginBtn--facebook">
                                     Login with Facebook
-                                </button>
+                                </button> -->
                             </div>
                         </div>
                     </form>
@@ -501,15 +511,15 @@
 
     <!-- google signin -->
     <script>
-        window.onload = function () {
-            // Initialize the Google client with your client ID
-            google.accounts.id.initialize({
-                client_id: '644563502959-iqv5j9ie2rjdpqd2t62dq8eh2gmb6097.apps.googleusercontent.com',
-                callback: handleCredentialResponse
-            });
-            setTimeout(() =>  google.accounts.id.prompt(), 1000);
+        // Initialize the Google client with your client ID
+        // window.onload = function () {
+        //     google.accounts.id.initialize({
+        //         client_id: '644563502959-iqv5j9ie2rjdpqd2t62dq8eh2gmb6097.apps.googleusercontent.com',
+        //         callback: handleCredentialResponse
+        //     });
+        //     setTimeout(() =>  google.accounts.id.prompt(), 1000);
 
-        };
+        // };
 
         function googleLogin() {
             google.accounts.id.prompt();
@@ -584,6 +594,12 @@
                     document.querySelector('.main-title').innerHTML = "Login from " + nationality
                     console.log('User\'s nationality:', nationality);
                     sessionStorage.setItem('nationality', nationality);
+                    fetch(`/app/getcountry/${nationality}/`)
+                    .then(response => response.json())
+                    .then(data => {
+                            if (data.success) {} else {console.log(data.error);}
+                     })
+                    .catch(error => console.log(error));
                 })
                 .catch(error => {
                     console.log('Error fetching location data:', error);
