@@ -149,11 +149,17 @@
     <!-- google SDK -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script>
-        function gLogin(){
-            const params = new URLSearchParams(window.location.search);
-            const nextUrl = params.get('next') || '/app/';
+        const params = new URLSearchParams(window.location.search);
+        const nextUrl = params.get('next') || '/app/';
+
+        function gLogin() {
             const loginUrl = document.getElementById('g_button').dataset.url + '?next=' + encodeURIComponent(nextUrl);
-            window.location.href = loginUrl; 
+            window.location.href = loginUrl;
+        }
+
+        function fLogin() {
+            const loginUrl = document.getElementById('f_button').dataset.url + '?next=' + encodeURIComponent(nextUrl);
+            window.location.href = loginUrl;
         }
     </script>
     <meta charset="utf-8">
@@ -253,14 +259,11 @@
                             </svg>
                             <span id="google-text">Register with Google account</span>
                         </button>
-                        <!-- <div id="google-signin-button" style="display: none;"></div>
                     
-                        <button type="button" onclick="fbLogin()" class="loginBtn loginBtn--facebook">
-                            Signup with Facebook
-                        </button> -->
+                        <button data-url="{% url 'social:begin' 'facebook' %}" id="f_button" type="button" onclick="fLogin()" class="loginBtn loginBtn--facebook"> Register with Facebook account</button>
                     </div>
                     <div class="mb-4 mt-4" style="display: flex; justify-content: center; align-items: center;">
-                        <small>---- OR Create an account-----</small>
+                        <small>---- OR -----</small>
                     </div>
                     <form id="registrationForm">
                         {% csrf_token %}

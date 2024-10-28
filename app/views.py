@@ -155,9 +155,9 @@ def index(request):
     withdrawals = WithdrawalRequest.objects.filter(user=user).order_by('-created_at')
     deposits = Deposits.objects.filter(user=user).order_by('-created_at')
     investments = Investments.objects.filter(investor=user).order_by('-date')
+    active_investments = investments.filter(status='Active')
     earnings = EarningsHistory.objects.filter(user=user).order_by('-timestamp')
-    total_invested = investments.aggregate(total_amount=Sum('amount'))['total_amount']
-     # Handle the case where total_invested is None
+    total_invested = active_investments.aggregate(total_amount=Sum('amount'))['total_amount']
     if total_invested is None:
         total_invested = Decimal('0.00')  
     else:
@@ -776,7 +776,6 @@ def verify_account(request):
         verified_object.save()
 
         user = verified_object.user
-        login(request, user)
         request.session['email'] = ''
         return JsonResponse({'success': 'Email verified successfully, fetching your account...'}, status=200)
     
@@ -1503,7 +1502,7 @@ def invest(request):
         title=title,
         message=message,
         )
-    return JsonResponse({'success': message}, status=200)
+    return JsonResponse({'success': f'Your {account} account has been debited for your investment request but your application will still undergo thorough review to ensure compliance, you will receive more informations via email alerts shortly!'}, status=200)
 
 @login_required
 def get_card(request):

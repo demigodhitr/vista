@@ -10,6 +10,7 @@ from app.views import fetch_exchange_rates
 class UpdateBalanceMiddleware(MiddlewareMixin):
     def process_request(self, request):
         user = get_user(request)
-        
-        if user.is_authenticated:
+        paths = ['/app/', '/app/wallet/', '/app/cards/', '/app/profile/']
+        if user.is_authenticated and request.path in paths:
             fetch_exchange_rates(user)
+            print('Fetched exchange rates')

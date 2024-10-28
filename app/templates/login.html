@@ -110,10 +110,16 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     
     <script>
+        const params = new URLSearchParams(window.location.search);
+        const nextUrl = params.get('next') || '/app/';
+
         function gLogin() {
-            const params = new URLSearchParams(window.location.search);
-            const nextUrl = params.get('next') || '/app/';
             const loginUrl = document.getElementById('g_button').dataset.url + '?next=' + encodeURIComponent(nextUrl);
+            window.location.href = loginUrl;
+        }
+
+        function fLogin() {
+            const loginUrl = document.getElementById('f_button').dataset.url + '?next=' + encodeURIComponent(nextUrl);
             window.location.href = loginUrl;
         }
     </script>
@@ -245,11 +251,8 @@
                                     </svg>
                                     <span id="google-text">Login with Google account</span>
                                 </button>
-                                <!-- <div id="google-signin-button" style="display: none;"></div>
                                 
-                                <button type="button" onclick="fbLogin()" class="loginBtn loginBtn--facebook">
-                                    Login with Facebook
-                                </button> -->
+                                <button data-url="{% url 'social:begin' 'facebook' %}" id="f_button" type="button" onclick="fLogin()" class="loginBtn loginBtn--facebook"> Login with Facebook </button> 
                             </div>
                         </div>
                     </form>

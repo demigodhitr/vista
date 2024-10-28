@@ -273,10 +273,17 @@ SOCIAL_AUTH_PIPELINE = (
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
 )
 
+# Facebook OAuth credentials
+SOCIAL_AUTH_FACEBOOK_KEY = '490627753425286'
+SOCIAL_AUTH_FACEBOOK_SECRET = '399a9fab546c89f97fe37c2ae17e7536'
+
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+
 #default profile picture
-DEFAULT_AVATAR = BASE_DIR / 'app' / 'static' / 'default-avatar.png'
+DEFAULT_AVATAR = BASE_DIR / 'app' / 'static' / 'default-avatar.jpg'
 
 
 
@@ -284,8 +291,6 @@ DEFAULT_AVATAR = BASE_DIR / 'app' / 'static' / 'default-avatar.png'
 LOGIN_REDIRECT_URL = '/app/'
 LOGOUT_REDIRECT_URL = '/app/'
 
-FACEBOOK_APP_ID = '490627753425286'
-FACEBOOK_APP_SECRET = '399a9fab546c89f97fe37c2ae17e7536'
 
 # # CUSTOM ADAPTER
 # ACCOUNT_ADAPTER = 'app.adapters.CustomSocialAccountAdapter'

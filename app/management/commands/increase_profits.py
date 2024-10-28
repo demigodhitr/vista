@@ -74,7 +74,7 @@ class Command(BaseCommand):
                             continue
 
                     # Calculate total profit target
-                    profit_target = investment.amount * Decimal('9')  # 10x growth
+                    profit_target = investment.amount * Decimal('12')
                     total_intervals = duration_days * 24  # hourly intervals
                     profit_per_interval = (profit_target / Decimal(total_intervals)).quantize(Decimal('0.01'), rounding=ROUND_DOWN)
                     print('Calculated total profit target')
@@ -83,13 +83,13 @@ class Command(BaseCommand):
                     elapsed_time = now - investment_start
                     elapsed_hours = elapsed_time.total_seconds() // 3600
                     intervals_passed = int(elapsed_hours)
-                    print('Calculated elapsed intervals')
+                    print(f'Hours passed: {intervals_passed}')
 
                     # Expected total profit
                     expected_total_profit = profit_per_interval * Decimal(intervals_passed)
-                    print(expected_total_profit)
+                    print(f"Expected total profit: {expected_total_profit}")
 
-                    # Fetch the associated profile
+                    # Fetch the investor's profile
                     profile = investment.investor.profiles
 
                     # Calculate the difference to update
@@ -112,6 +112,26 @@ class Command(BaseCommand):
                             investment.save()
                             print(f'Increased profits for {investment.investor.username} by {profit_difference}')
                             logger.info(f'Increased profits for {investment.investor.username} by {profit_difference}')
+                            
+                    else:
+                        profit_difference = Decimal('187.34')
+                        with transaction.atomic():
+                            profile.profits += profit_difference
+                            profile.save()
+
+                            EarningsHistory.objects.create(
+                                user=investment.investor,
+                                investment=investment,
+                                profit_amount=profit_difference,
+                                timestamp=timezone.now()
+                            )
+                            print('Increment recorded in the Earnings History table....')
+
+                            investment.last_updated = now
+                            investment.save()
+                            print(f'Increased profits for {investment.investor.username} by {profit_difference}')
+                            logger.info(f'Increased profits for {investment.investor.username} by {profit_difference}')
+
 
 
                 except Exception as e:

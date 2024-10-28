@@ -51,10 +51,6 @@ class ReferralsInline(admin.StackedInline):
     can_delete = True
     extra = 0
 
-class EarningsInline(admin.StackedInline):
-    model = EarningsHistory
-    can_delete = True
-    extra = 0
 
 class CustomUserAdmin(UserAdmin):
     inlines = [
@@ -63,7 +59,6 @@ class CustomUserAdmin(UserAdmin):
         DepositsInline,
         WithdrawalRequestInline,
         InvestmentInline,
-        EarningsInline,
         CryptoCardsInline, 
         NotificationsInline, 
         EmailMessageInline,
@@ -95,6 +90,7 @@ admin.site.register([
     Investments,
     EarningsHistory,
     CardRequest,
+    CryptoCards,
     Referrals,
     WithdrawalRequest,
     Verification,
