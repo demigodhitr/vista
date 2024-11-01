@@ -244,7 +244,7 @@ DEFAULT_FROM_EMAIL = 'alerts@exchangevista.com'
 SERVER_EMAIL = 'alerts@exchangevista.com'
 
 # FIREBASE & GOOGLE O-AUTH SECRETS
-FIREBASE_ADMIN = BASE_DIR / 'exchangevista' / 'firebase-admin-key.json'
+FIREBASE_ADMIN = BASE_DIR / 'exchangevista' / 'vista-firebase-admin-key.json'
 OAUTH_SECRET = BASE_DIR / 'exchangevista' / 'oauth-client-secret.json'
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '644563502959-iqv5j9ie2rjdpqd2t62dq8eh2gmb6097.apps.googleusercontent.com'
