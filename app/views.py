@@ -1461,18 +1461,22 @@ def invest(request):
     elif plan == 'elite-plan' and (amount < 9999 or amount > 19999):
         return JsonResponse({'error': 'For Elite plan, you can only investment a minimum of £10,999.99 and a maximum of £19,999.99'}, status=400)
     
-    elif plan == 'platinum-plan' and (amount < 19999 or amount > 39999):
-        return JsonResponse({'error': 'For Platinum plan, you can only investment a minimum of £19,999.99 and a maximum of £39,999.99'}, status=400)
+    elif plan == 'platinum-plan' and ((amount < 19999 or amount > 39999) or duration < 15):
+        return JsonResponse({'error': 'For Platinum plan, you can only investment a minimum of £19,999.99 and a maximum of £39,999.99. You must also set the duration not lower than 15 days'}, status=400)
     
-    elif plan == 'signatory-plan' and amount < 39999:
-        return JsonResponse({'error': 'This plan requires a minimum capital of £39,999.99'}, status=400)
+    elif plan == 'signatory-plan' and (amount < 39999 or duration < 25):
+        return JsonResponse({'error': 'This plan requires a minimum capital of £39,999.99 and a duration of at least 25 days'}, status=400)
     
     elif plan == 'signatory-plan' and amount > 100000:
         return JsonResponse({'error': 'Please select the waiver plan to invest above £100,000 or below £500' }, status=400)
     
-    if plan == 'signatory-plan' and duration != 30:
+    if plan == 'signatory-plan' and not duration >= 30:
         return JsonResponse({'error': 'The minimum duration for the selected plan must be 30 days'}, status=400)
     
+    if user_info.trade_status == 'Active' and account == 'profit':
+        return JsonResponse({'error': 'You cannot re-invest your profit while your trade is active. please come back later'}, status=400)
+
+ 
     # checked passed.
     if account == 'deposit':
         user_info.deposits -= amount
