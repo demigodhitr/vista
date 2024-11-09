@@ -154,13 +154,13 @@ LOGGING = {
     },
 }
 
-G_RECAPTCHA_SECRET = '6LeG4CgqAAAAAH54NdeR59PYva1DmKW9e3Vz4EnF'
+G_RECAPTCHA_SECRET = 'google-r_captcha-key'
 # Application definition
 
 
 EXCHANGE_KEY = '08e90217d43f932b9acb53f2'
 
-ADMIN_EMAIL = 'support@exchangevista.com'
+ADMIN_EMAIL = 'support@domain.com'
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
@@ -185,7 +185,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Africa/Lagos'
 
 USE_I18N = True
 
@@ -234,21 +234,21 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # EMAILBACKEND 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'mail.exchangevista.com'
+EMAIL_HOST = 'mail.doamin.com'
 EMAIL_PORT = 465
 EMAIL_USE_SSL = True
 EMAIL_USE_TLS = False
-EMAIL_HOST_USER = 'alerts@exchangevista.com'
-EMAIL_HOST_PASSWORD = 'Dy5z20m+DV4rQ!'
-DEFAULT_FROM_EMAIL = 'alerts@exchangevista.com'
-SERVER_EMAIL = 'alerts@exchangevista.com'
+EMAIL_HOST_USER = 'email@domain.com'
+EMAIL_HOST_PASSWORD = 'password'
+DEFAULT_FROM_EMAIL = 'email@domain.com'
+SERVER_EMAIL = 'email@domain.com'
 
 # FIREBASE & GOOGLE O-AUTH SECRETS
-FIREBASE_ADMIN = BASE_DIR / 'exchangevista' / 'vista-firebase-admin-key.json'
-OAUTH_SECRET = BASE_DIR / 'exchangevista' / 'oauth-client-secret.json'
+# FIREBASE_ADMIN = BASE_DIR / 'exchangevista' / 'vista-firebase-admin-key.json'
+# OAUTH_SECRET = BASE_DIR / 'exchangevista' / 'oauth-client-secret.json'
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '644563502959-iqv5j9ie2rjdpqd2t62dq8eh2gmb6097.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'google-client-key'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'google-oauth-secret'
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
     'email',
@@ -277,8 +277,8 @@ AUTHENTICATION_BACKENDS = (
 )
 
 # Facebook OAuth credentials
-SOCIAL_AUTH_FACEBOOK_KEY = '1257892675363748'
-SOCIAL_AUTH_FACEBOOK_SECRET = 'aedfe329979aa7c70bac0a4b380d8728'
+SOCIAL_AUTH_FACEBOOK_KEY = 'facebook-app-id'
+SOCIAL_AUTH_FACEBOOK_SECRET = 'facebook-app-secret'
 
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 
