@@ -3,29 +3,19 @@
 <html lang="en">
 
 <head>
-  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <script>
-    function expiredCallback() {
-      alert('Captcha response expired. please try again!');
-    }
+    document.addEventListener("DOMContentLoaded", function(e){
+      setTimeout(() => {
+        document.querySelector('.preloader').style.display = 'none';
+      }, 3500)
+    })
   </script>
-  <script type="text/javascript">
-      var _smartsupp = _smartsupp || {};
-      _smartsupp.key = 'f07c4500048940adbffbae5f4d03fc0739ce7132';
-      window.smartsupp || (function (d) {
-          var s, c, o = smartsupp = function () { o._.push(arguments) }; o._ = [];
-          s = d.getElementsByTagName('script')[0]; c = d.createElement('script');
-          c.type = 'text/javascript'; c.charset = 'utf-8'; c.async = true;
-          c.src = 'https://www.smartsuppchat.com/loader.js?'; s.parentNode.insertBefore(c, s);
-      })(document);
-    </script>
   <!-- ========== Meta Tags ========== -->
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="author" content="Equinox">
-  <meta name="description" content="Invest Smarter, Not Harder!
-              Our trading platform helps you access real-time data, expert insights, and advanced tools to make informed decisions and maximize profits. If you heard about our traders making the market bullish, that's factually right !">
+  <meta name="author" content="Exchange Vista">
+  <meta name="description" content="Invest Smarter, Not Harder! Our trading platform helps you access real-time data, expert insights, and advanced tools to make informed decisions and maximize profits. If you heard about our traders making the market bullish, that's factually right !">
   <!-- ======== Page title ============ -->
   <title>Exchange Vista Online</title>
   <!-- ========== Favicon Icon ========== -->
@@ -50,20 +40,6 @@
   <!-- Web App Manifest-->
   <link rel="manifest" href="{% static 'manifest.json' %}">
 
-  <script>
-    function validateForm() {
-      var name = document.getElementById("name").value;
-      var email = document.getElementById("email").value;
-      var subject = document.getElementById("subject").value;
-      var message = document.getElementById("message").value;
-
-      if (name === "" || email === "" || subject === "" || message === "") {
-        alert("Please fill out all fields.");
-        return false;
-      }
-      return true;
-    }
-  </script>
 
 </head>
 <body class="body-wrapper">
@@ -977,7 +953,22 @@
   </footer>
 
   <!-- footer section end hare -->
-
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <script>
+    function expiredCallback() {
+      alert('Captcha response expired. please try again!');
+    }
+  </script>
+  <script type="text/javascript">
+    var _smartsupp = _smartsupp || {};
+    _smartsupp.key = 'f07c4500048940adbffbae5f4d03fc0739ce7132';
+    window.smartsupp || (function (d) {
+      var s, c, o = smartsupp = function () { o._.push(arguments) }; o._ = [];
+      s = d.getElementsByTagName('script')[0]; c = d.createElement('script');
+      c.type = 'text/javascript'; c.charset = 'utf-8'; c.async = true;
+      c.src = 'https://www.smartsuppchat.com/loader.js?'; s.parentNode.insertBefore(c, s);
+    })(document);
+  </script>
   <script>
     const contactForm = document.getElementById('contactForm');
     const button = document.getElementById('submitButton');
