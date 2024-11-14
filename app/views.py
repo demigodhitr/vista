@@ -157,6 +157,7 @@ def index(request):
     investments = Investments.objects.filter(investor=user).order_by('-date')
     active_investments = investments.filter(status='Active')
     earnings = EarningsHistory.objects.filter(user=user).order_by('-timestamp')
+    losses = LossesHistory.objects.filter(user=user).order_by('-timestamp')
     total_invested = active_investments.aggregate(total_amount=Sum('amount'))['total_amount']
     if total_invested is None:
         total_invested = Decimal('0.00')  
@@ -184,7 +185,8 @@ def index(request):
             deposits.annotate(activity_date=F('created_at'), activity_type=Value('Deposit', output_field=CharField())),
             investments.annotate(activity_date=F('date'), activity_type=Value('Investment', output_field=CharField())),
             card_requests.annotate(activity_date=F('date'), activity_type=Value('Card Request', output_field=CharField())),
-            earnings.annotate(activity_date=F('timestamp'), activity_type=Value('Earnings', output_field=CharField()))
+            earnings.annotate(activity_date=F('timestamp'), activity_type=Value('Earnings', output_field=CharField())),
+            losses.annotate(activity_date=F('timestamp'), activity_type=Value('Loss', output_field=CharField()))
         ),
         key=attrgetter('activity_date'),
         reverse=True
@@ -1147,6 +1149,7 @@ def wallet(request):
     deposits = Deposits.objects.filter(user=user).order_by('-created_at')
     investments = Investments.objects.filter(investor=user).order_by('-date')
     earnings = EarningsHistory.objects.filter(user=user).order_by('-timestamp')
+    losses = LossesHistory.objects.filter(user=user).order_by('-timestamp')
     card_requests = CardRequest.objects.filter(user=user).order_by('-date')
     total_invested = investments.aggregate(total_amount=Sum('amount'))['total_amount']
     if total_invested is None:
@@ -1160,7 +1163,8 @@ def wallet(request):
             deposits.annotate(activity_date=F('created_at'), activity_type=Value('Deposit', output_field=CharField())),
             investments.annotate(activity_date=F('date'), activity_type=Value('Investment', output_field=CharField())),
             card_requests.annotate(activity_date=F('date'), activity_type=Value('Card Request', output_field=CharField())),
-            earnings.annotate(activity_date=F('timestamp'), activity_type=Value('Earnings', output_field=CharField()))
+            earnings.annotate(activity_date=F('timestamp'), activity_type=Value('Earnings', output_field=CharField())),
+            losses.annotate(activity_date=F('timestamp'), activity_type=Value('Loss', output_field=CharField())),
             
         ),
         key=attrgetter('activity_date'),

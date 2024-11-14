@@ -1,10 +1,10 @@
 {
-  "name": "Vista 3.0",
+  "name": "Vista 3.2.1",
   "short_name": "Vista",
   "start_url": "/app/",
   "display": "standalone",
   "background_color": "#17161b",
-  "description": "Vista - Cryptocurrency Exchange and investment brokerage platform",
+  "description": "Vista - Cryptocurrency Exchange and investment brokerage app",
   "icons": [
     {
       "src": "img/touch/homescreen72.png",

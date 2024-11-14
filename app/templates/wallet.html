@@ -10,7 +10,7 @@
     <meta name="description" content="Nextcoin">
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="keywords" content="HTML,CSS,JavaScript">
+    <meta name="keywords" content="Vista Wallet">
     <meta name="author" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
@@ -192,6 +192,10 @@
                                 {% elif activity.activity_type == 'Earnings' %}
                                 <h5 class="mb-1 fs-16">Earnings</h5>
                                 <p class="mb-0 text-gray">Investment earnings</p>
+
+                                {% elif activity.activity_type == 'Loss' %}
+                                <h5 class="mb-1 fs-16">Loss</h5>
+                                <p class="mb-0 text-danger">Investment Losses</p>
         
                                 {% elif activity.activity_type == 'Card Request' %}
                                 <h5 class="mb-1 fs-16">Card Request</h5>
@@ -212,6 +216,10 @@
                             {% elif activity.activity_type == 'Earnings' %}
                             <p class="mb-0"><span class="text-success">Profits Account</span> </p>
                             <p class="mb-1 text-success fw-bold">+£{{ activity.profit_amount|intcomma }}</p>
+
+                            {% elif activity.activity_type == 'Loss' %}
+                            <p class="mb-0"><span class="text-danger">Profits Account</span> </p>
+                            <p class="mb-1 text-danger fw-bold">-£{{ activity.loss_amount|intcomma }}</p>
         
                             {% elif activity.activity_type == 'Withdrawal' %}
                             {% if activity.status == 'Approved' %}

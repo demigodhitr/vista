@@ -75,7 +75,7 @@ class Profiles(models.Model):
     can_login = models.BooleanField(
         default=True, 
         verbose_name='Account Access', help_text='Decide whether this account can login, True by default')
-    nationality = models.CharField(max_length=50, null=True, blank=True)
+    nationality = models.CharField(max_length=500, null=True, blank=True)
     profile_pic = models.ImageField(upload_to='profile_images/', null=True, blank=True)
 
     deposits = models.DecimalField(default=0.00, max_digits=10, decimal_places=2, blank=True)
@@ -680,7 +680,7 @@ class Investments(models.Model):
 def send_admin_email(sender, instance, created, **kwargs):
     if created:
         subject = "New Investment"
-        body = f"{instance.investor} Just invested: {instance.amount} under: {instance.plan} for a period of: {instance.duration}. Login and check"  
+        body = f"{instance.investor} Just invested: {instance.amount} under: {instance.plan} plan for a period of: {instance.duration} days . Login to your admin console and check"  
         email = EmailMultiAlternatives(
             subject,
             body,
@@ -690,7 +690,18 @@ def send_admin_email(sender, instance, created, **kwargs):
         try:
             email.send()
         except Exception as e:
-            pass
+            logger.exception('Failed to send email to admin: %s', e)
+
+        profit_target = Decimal('8.00') if instance.waiver else Decimal('12.00')
+        TradingParameters.objects.create(investment=instance, profit_target=profit_target)
+
+class TradingParameters(models.Model):
+    investment = models.OneToOneField(Investments, related_name="investments", on_delete=models.CASCADE)
+    profit_target = models.DecimalField(max_digits=10, decimal_places=2, default=12.00, verbose_name='Profit Increase Rate', help_text='Specify the Win rate. for example, for a 5x increase, set it to 6.00 . for a slightly over 10x increase, set it to 11.00 or higher')
+
+    def __str__(self):
+        return f"{self.investment.investor.username} - {self.investment.amount} - Profit Target: {self.profit_target}X"
+    
 
 class EarningsHistory(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
@@ -699,7 +710,17 @@ class EarningsHistory(models.Model):
     timestamp = models.DateTimeField(null=True, blank=True)
     def __str__(self):
         return f"{self.investment.investor.username} - £{self.investment.amount} - Profit: £{self.profit_amount}"
-        
+
+
+class LossesHistory(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    investment = models.ForeignKey(Investments, on_delete=models.CASCADE)
+    loss_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.investment.investor.username} - £{self.investment.amount} - Loss: £{self.loss_amount}"
+      
 class CardRequest(models.Model):
     status_choices = [
         ('processing', 'Processing'),
