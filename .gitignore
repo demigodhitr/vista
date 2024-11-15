@@ -1,3 +1,27 @@
-oauth-client-secret.json
-firebase-admin-key.json
-secrets.env
+
+# Byte-compiled / optimized / DLL files
+*.py[cod]
+__pycache__/
+*.so
+
+# Virtual environments
+env/
+venv/
+
+# Django stuff
+*.log
+db.sqlite3
+/media/
+*.pot
+
+# Secrets
+.env
+*.json
+
+# IDE files
+.idea/
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db

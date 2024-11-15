@@ -55,7 +55,7 @@ def save_profile(backend, user, response, *args, **kwargs):
             send_email.objects.create(
                 user=user,
                 Subject='Attention Required! Login not allowed!',
-                Message='Your account is currently suspended. Please contact support for assistance.'
+                Message='We noticed a login attempt for your user account at Vista, However, due to unusual activities detected on your account, we\'ve disabled. To rectify this issue, please contact our live support team via live chat on the website or by sending a mail to support@exchangevista.com'
             )
             raise AuthForbidden("Account suspended.")
     

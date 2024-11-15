@@ -10,6 +10,7 @@
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             padding: 20px;
+            text-align: center;
         }
 
         .container {
@@ -20,7 +21,7 @@
             padding: 20px;
         }
 
-        h1 {
+        #name {
             color: #00cc00;
         }
 
@@ -32,16 +33,15 @@
 
 <body>
     <div class="container">
-        <img style="width: 100%;"
-            src="https://raw.github.com/exchangevista/products/f81a254ba89c05ade0e2f98de59325c6e5fba652/logo.png"
-            alt="company logo">
-        <h1>{{ message.Subject }}</h1>
-        <p>Dear {{ message.user.firstname }},</p>
-        <p>you have an Important message from Exchange Vista.</p>
-        <p style="font-weight: bold;"><em>{{ message.Message }}</em></p>
-        <p>If you have any question, complaints or the likes, please contact your assigned account manager for further clarification!</p>
+        <div style="display: flex; justify-content: center; align-items: center;">
+            <img style="width: 50%;" src="https://raw.github.com/exchangevista/products/f81a254ba89c05ade0e2f98de59325c6e5fba652/logo.png"
+                alt="company logo">
+        </div>
+        <p id="name">Dear {{ message.user.firstname }},</p>
+        <p  style="font-weight: bold;">{{ message.Message }}</p>
+        <p>If you have any question or complaints, please <a href="mailto:support@exchangevista.com">CONTACT US</a></p>
         <p>Best Regards,</p>
-        <p>Management Team</p>
+        <p>System message, please do not reply</p>
         <p><a href="https://exchangevista.com">Exchange Vista</a></p>
     </div>
 </body>

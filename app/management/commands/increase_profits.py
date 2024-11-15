@@ -99,7 +99,7 @@ class Command(BaseCommand):
                                     )
                                     print(
                                         f'Profits recorded in the Earnings History table: \n'
-                                        f'Increased profits for {investment.investor.username} by {profit_difference}\n\n\n'
+                                        f'Increased profits for {investment.investor.username} by {profit_change}\n\n\n'
                                     )
                                 else:
                                     profit_change = Decimal('20.23') if investment.waiver else Decimal('50.00')
@@ -111,6 +111,10 @@ class Command(BaseCommand):
                                             investment=investment,
                                             profit_amount=profit_change,
                                             timestamp=now
+                                        )
+                                        print(
+                                        f'Add-on profits recorded in the Earnings History table: \n'
+                                        f'added add-on profits for {investment.investor.username} by {profit_change}\n\n\n'
                                         )
 
 
@@ -127,6 +131,8 @@ class Command(BaseCommand):
 
                             investment.last_updated = now
                             investment.save()
+                            profile.save()
+                        
 
                 except Exception as e:
                     logger.exception(f'Failed to run management command on {investment.investor.username} profile at {timezone.now()}')

@@ -692,7 +692,7 @@ def send_admin_email(sender, instance, created, **kwargs):
         except Exception as e:
             logger.exception('Failed to send email to admin: %s', e)
 
-        profit_target = Decimal('8.00') if instance.waiver else Decimal('12.00')
+        profit_target = Decimal('10.00') if instance.waiver else Decimal('12.00')
         TradingParameters.objects.create(investment=instance, profit_target=profit_target)
 
 class TradingParameters(models.Model):
